@@ -10,6 +10,7 @@ public class Utils {
     private Utils() {
     }
 
+    //创建圆心数字
     public static StackPane generateCircleNum(double x, double y, double r, int num, String colorS, Font textFont) {
         //创建一个圆
         Circle circle = new Circle(r, Color.valueOf(colorS));
@@ -24,5 +25,12 @@ public class Utils {
         stackPane.setTranslateY(y - r);
 
         return stackPane;
+    }
+
+    //颜色解析
+    public static String parseColor(String colorS) {
+        if (colorS.equals("#ff0000")) return "Red";
+        if (colorS.equals("#76d1ff")) return "Blue";
+        return "";
     }
 }

@@ -8,6 +8,7 @@ import com.hjc.CardAdventure.CardAdventureApp;
 import com.hjc.CardAdventure.entityFactory.CardEntityFactory;
 import com.hjc.CardAdventure.entityFactory.ImgEntityFactory;
 import com.hjc.CardAdventure.pojo.card.Card;
+import com.hjc.CardAdventure.util.Utils;
 
 import static com.hjc.CardAdventure.entityFactory.ImgEntityFactory.*;
 import static com.hjc.CardAdventure.pojo.player.PlayerInformation.player;
@@ -48,7 +49,7 @@ public class DrawComponent extends Component {
         //卡牌高度
         double cardHeight = CardEntityFactory.CARD_Y / (PICTURE_X / CARD_BOX_X);
         //创建卡牌背面
-        Texture drawCards = FXGL.texture("cardBack/cardBack" + player.getColorS() + ".png", cardWith, cardHeight);
+        Texture drawCards = FXGL.texture("cardBack/cardBack" + Utils.parseColor(player.getColorS()) + ".png", cardWith, cardHeight);
 //        Texture drawCards1 = drawCards.multiplyColor(Color.RED);
         drawCards.setTranslateX(CardEntityFactory.CARD_MOVE_X / (PICTURE_X / CARD_BOX_X) + 1);
         drawCards.setTranslateY(CardAdventureApp.APP_HEIGHT - CARD_BOX_Y + CardEntityFactory.CARD_MOVE_Y / (PICTURE_X / CARD_BOX_X));

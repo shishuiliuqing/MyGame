@@ -42,7 +42,7 @@ public class BattleEntities {
     public static void initBattleEntities() {
         //初始化背景
         //bg = FXGL.spawn("bg");
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 40; i++) {
             Card strike = FXGL.getAssetLoader().loadJSON("data/card/soldier/strike.json", Card.class).get();
             PlayerInformation.cards.add(strike);
             System.out.println(Effects.CardEffectsToString(strike));

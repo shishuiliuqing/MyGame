@@ -4,16 +4,13 @@ import com.hjc.CardAdventure.components.BloodComponent;
 import com.hjc.CardAdventure.components.battle.AbandonComponent;
 import com.hjc.CardAdventure.components.battle.ActionOverComponent;
 import com.hjc.CardAdventure.components.battle.CardComponent;
-import com.hjc.CardAdventure.components.role.EnemyComponent;
 import com.hjc.CardAdventure.components.role.PlayerComponent;
 import com.hjc.CardAdventure.pojo.*;
 import com.hjc.CardAdventure.pojo.effects.DrawEffect;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Scanner;
 
 @Data
 @AllArgsConstructor

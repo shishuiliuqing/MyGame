@@ -8,7 +8,6 @@ import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.Role;
 import com.hjc.CardAdventure.pojo.player.PlayerType;
 import lombok.*;
-import org.jetbrains.annotations.NotNull;
 
 //怪物类
 @Setter

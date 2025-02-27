@@ -10,6 +10,7 @@ import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import com.hjc.CardAdventure.subScene.LookCardsSubScene;
 import com.hjc.CardAdventure.util.Utils;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -29,6 +30,7 @@ public class DrawCardsComponent extends Component {
         super();
         this.num = BattleInformation.DRAW_CARDS.size();
         this.colorS = PlayerInformation.player.getColorS();
+        //添加监听事件
     }
 
     @Override
@@ -44,7 +46,7 @@ public class DrawCardsComponent extends Component {
         cardBox.setTranslateX(0);
         cardBox.setTranslateY(CardAdventureApp.APP_HEIGHT - CARD_BOX_Y);
 
-        Texture drawCards = FXGL.texture("cardBack/cardBack" + this.colorS + ".png", cardWith, cardHeight);
+        Texture drawCards = FXGL.texture("cardBack/cardBack" + Utils.parseColor(this.colorS) + ".png", cardWith, cardHeight);
 //        Texture drawCards1 = drawCards.multiplyColor(Color.RED);
         drawCards.setTranslateX(CardEntityFactory.CARD_MOVE_X / (PICTURE_X / CARD_BOX_X) + 1);
         drawCards.setTranslateY(CardAdventureApp.APP_HEIGHT - CARD_BOX_Y + CardEntityFactory.CARD_MOVE_Y / (PICTURE_X / CARD_BOX_X));
@@ -60,7 +62,15 @@ public class DrawCardsComponent extends Component {
         entity.getViewComponent().addChild(drawCards);
         entity.getViewComponent().addChild(stackPane);
         //entity.getViewComponent().addOnClickHandler(e -> draw());
+
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
+        entity.getViewComponent().addOnClickHandler(e -> lookDrawCards());
+    }
+
+    //查看抽牌堆
+    private void lookDrawCards() {
+        LookCardsSubScene.cards = BattleInformation.DRAW_CARDS;
+        FXGL.getSceneService().pushSubScene(new LookCardsSubScene());
     }
 
     //抽牌堆信息

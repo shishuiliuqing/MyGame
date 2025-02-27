@@ -44,9 +44,9 @@ public class CardComponent extends Component {
     private final int boxNum;
 
     //卡牌宽
-    private final double CARD_WIDTH = CARD_X / (PICTURE_X / CARD_BOX_X);
+    public static final double CARD_WIDTH = CARD_X / (PICTURE_X / CARD_BOX_X);
     //卡牌高
-    private final double CARD_HEIGHT = CARD_Y / (PICTURE_X / CARD_BOX_X);
+    public static final double CARD_HEIGHT = CARD_Y / (PICTURE_X / CARD_BOX_X);
     //相对牌框x偏移
     private final double X_TO_BOX_MOVE = CARD_MOVE_X / (PICTURE_X / CARD_BOX_X);
     //相对牌框y偏移

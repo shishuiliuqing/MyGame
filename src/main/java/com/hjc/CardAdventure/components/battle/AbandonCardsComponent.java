@@ -8,6 +8,7 @@ import com.hjc.CardAdventure.entityFactory.CardEntityFactory;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import com.hjc.CardAdventure.subScene.LookCardsSubScene;
 import com.hjc.CardAdventure.util.Utils;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
@@ -18,38 +19,25 @@ import javafx.scene.text.Font;
 import static com.hjc.CardAdventure.entityFactory.ImgEntityFactory.*;
 
 public class AbandonCardsComponent extends Component {
-    private final int num = BattleInformation.ABANDON_CARDS.size();
+    private int num;
 
-//    @Override
-//    public String toString() {
-//        return super.toString();
-//    }
-
-//    @Override
-//    public boolean isComponentInjectionRequired() {
-//        return super.isComponentInjectionRequired();
-//    }
-
-//    @Override
-//    public void onRemoved() {
-//        super.onRemoved();
-//    }
-
-    /**
-     * 每帧调用
-     *
-     * @param tpf
-     */
-//    @Override
-//    public void onUpdate(double tpf) {
-//        super.onUpdate(tpf);
-//    }
+    public AbandonCardsComponent() {
+    }
 
     /**
      * 当组件添加时调用
      */
     @Override
     public void onAdded() {
+        addComponent();
+
+        entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
+        entity.getViewComponent().addOnClickHandler(e -> lookAbandonCards());
+    }
+
+    //添加组件
+    private void addComponent() {
+        num = BattleInformation.ABANDON_CARDS.size();
         //获取视图组件
         ViewComponent abandonViewComponent = entity.getViewComponent();
         abandonViewComponent.clearChildren();
@@ -78,22 +66,22 @@ public class AbandonCardsComponent extends Component {
         abandonViewComponent.addChild(outBox);
         abandonViewComponent.addChild(inBox);
         abandonViewComponent.addChild(stackPane);
-
-        abandonViewComponent.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
     }
 
-    //    @Override
-//    public BooleanProperty pausedProperty() {
-//        return super.pausedProperty();
-//    }
     //弃牌堆信息
     private void lookInformation() {
         TipBarComponent.update("弃牌堆，牌数：" + this.num);
     }
 
+    //查看弃牌堆
+    private void lookAbandonCards() {
+        LookCardsSubScene.cards = BattleInformation.ABANDON_CARDS;
+        FXGL.getSceneService().pushSubScene(new LookCardsSubScene());
+    }
+
     //更新弃牌堆数量
     public void update() {
         entity.getViewComponent().getChildren().clear();
-        onAdded();
+        addComponent();
     }
 }
