@@ -1,0 +1,20 @@
+{
+  "name": "森林狼",
+  "blood": 20,
+  "maxBlood": 80,
+  "attribute": {
+    "power": 1,
+    "intelligence": 2,
+    "defense": 0,
+    "agility": 2,
+    "purity": 0,
+    "speed": 2
+  },
+  "enemyType": 1,
+  "img": "enemy/forestWolf.png",
+  "width": 134.0,
+  "height": 122.0,
+  "x": 60,
+  "y": 15,
+  "armor": 0
+}

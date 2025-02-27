@@ -1,0 +1,17 @@
+{
+  "cardName": "打击",
+  "attribute": {
+    "power": 1,
+    "intelligence": 0,
+    "defense": 0,
+    "agility": 0,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 0,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    401
+  ],
+  "targetType": 0
+}
