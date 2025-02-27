@@ -15,6 +15,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Enemy implements Role {
+    //怪物编号
+    private int enemyNum;
     //名字
     private String name;
     //生命

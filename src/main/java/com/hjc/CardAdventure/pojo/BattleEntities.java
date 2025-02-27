@@ -33,7 +33,7 @@ public class BattleEntities {
     //人物实体
     public static Entity playerBattle;
     //敌人实体
-    public static final Entity[] enemies = new Entity[5];
+    public static Entity[] enemies;
     //敌人实体生成顺序
     public static final int[] enemyGenerateOrder = {3, 2, 4, 1, 5};
     //行动序列实体
@@ -72,6 +72,7 @@ public class BattleEntities {
         //初始化人物角色
         playerBattle = FXGL.spawn("playerBattle");
         //初始化敌人
+        enemies = new Entity[BattleInformation.ENEMIES.size()];
         for (int i = 0; i < BattleInformation.ENEMIES.size(); i++) {
             enemies[i] = FXGL.spawn("enemy", new SpawnData()
                     .put("boxNum", i)

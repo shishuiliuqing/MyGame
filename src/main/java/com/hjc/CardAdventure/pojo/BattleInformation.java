@@ -58,7 +58,7 @@ public class BattleInformation {
     private static void initEnemies() {
         //初始化敌人序列
         ENEMIES.clear();
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 5; i++) {
             ENEMIES.add(FXGL.getAssetLoader().loadJSON("data/enemy/forestWolf.json", Enemy.class).get());
         }
 

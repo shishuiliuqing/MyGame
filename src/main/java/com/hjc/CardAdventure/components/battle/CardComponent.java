@@ -141,6 +141,8 @@ public class CardComponent extends Component {
                 //弃牌按钮变暗
                 BattleEntities.abandon.getComponent(AbandonComponent.class).resetButton(false);
             } else {
+                //触发牌的放下效果
+                card.putDown();
                 //使用按钮变暗
                 BattleEntities.produce.getComponent(ProduceComponent.class).resetButton(false);
             }
@@ -179,12 +181,14 @@ public class CardComponent extends Component {
             CARD_COMPONENTS.get(0).select();
             //CARD_COMPONENTS.remove(0);
             CARD_COMPONENTS.add(this);
+            card.isSelected();
             BattleEntities.produce.getComponent(ProduceComponent.class).resetButton(true);
             return;
         }
 
         //添加此牌
         CARD_COMPONENTS.add(this);
+        card.isSelected();
         BattleEntities.produce.getComponent(ProduceComponent.class).resetButton(true);
     }
 
@@ -201,12 +205,12 @@ public class CardComponent extends Component {
         entity.removeFromWorld();
         DrawCardsComponent.CARD_BOX_STATUS[boxNum - 1] = 0;
         BattleInformation.ABANDON_CARDS.add(this.card);
-
+        //生成矩形
         Rectangle rectangle = new Rectangle(CARD_WIDTH, CARD_HEIGHT, Color.valueOf(this.card.getColorS()));
         rectangle.setTranslateX(X_MOVE + CARD_BOX_X * boxNum + X_TO_BOX_MOVE + 1);
         rectangle.setTranslateY(Y_MOVE + Y_TO_BOX_MOVE - (isSelected() ? 50 : 0));
         Entity abandon = FXGL.entityBuilder().view(rectangle).buildAndAttach();
-
+        //生成矩形移动动画
         //System.out.println(isSelected());
         ScaleTransition st = new ScaleTransition(Duration.seconds(0.5), rectangle);
         st.setToX(0.2);
@@ -220,11 +224,12 @@ public class CardComponent extends Component {
 
     private void abandonAnimation2() {
         //System.out.println(isSelected());
+        //生成圆圈实体
         Circle circle = new Circle(20, Color.valueOf(PlayerInformation.player.getColorS()));
         circle.setCenterX(X_MOVE + CARD_BOX_X * boxNum + X_TO_BOX_MOVE + 1 + CARD_WIDTH / 2);
         circle.setCenterY(Y_MOVE + Y_TO_BOX_MOVE - (isSelected() ? 50 : 0) + CARD_HEIGHT / 2);
         Entity abandon = FXGL.entityBuilder().view(circle).buildAndAttach();
-
+        //生成圆圈移动动画
         TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), circle);
         tt.setToX(1560 - CARD_BOX_X * boxNum);
         tt.setToY(isSelected() ? 50 : 0);

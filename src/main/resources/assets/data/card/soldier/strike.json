@@ -1,4 +1,5 @@
 {
+  "cardNum": 1,
   "cardName": "打击",
   "attribute": {
     "power": 1,
@@ -13,5 +14,5 @@
   "cardEffects": [
     401
   ],
-  "targetType": 0
+  "targetType": 3
 }
