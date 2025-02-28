@@ -70,6 +70,7 @@ public class DrawCardsComponent extends Component {
     //查看抽牌堆
     private void lookDrawCards() {
         LookCardsSubScene.cards = BattleInformation.DRAW_CARDS;
+        LookCardsSubScene.cardsType = "抽牌区";
         FXGL.getSceneService().pushSubScene(new LookCardsSubScene());
     }
 

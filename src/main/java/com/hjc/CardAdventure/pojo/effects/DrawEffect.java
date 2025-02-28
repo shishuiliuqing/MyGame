@@ -2,7 +2,6 @@ package com.hjc.CardAdventure.pojo.effects;
 
 import com.hjc.CardAdventure.components.battle.DrawCardsComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
-import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.Role;
 
 //抽牌效果
@@ -13,6 +12,8 @@ public class DrawEffect extends Effect {
 
     @Override
     public void action() {
+        //无目标，不触发
+        if (super.getTo() == null) return;
         for (int i = 0; i < super.getValue(); i++) {
             BattleEntities.drawCards.getComponent(DrawCardsComponent.class).draw();
         }

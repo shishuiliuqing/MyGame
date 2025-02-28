@@ -13,6 +13,9 @@ public enum Effects {
     //10.抽牌效果
     DRAW,
 
+    //80.弃牌效果--弃掉当前行动的牌
+    ABANDON_ACTION,
+
     //99.角色额外行动
     ROLE_ACTION;
 
@@ -39,6 +42,8 @@ public enum Effects {
             case 1 -> new PhysicalDamage(PlayerInformation.player, null, value);
             //10.抽牌效果
             case 10 -> new DrawEffect(PlayerInformation.player, PlayerInformation.player, value);
+            //80.弃牌效果--弃掉当前行动的牌
+            case 80 -> new AbandonAction(PlayerInformation.player, PlayerInformation.player, value);
             //99.玩家额外行动
             case 99 -> new RoleAction(PlayerInformation.player, PlayerInformation.player, value);
             default -> null;

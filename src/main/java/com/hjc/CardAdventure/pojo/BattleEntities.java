@@ -16,6 +16,8 @@ public class BattleEntities {
     public static Entity drawCards;
     //弃牌区
     public static Entity abandonCards;
+    //消耗牌区
+    private static Entity consumeCards;
     //属性表
     public static Entity attribute;
     //使用按钮
@@ -55,6 +57,8 @@ public class BattleEntities {
         drawCards = FXGL.spawn("drawCards");
         //初始化弃牌区
         abandonCards = FXGL.spawn("abandonCards");
+        //初始化消耗牌区
+        consumeCards = FXGL.spawn("consumeCards");
         //初始化属性区
         attribute = FXGL.spawn("attribute");
         //初始化使用按钮

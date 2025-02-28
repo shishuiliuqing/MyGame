@@ -76,12 +76,13 @@ public class AbandonCardsComponent extends Component {
     //查看弃牌堆
     private void lookAbandonCards() {
         LookCardsSubScene.cards = BattleInformation.ABANDON_CARDS;
+        LookCardsSubScene.cardsType = "弃牌区";
         FXGL.getSceneService().pushSubScene(new LookCardsSubScene());
     }
 
     //更新弃牌堆数量
     public void update() {
-        entity.getViewComponent().getChildren().clear();
+        entity.getViewComponent().clearChildren();
         addComponent();
     }
 }

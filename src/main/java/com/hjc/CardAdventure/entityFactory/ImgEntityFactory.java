@@ -100,6 +100,15 @@ public class ImgEntityFactory implements EntityFactory {
                 .build();
     }
 
+    //消耗牌区
+    @Spawns("consumeCards")
+    public Entity newConsumeCards(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .with(new ConsumeCardsComponent())
+                .neverUpdated()
+                .build();
+    }
+
     //游戏信息栏
     @Spawns("informationBar")
     public Entity newInformationBar(SpawnData data) {

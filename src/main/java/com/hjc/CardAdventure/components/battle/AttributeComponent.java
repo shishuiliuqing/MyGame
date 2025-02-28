@@ -40,7 +40,7 @@ public class AttributeComponent extends Component {
 
     //更新属性
     public void update() {
-        entity.getViewComponent().getChildren().clear();
+        entity.getViewComponent().clearChildren();
         onAdded();
     }
 }

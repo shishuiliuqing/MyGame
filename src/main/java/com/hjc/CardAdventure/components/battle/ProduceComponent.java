@@ -33,13 +33,23 @@ public class ProduceComponent extends Component {
 
     //执行出牌效果
     private void produce() {
-        System.out.println("你好");
+        //不允许继续点击使用按钮
+        resetButton(false);
+        //不可更改指定目标
+        TargetComponent.needTarget = false;
+        //不可选择卡牌
+        CardComponent.selectable = false;
+        //卡牌移出被选择数组
+        CardComponent cardComponent = CardComponent.CARD_COMPONENTS.get(0);
+        CardComponent.CARD_COMPONENTS.remove(0);
+        //执行卡牌效果
+        cardComponent.action();
     }
 
     //重置按钮
     public void resetButton(boolean isLight) {
+        entity.removeFromWorld();
         ProduceComponent.isLight = isLight;
-        entity.getViewComponent().getChildren().clear();
-        onAdded();
+        BattleEntities.produce = FXGL.spawn("produce");
     }
 }

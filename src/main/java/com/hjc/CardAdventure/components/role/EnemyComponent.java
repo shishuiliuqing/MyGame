@@ -31,16 +31,30 @@ public class EnemyComponent extends Component {
     private int boxNum;
     //怪物
     private Enemy enemy;
+    //是否被选择
+    private boolean isSelected;
 
     @Override
     public void onAdded() {
-        //是否被选择
-        boolean isSelected = entity.getBoolean("isSelected");
+        isSelected = entity.getBoolean("isSelected");
+
         //获得所在位置
         int index = entity.getInt("boxNum");
         boxNum = BattleEntities.enemyGenerateOrder[index];
         enemy = BattleInformation.ENEMIES.get(index);
+        //添加其他组件
+        addOther();
+        //图片加载
+        addEnemy();
 
+        entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e ->
+                TipBarComponent.update(String.valueOf(boxNum))
+        );
+        entity.getViewComponent().addOnClickHandler(e -> target());
+    }
+
+    //添加其他组件
+    private void addOther() {
         //加载指定图标
         Texture targetPicture = FXGL.texture(isSelected ? "targetLight.png" : "targetDark.png", 250, 250);
         targetPicture.setTranslateX(TARGET_X_MOVE + 215 * boxNum);
@@ -76,17 +90,14 @@ public class EnemyComponent extends Component {
         stackPane.setTranslateX(TARGET_X_MOVE + 215 * boxNum + bloodBoxLen / 2 - 55);
         stackPane.setTranslateY(TARGET_Y_MOVE + 178);
         entity.getViewComponent().addChild(stackPane);
+    }
 
-        //图片加载
+    //添加敌人
+    private void addEnemy() {
         enemyTexture = FXGL.texture(enemy.getImg(), enemy.getWidth(), enemy.getHeight());
         enemyTexture.setTranslateX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
         enemyTexture.setTranslateY(TARGET_Y_MOVE + enemy.getY());
         entity.getViewComponent().addChild(enemyTexture);
-
-        entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> {
-            TipBarComponent.update(String.valueOf(boxNum));
-        });
-        entity.getViewComponent().addOnClickHandler(e -> target());
     }
 
     //受伤动画
@@ -116,10 +127,11 @@ public class EnemyComponent extends Component {
         ParallelTransition pt = new ParallelTransition(tNum, tHP);
         pt.setOnFinished(e -> {
             hurt.removeFromWorld();
-            //if (!isExist())
-                //entity.getViewComponent().addChild(enemyTexture);
+            if (!isExist())
+                entity.getViewComponent().addChild(enemyTexture);
         });
-        entity.getViewComponent().removeChild(enemyTexture);
+        entity.getViewComponent().clearChildren();
+        addOther();
         pt.play();
     }
 
@@ -144,11 +156,10 @@ public class EnemyComponent extends Component {
 
     //是否被选择
     public void update(boolean isSelected) {
-        int boxNum = entity.getInt("boxNum");
-        entity.removeFromWorld();
-        BattleEntities.enemies[boxNum] = FXGL.spawn("enemy", new SpawnData()
-                .put("boxNum", boxNum)
-                .put("isSelected", isSelected));
+        this.isSelected = isSelected;
+        entity.getViewComponent().clearChildren();
+        addOther();
+        addEnemy();
     }
 
     //判断实体是否被添加

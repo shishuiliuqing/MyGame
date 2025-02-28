@@ -8,12 +8,15 @@ import com.hjc.CardAdventure.pojo.Attribute;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.Role;
+import com.hjc.CardAdventure.pojo.effects.AbandonAction;
 import com.hjc.CardAdventure.pojo.effects.Effect;
 import com.hjc.CardAdventure.pojo.effects.Effects;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
@@ -34,6 +37,19 @@ public class Card {
     //卡牌指定目标类型
     private TargetType targetType;
 
+    //卡牌执行
+    public void action() {
+        //解析卡牌效果
+        ArrayList<Effect> effects = Effects.getCardEffects(this.cardEffects);
+        //将所有效果添加至效果序列
+        BattleInformation.EFFECTS.addAll(effects);
+        //添加使用后弃牌效果
+        BattleInformation.EFFECTS.add(new AbandonAction(PlayerInformation.player, PlayerInformation.player, 0));
+        //执行效果序列
+        BattleInformation.effectExecution();
+    }
+
+    //卡牌详细描述
     public String cardToString() {
         return cardName +
                 Effect.NEW_LINE +

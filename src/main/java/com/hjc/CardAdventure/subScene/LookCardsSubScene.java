@@ -31,6 +31,8 @@ public class LookCardsSubScene extends SubScene {
     private final int X_MOVE = 10;
     //y偏移量
     private final int Y_MOVE = 10;
+    //牌堆类型
+    public static String cardsType = "你好呀";
     //卡牌描述
     public static final Label LABEL = new Label();
 
@@ -43,6 +45,15 @@ public class LookCardsSubScene extends SubScene {
         LABEL.setWrapText(true);
         LABEL.setMaxSize(450, 800);
         getContentRoot().getChildren().add(LABEL);
+
+        //牌堆类型文本
+        Label label = new Label(cardsType);
+        label.setWrapText(true);
+        label.setMaxSize(200, 910);
+        label.setTranslateX(10);
+        label.setTranslateY(70);
+        label.setFont(new Font("华文行楷", 200));
+        getContentRoot().getChildren().add(label);
 
         //背景设置，不允许操作
         Rectangle rectangle = new Rectangle(CardAdventureApp.APP_WITH, CardAdventureApp.APP_HEIGHT);

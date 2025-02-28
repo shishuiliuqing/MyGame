@@ -73,10 +73,11 @@ public class Enemy implements Role {
             this.armor = 0;
             //血量减少
             this.blood = this.blood - value;
+            if (this.blood < 0) this.blood = 0;
             //实体刷新
             //受伤动画
             BattleEntities.enemies[index].getComponent(EnemyComponent.class).hurt(value);
-            BattleEntities.enemies[index].getComponent(EnemyComponent.class).update(false);
+            //BattleEntities.enemies[index].getComponent(EnemyComponent.class).update(false);
         } else {
             this.armor = value * (-1);
         }

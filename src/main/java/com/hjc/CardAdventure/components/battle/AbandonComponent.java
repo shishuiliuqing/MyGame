@@ -22,7 +22,13 @@ public class AbandonComponent extends Component {
 
     @Override
     public void onAdded() {
-        //创建使用按钮
+        addButton();
+        entity.getViewComponent().addOnClickHandler(e -> abandon());
+    }
+
+    //创建按钮
+    public void addButton() {
+        //创建弃牌按钮
         Texture button = FXGL.texture(isLight ? "buttonLight.png" : "buttonDark.png", 270 / 2.0, 98 / 2.0);
         button.setTranslateX(CardAdventureApp.APP_WITH - 150);
         button.setTranslateY(CardAdventureApp.APP_HEIGHT - 309);
@@ -33,23 +39,23 @@ public class AbandonComponent extends Component {
         useText.setTranslateX(CardAdventureApp.APP_WITH - 150 + 25);
         useText.setTranslateY(CardAdventureApp.APP_HEIGHT - 309 + 35);
         entity.getViewComponent().addChild(useText);
-
-        //按钮亮的时候可点击
-        if (isLight) {
-            entity.getViewComponent().addOnClickHandler(e -> abandon());
-            entity.getViewComponent().addOnClickHandler(e -> abandon());
-        }
     }
 
     //弃牌判断
     public void abandonJudge() {
+        System.out.println(needAbandon);
+        //弃牌数<=0，无需弃牌
+        if (needAbandon <= 0) {
+            ActionOverComponent.nextStage = true;
+            return;
+        }
         //如果需要弃置的牌大于手牌，弃置所有手牌
         if (needAbandon >= CardComponent.HAND_CARDS.size()) {
             while (!CardComponent.HAND_CARDS.isEmpty()) {
                 CardComponent cardComponent = CardComponent.HAND_CARDS.get(0);
                 cardComponent.abandonAnimation1();
                 //手牌区删除此牌
-                CardComponent.HAND_CARDS.remove(cardComponent);
+                //CardComponent.HAND_CARDS.remove(cardComponent);
             }
 
             //进入下一阶段
@@ -73,6 +79,8 @@ public class AbandonComponent extends Component {
 
     //执行弃牌效果
     private void abandon() {
+        //未亮时不允许点击
+        if (!isLight) return;
         //不允许选牌
         CardComponent.selectable = false;
         //弃牌键变暗
@@ -106,7 +114,7 @@ public class AbandonComponent extends Component {
     //重置按钮
     public void resetButton(boolean isLight) {
         AbandonComponent.isLight = isLight;
-        entity.getViewComponent().getChildren().clear();
-        onAdded();
+        entity.getViewComponent().clearChildren();
+        addButton();
     }
 }

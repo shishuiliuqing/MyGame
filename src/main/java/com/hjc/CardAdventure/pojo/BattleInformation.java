@@ -1,6 +1,7 @@
 package com.hjc.CardAdventure.pojo;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.hjc.CardAdventure.components.battle.CardComponent;
 import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.effects.Effect;
 import com.hjc.CardAdventure.pojo.effects.RoleAction;
@@ -24,6 +25,8 @@ public class BattleInformation {
     public static final ArrayList<Card> DRAW_CARDS = new ArrayList<>();
     //弃牌堆
     public static final ArrayList<Card> ABANDON_CARDS = new ArrayList<>();
+    //消耗牌堆
+    public static final ArrayList<Card> CONSUME_CARDS = new ArrayList<>();
     //手牌数
     //public static final Card[] HAND_CARDS = new Card[10];
     //效果序列器
@@ -77,7 +80,10 @@ public class BattleInformation {
         DRAW_CARDS.addAll(PlayerInformation.cards);
         //初始化弃牌堆
         ABANDON_CARDS.clear();
+        //初始化消耗牌堆
+        CONSUME_CARDS.clear();
         //初始化手牌区
+        CardComponent.HAND_CARDS.clear();
 //        for (int i = 0; i < 10; i++) {
 //            HAND_CARDS[i] = null;
 //        }
@@ -136,7 +142,7 @@ public class BattleInformation {
         Role role = THIS_ACTION.get(0);
         THIS_ACTION.remove(0);
         //生成行动执行效果
-        RoleAction roleAction = new RoleAction(role, role, 0);
+        RoleAction roleAction = new RoleAction(role, role, 1);
         EFFECTS.add(roleAction);
         //效果执行
         effectExecution();
@@ -145,6 +151,7 @@ public class BattleInformation {
     //效果执行器
     public static void effectExecution() {
         while (!EFFECTS.isEmpty()) {
+            if (ENEMIES.isEmpty()) return;
             Effect effect = EFFECTS.get(0);
             EFFECTS.remove(0);
             effect.action();

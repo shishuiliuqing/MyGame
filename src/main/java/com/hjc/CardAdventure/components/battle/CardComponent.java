@@ -21,12 +21,14 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import lombok.Getter;
 
 import java.util.ArrayList;
 
 import static com.hjc.CardAdventure.entityFactory.CardEntityFactory.*;
 import static com.hjc.CardAdventure.entityFactory.ImgEntityFactory.*;
 
+@Getter
 public class CardComponent extends Component {
     //被选择时移动的距离
     private static final double Y_MOVE_SELECTED = 50;
@@ -38,6 +40,8 @@ public class CardComponent extends Component {
     public static boolean isAbandon = false;
     //当前状态是否可以选择卡牌
     public static boolean selectable = false;
+    //当前行动卡牌
+    public static CardComponent actionCard;
     //当前卡牌
     private final Card card;
     //卡牌所在位置
@@ -200,8 +204,25 @@ public class CardComponent extends Component {
         return false;
     }
 
-    //消失特效
+    //卡牌效果执行
+    public void action() {
+        //当前行动卡牌
+        CardComponent.actionCard = this;
+        //将该牌移至中央
+        entity.setX(CardAdventureApp.APP_WITH / 2.0 - (X_MOVE + CARD_BOX_X * boxNum + X_TO_BOX_MOVE + 1));
+        entity.setY(-290);
+        //运行卡牌效果
+        card.action();
+        //执行卡牌放下效果--目标指定刷新
+        card.putDown();
+        //可以继续行动
+        selectable = true;
+    }
+
+    //主动弃牌消失特效1
     public void abandonAnimation1() {
+        //手牌区删除此牌
+        HAND_CARDS.remove(this);
         entity.removeFromWorld();
         DrawCardsComponent.CARD_BOX_STATUS[boxNum - 1] = 0;
         BattleInformation.ABANDON_CARDS.add(this.card);
@@ -222,6 +243,7 @@ public class CardComponent extends Component {
         st.play();
     }
 
+    //主动弃牌消失特效2
     private void abandonAnimation2() {
         //System.out.println(isSelected());
         //生成圆圈实体
@@ -233,6 +255,52 @@ public class CardComponent extends Component {
         TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), circle);
         tt.setToX(1560 - CARD_BOX_X * boxNum);
         tt.setToY(isSelected() ? 50 : 0);
+        tt.setOnFinished(e -> {
+            abandon.removeFromWorld();
+            BattleEntities.abandonCards.getComponent(AbandonCardsComponent.class).update();
+        });
+        tt.play();
+    }
+
+    //牌使用后的消失特效
+    public void abandonAnimation3() {
+        //手牌区删除此牌
+        HAND_CARDS.remove(this);
+        //删除该实体
+        entity.removeFromWorld();
+        //更新抽牌区状态
+        DrawCardsComponent.CARD_BOX_STATUS[boxNum - 1] = 0;
+        //弃牌区添加此牌
+        BattleInformation.ABANDON_CARDS.add(this.card);
+        //生成矩形
+        Rectangle rectangle = new Rectangle(CARD_WIDTH, CARD_HEIGHT, Color.valueOf(this.card.getColorS()));
+        rectangle.setTranslateX((CardAdventureApp.APP_WITH - CARD_WIDTH) / 2.0);
+        rectangle.setTranslateY(Y_MOVE + Y_TO_BOX_MOVE - 290);
+        Entity abandon = FXGL.entityBuilder().view(rectangle).buildAndAttach();
+        //生成矩形移动动画
+        //System.out.println(isSelected());
+        ScaleTransition st = new ScaleTransition(Duration.seconds(0.5), rectangle);
+        st.setToX(0.2);
+        st.setToY(0.2);
+        st.setOnFinished(e -> {
+            abandon.removeFromWorld();
+            abandonAnimation4();
+        });
+        st.play();
+    }
+
+    //牌使用后的消失特效
+    private void abandonAnimation4() {
+        //System.out.println(isSelected());
+        //生成圆圈实体
+        Circle circle = new Circle(20, Color.valueOf(PlayerInformation.player.getColorS()));
+        circle.setCenterX(CardAdventureApp.APP_WITH / 2.0);
+        circle.setCenterY(Y_MOVE + Y_TO_BOX_MOVE - 290 + CARD_HEIGHT / 2);
+        Entity abandon = FXGL.entityBuilder().view(circle).buildAndAttach();
+        //生成圆圈移动动画
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), circle);
+        tt.setToX(885);
+        tt.setToY(290);
         tt.setOnFinished(e -> {
             abandon.removeFromWorld();
             BattleEntities.abandonCards.getComponent(AbandonCardsComponent.class).update();

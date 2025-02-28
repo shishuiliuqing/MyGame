@@ -20,7 +20,7 @@ public class SumCardsComponent extends Component {
     }
 
     public void update() {
-        entity.getViewComponent().getChildren().clear();
+        entity.getViewComponent().clearChildren();
         onAdded();
     }
 }

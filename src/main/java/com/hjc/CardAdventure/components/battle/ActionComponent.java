@@ -57,7 +57,7 @@ public class ActionComponent extends Component {
     }
 
     public void update() {
-        entity.getViewComponent().getChildren().clear();
+        entity.getViewComponent().clearChildren();
         onAdded();
     }
 }

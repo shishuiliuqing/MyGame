@@ -50,7 +50,7 @@ public class TargetComponent extends Component {
 
     //更新指定目标
     public void update() {
-        entity.getViewComponent().getChildren().clear();
+        entity.getViewComponent().clearChildren();
         onAdded();
     }
 
