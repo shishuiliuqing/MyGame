@@ -11,4 +11,7 @@ public interface Role {
 
     //受伤
     void physicalHurt(int value);
+
+    //攻击
+    void physicalAttack(Role target,int value);
 }

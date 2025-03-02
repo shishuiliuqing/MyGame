@@ -44,7 +44,7 @@ public class Card {
         //将所有效果添加至效果序列
         BattleInformation.EFFECTS.addAll(effects);
         //添加使用后弃牌效果
-        BattleInformation.EFFECTS.add(new AbandonAction(PlayerInformation.player, PlayerInformation.player, 0));
+        //BattleInformation.EFFECTS.add(new AbandonAction(PlayerInformation.player, PlayerInformation.player, 0));
         //执行效果序列
         BattleInformation.effectExecution();
     }

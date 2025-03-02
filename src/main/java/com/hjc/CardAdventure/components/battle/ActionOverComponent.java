@@ -4,9 +4,13 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.AnimatedTexture;
 import com.almasb.fxgl.texture.AnimationChannel;
+import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
+import com.hjc.CardAdventure.pojo.Role;
+import com.hjc.CardAdventure.pojo.effects.ActionOver;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
 
 public class ActionOverComponent extends Component {
@@ -17,6 +21,8 @@ public class ActionOverComponent extends Component {
     public static boolean nextStage = false;
     //沙漏组件
     public static AnimatedTexture animatedTexture;
+    //回合结束判断间隔器
+    //private static LocalTimer overJudge = FXGL.newLocalTimer();
 
     @Override
     public void onAdded() {
@@ -36,26 +42,27 @@ public class ActionOverComponent extends Component {
         //animatedTexture.play();
         //animatedTexture.loop();
         entity.getViewComponent().addChild(animatedTexture);
-        entity.getViewComponent().addOnClickHandler(e -> update());
+        entity.getViewComponent().addOnClickHandler(e -> onOver());
+        entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
         //entity.getViewComponent().addOnClickHandler(e-> System.out.println("你好"));
     }
 
-    @Override
-    public void onUpdate(double tpf) {
-        if (nextStage) {
-            //动画播放
-            animatedTexture.play();
-            //更新行动序列
-            BattleEntities.actionBox.getComponent(ActionComponent.class).update();
-            //下一目标行动
-            BattleInformation.battle();
-            //停止进入下一阶段
-            nextStage = false;
-        }
+    //结束按钮查看
+    private void lookInformation() {
+        TipBarComponent.update("结束回合");
     }
 
-    //玩家回合结束
-    public void update() {
+    //回合结束（自动）
+    public static void actionOver(Role role) {
+        //System.out.println(BattleInformation.EFFECTS);
+        //添加回合结束效果
+        BattleInformation.EFFECTS.add(new ActionOver(role, role, 1));
+        //运行效果器
+        BattleInformation.effectExecution();
+    }
+
+    //玩家回合结束（点击触发）
+    public void onOver() {
         if (isPlayer) {
             //animatedTexture.play();
             isPlayer = false;
@@ -64,5 +71,15 @@ public class ActionOverComponent extends Component {
 
             PlayerInformation.player.abandon();
         }
+    }
+
+    //回合结束动画
+    public void over() {
+        //动画播放
+        animatedTexture.play();
+        //更新行动序列
+        BattleEntities.actionBox.getComponent(ActionComponent.class).update();
+        //下一个目标行动
+        BattleInformation.battle();
     }
 }

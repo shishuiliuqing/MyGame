@@ -4,9 +4,12 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
+import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -21,7 +24,11 @@ public class PlayerComponent extends Component {
 
     private static boolean isSelected = false;
     //加载人物图片
-    private final Texture playerImg = FXGL.texture(player.getImg(), player.getWidth(), player.getHeight());
+    private Texture playerImg;
+    //人物是否在受伤
+    private boolean isAction = false;
+    //护盾组件
+    private Pane pane;
 
     @Override
     public void onAdded() {
@@ -29,27 +36,32 @@ public class PlayerComponent extends Component {
         addOther();
         //添加角色
         addPlayer();
+
+        entity.getViewComponent().addOnClickHandler(e -> addArmor());
     }
 
     //更新人物角色
     public void update(boolean isSelected) {
         PlayerComponent.isSelected = isSelected;
         entity.getViewComponent().clearChildren();
-        onAdded();
+        addOther();
+        addPlayer();
     }
 
     //受伤动画
     public void hurt(int value) {
+        //人物正在受伤
+        isAction = true;
         //受伤数字显示
         Text hurtValue = new Text("- " + value);
         hurtValue.setFill(Color.RED);
         hurtValue.setFont(new Font("华文琥珀", 50));
         //受伤人物显示
-        Texture hurtPlayer = playerImg.multiplyColor(Color.BLACK);
+        Texture hurtPlayer = FXGL.texture(player.getImg(), player.getWidth(), player.getHeight()).multiplyColor(Color.BLACK);
         Entity hurt = FXGL.entityBuilder().view(hurtValue).view(hurtPlayer).buildAndAttach();
 
         //令文本移动
-        TranslateTransition tNum = new TranslateTransition(Duration.seconds(0.3), hurtValue);
+        TranslateTransition tNum = new TranslateTransition(Duration.seconds(0.2), hurtValue);
         tNum.setFromX(600);
         tNum.setFromY(350);
         tNum.setToX(600);
@@ -64,12 +76,64 @@ public class PlayerComponent extends Component {
         ParallelTransition pt = new ParallelTransition(tNum, tHP);
         pt.setOnFinished(e -> {
             hurt.removeFromWorld();
+            isAction = false;
             if (!isExist())
-                entity.getViewComponent().addChild(playerImg);
+                addPlayer();
         });
         entity.getViewComponent().clearChildren();
         addOther();
         pt.play();
+    }
+
+    //护甲生成动画
+    public void addArmor() {
+        //创建动画实体
+        Texture armorTexture = FXGL.texture("effect/armor.png", player.getWidth() + 50, player.getWidth() + 50);
+        System.out.println(armorTexture);
+        armorTexture.setTranslateX(player.getX() - 25);
+        armorTexture.setTranslateY(player.getY() - 25);
+        Entity armor = FXGL.entityBuilder().view(armorTexture).buildAndAttach();
+        //透明动画
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), armorTexture);
+        ft.setToValue(0);
+
+        //移动动画
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), armorTexture);
+        tt.setFromY(player.getY() - 25);
+        tt.setToY(player.getY() + 25);
+
+        ParallelTransition pt = new ParallelTransition(ft, tt);
+        pt.setOnFinished(e -> {
+            armor.removeFromWorld();
+            updateArmor();
+        });
+        pt.play();
+    }
+
+    //更新护甲
+    public void updateArmor() {
+        entity.getViewComponent().clearChildren();
+        addOther();
+        addPlayer();
+
+        Texture armor = FXGL.texture("effect/armorBlood.png", 40, 40);
+        armor.setTranslateX(445);
+        armor.setTranslateY(465);
+        entity.getViewComponent().addChild(armor);
+
+        Rectangle textBar = new Rectangle(40, 40, Color.rgb(0, 0, 0, 0));
+        Text text = new Text(String.valueOf(PlayerInformation.playerArmor));
+        text.setFont(new Font("微软雅黑", 15));
+        StackPane stackPane = new StackPane(textBar);
+        stackPane.getChildren().add(text);
+        stackPane.setTranslateX(445);
+        stackPane.setTranslateY(465);
+        entity.getViewComponent().addChild(stackPane);
+
+        Rectangle rectangle = new Rectangle(185, 11, Color.valueOf("#a7fefeB3"));
+        rectangle.setTranslateX(485);
+        rectangle.setTranslateY(480);
+        entity.getViewComponent().addChild(rectangle);
     }
 
     //添加非人物对象
@@ -115,7 +179,9 @@ public class PlayerComponent extends Component {
 
     //添加人物
     private void addPlayer() {
+        if (isAction) return;
         //人物显示
+        playerImg = FXGL.texture(player.getImg(), player.getWidth(), player.getHeight());
         playerImg.setTranslateX(player.getX());
         playerImg.setTranslateY(player.getY());
         entity.getViewComponent().addChild(playerImg);

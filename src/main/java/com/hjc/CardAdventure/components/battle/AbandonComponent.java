@@ -7,6 +7,9 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
 import com.hjc.CardAdventure.CardAdventureApp;
 import com.hjc.CardAdventure.pojo.BattleEntities;
+import com.hjc.CardAdventure.pojo.BattleInformation;
+import com.hjc.CardAdventure.pojo.effects.ActionOver;
+import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -43,7 +46,7 @@ public class AbandonComponent extends Component {
 
     //弃牌判断
     public void abandonJudge() {
-        System.out.println(needAbandon);
+        //System.out.println(needAbandon);
         //弃牌数<=0，无需弃牌
         if (needAbandon <= 0) {
             ActionOverComponent.nextStage = true;
@@ -58,8 +61,13 @@ public class AbandonComponent extends Component {
                 //CardComponent.HAND_CARDS.remove(cardComponent);
             }
 
+            //添加回合结束效果
+//            BattleInformation.EFFECTS.add(new ActionOver(PlayerInformation.player, PlayerInformation.player, 1));
             //进入下一阶段
-            ActionOverComponent.nextStage = true;
+            //ActionOverComponent.nextStage = true;
+//            BattleInformation.effectExecution();
+            //回合结束
+            ActionOverComponent.actionOver(PlayerInformation.player);
             return;
         }
 
@@ -79,6 +87,8 @@ public class AbandonComponent extends Component {
 
     //执行弃牌效果
     private void abandon() {
+        //取消弃牌
+        CardComponent.isAbandon = false;
         //未亮时不允许点击
         if (!isLight) return;
         //不允许选牌
@@ -97,8 +107,13 @@ public class AbandonComponent extends Component {
 
         //删除文本
         tipEntity.removeFromWorld();
+        //添加回合结束效果
+//        BattleInformation.EFFECTS.add(new ActionOver(PlayerInformation.player, PlayerInformation.player, 1));
         //进入下一阶段
-        ActionOverComponent.nextStage = true;
+        //ActionOverComponent.nextStage = true;
+//        BattleInformation.effectExecution();
+        //回合结束
+        ActionOverComponent.actionOver(PlayerInformation.player);
     }
 
     //弃牌提示文本

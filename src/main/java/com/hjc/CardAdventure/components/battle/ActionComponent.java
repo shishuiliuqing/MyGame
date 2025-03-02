@@ -58,6 +58,6 @@ public class ActionComponent extends Component {
 
     public void update() {
         entity.getViewComponent().clearChildren();
-        onAdded();
+        addActionBox(1);
     }
 }

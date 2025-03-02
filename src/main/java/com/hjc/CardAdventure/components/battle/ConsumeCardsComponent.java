@@ -2,12 +2,12 @@ package com.hjc.CardAdventure.components.battle;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
+import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.subScene.LookCardsSubScene;
 import com.hjc.CardAdventure.util.Utils;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class ConsumeCardsComponent extends Component {

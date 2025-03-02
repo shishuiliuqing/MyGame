@@ -17,5 +17,18 @@
   "height": 122.0,
   "x": 60,
   "y": 15,
-  "armor": 0
+  "armor": 0,
+  "intentions": [
+    {
+      "num": 0,
+      "intentionType": 0,
+      "intentionGenerateType": 0,
+      "effects": [
+        6001,
+        99,
+        98
+      ],
+      "consecutiveStarts": 0
+    }
+  ]
 }

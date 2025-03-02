@@ -1,7 +1,6 @@
-package com.hjc.CardAdventure.components.battle;
+package com.hjc.CardAdventure.components;
 
 import com.almasb.fxgl.entity.component.Component;
-import com.hjc.CardAdventure.components.BarComponent;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Font;
 

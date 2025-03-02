@@ -1,11 +1,14 @@
 package com.hjc.CardAdventure.pojo;
 
 import com.almasb.fxgl.dsl.FXGL;
+import com.hjc.CardAdventure.CardAdventureApp;
 import com.hjc.CardAdventure.components.battle.CardComponent;
 import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.effects.Effect;
 import com.hjc.CardAdventure.pojo.effects.RoleAction;
 import com.hjc.CardAdventure.pojo.enemy.Enemy;
+import com.hjc.CardAdventure.pojo.enemy.IntentionGenerateType;
+import com.hjc.CardAdventure.pojo.environment.TimeStatus;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 
 import java.util.ArrayList;
@@ -31,7 +34,8 @@ public class BattleInformation {
     //public static final Card[] HAND_CARDS = new Card[10];
     //效果序列器
     public static final ArrayList<Effect> EFFECTS = new ArrayList<>();
-
+    //当前回合数
+    public static int rounds;
     //战斗中的人物属性
     public static Attribute attribute;
 
@@ -51,6 +55,9 @@ public class BattleInformation {
         //初始化行动序列
         initActions();
 
+        //初始化回合数
+        rounds = 1;
+
         //System.out.println(ENEMIES.get(0) == ENEMIES.get(1));
         //开始战斗
         //battle();
@@ -61,10 +68,12 @@ public class BattleInformation {
     private static void initEnemies() {
         //初始化敌人序列
         ENEMIES.clear();
-        for (int i = 0; i < 5; i++) {
-            ENEMIES.add(FXGL.getAssetLoader().loadJSON("data/enemy/forestWolf.json", Enemy.class).get());
+        //添加怪物
+        ENEMIES.addAll(CardAdventureApp.seasonMonsterPool.getEnemies(1, TimeStatus.EVENING));
+        //为每位敌人初始化意图
+        for (Enemy enemy : ENEMIES) {
+            IntentionGenerateType.generateIntention(enemy);
         }
-
         //初始化敌人位置
         ROLE_LOCATION.clear();
         ROLE_LOCATION.put(PlayerInformation.player, "P");
@@ -145,13 +154,12 @@ public class BattleInformation {
         RoleAction roleAction = new RoleAction(role, role, 1);
         EFFECTS.add(roleAction);
         //效果执行
-        effectExecution();
+        //effectExecution();
     }
 
     //效果执行器
     public static void effectExecution() {
         while (!EFFECTS.isEmpty()) {
-            if (ENEMIES.isEmpty()) return;
             Effect effect = EFFECTS.get(0);
             EFFECTS.remove(0);
             effect.action();

@@ -1,7 +1,20 @@
 {
-  "day": [],
-  "afternoon": [],
-  "evening": [
-    "data/enemy/wolf.json"
-  ]
+  "weak": {
+    "day": [[]],
+    "afternoon": [[]],
+    "evening": [
+      ["forestWolf","forestWolf","forestWolf","forestWolf","forestWolf"]
+    ]
+  },
+  "strong": {
+    "day": [[]],
+    "afternoon": [[]],
+    "evening": [["forestWolf"]]
+  },
+  "elite": {
+    "day": [[]],
+    "afternoon": [[]],
+    "evening": [[]]
+  },
+  "boss": "你好呀"
 }

@@ -7,12 +7,11 @@ import com.hjc.CardAdventure.components.battle.CardComponent;
 import com.hjc.CardAdventure.components.role.PlayerComponent;
 import com.hjc.CardAdventure.pojo.*;
 import com.hjc.CardAdventure.pojo.effects.DrawEffect;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Player implements Role {
@@ -49,7 +48,7 @@ public class Player implements Role {
         //抽牌阶段
         DrawEffect drawEffect = new DrawEffect(this, this, attribute.getDrawNum());
         BattleInformation.EFFECTS.add(drawEffect);
-        BattleInformation.effectExecution();
+        //BattleInformation.effectExecution();
 
         //出牌阶段
 //        while (ActionOverComponent.isPlayer) {
@@ -84,11 +83,15 @@ public class Player implements Role {
             //实体刷新
             //受伤动画
             BattleEntities.playerBattle.getComponent(PlayerComponent.class).hurt(value);
-            //BattleEntities.playerBattle.getComponent(PlayerComponent.class).update(false);
             Entities.playerBlood.getComponent(BloodComponent.class).update();
         } else {
             PlayerInformation.playerArmor = value * (-1);
         }
+    }
+
+    @Override
+    public void physicalAttack(Role target, int value) {
+        target.physicalHurt(value);
     }
 
     //弃牌阶段

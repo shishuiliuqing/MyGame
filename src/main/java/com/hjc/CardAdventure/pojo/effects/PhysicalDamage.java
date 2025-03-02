@@ -17,7 +17,7 @@ public class PhysicalDamage extends Effect {
         //无目标，不触发
         if (super.getTo() == null) return;
         //目标受到伤害
-        super.getTo().physicalHurt(super.getValue() + super.getFrom().getRoleAttribute().getPower());
+        super.getFrom().physicalAttack(super.getTo(), super.getValue() + super.getFrom().getRoleAttribute().getPower());
     }
 
     @Override

@@ -1,15 +1,11 @@
-package com.hjc.CardAdventure.components.battle;
+package com.hjc.CardAdventure.components.camp;
 
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
 import com.hjc.CardAdventure.CardAdventureApp;
 import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.entityFactory.CardEntityFactory;
-import com.hjc.CardAdventure.pojo.BattleEntities;
-import com.hjc.CardAdventure.pojo.BattleInformation;
-import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import com.hjc.CardAdventure.subScene.LookCardsSubScene;
 import com.hjc.CardAdventure.util.Utils;
@@ -18,24 +14,18 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 
 import static com.hjc.CardAdventure.entityFactory.ImgEntityFactory.*;
+import static com.hjc.CardAdventure.entityFactory.ImgEntityFactory.CARD_BOX_X;
 
-public class DrawCardsComponent extends Component {
-
-    public static final int[] CARD_BOX_STATUS = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-    private final int num;
-    private final String colorS;
-    private final double speed = 450;
-
-    public DrawCardsComponent() {
-        super();
-        this.num = BattleInformation.DRAW_CARDS.size();
-        this.colorS = PlayerInformation.player.getColorS();
-        //添加监听事件
-    }
+public class CardsComponent extends Component {
+    //牌堆数
+    private int num;
+    //颜色
+    private String colorS;
 
     @Override
     public void onAdded() {
+        num = PlayerInformation.cards.size();
+        colorS = PlayerInformation.player.getColorS();
         entity.getViewComponent().clearChildren();
 
         //卡牌宽度
@@ -65,48 +55,17 @@ public class DrawCardsComponent extends Component {
         //entity.getViewComponent().addOnClickHandler(e -> draw());
 
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
-        entity.getViewComponent().addOnClickHandler(e -> lookDrawCards());
+        entity.getViewComponent().addOnClickHandler(e -> lookCards());
+    }
+
+    private void lookInformation() {
+        TipBarComponent.update("总牌堆，牌数：" + this.num);
     }
 
     //查看抽牌堆
-    private void lookDrawCards() {
-        LookCardsSubScene.cards = BattleInformation.DRAW_CARDS;
-        LookCardsSubScene.cardsType = "抽牌区";
+    private void lookCards() {
+        LookCardsSubScene.cards = PlayerInformation.cards;
+        LookCardsSubScene.cardsType = "总牌堆";
         FXGL.getSceneService().pushSubScene(new LookCardsSubScene());
-    }
-
-    //抽牌堆信息
-    private void lookInformation() {
-        TipBarComponent.update("抽牌堆，剩余牌数：" + this.num);
-    }
-
-
-    //发牌
-    public void draw() {
-        int boxNum = nearEmptyBox();
-        if (boxNum == -1) return;
-        //抽牌堆没牌
-        if (BattleInformation.DRAW_CARDS.isEmpty()) return;
-
-        //更新抽牌堆
-        entity.removeFromWorld();
-        Card card = BattleInformation.DRAW_CARDS.get(0);
-        BattleInformation.DRAW_CARDS.remove(0);
-        BattleEntities.drawCards = FXGL.spawn("drawCards", new SpawnData());
-        FXGL.spawn("draw", new SpawnData()
-                .put("boxNum", boxNum)
-                .put("card", card)
-        );
-    }
-
-    //获取最近的空选牌框
-    private int nearEmptyBox() {
-        for (int i = 0; i < CARD_BOX_STATUS.length; i++) {
-            if (CARD_BOX_STATUS[i] == 0) {
-                CARD_BOX_STATUS[i] = 1;
-                return i + 1;
-            }
-        }
-        return -1;
     }
 }

@@ -28,8 +28,6 @@ public class BattleEntities {
     public static Entity target;
     //结束按钮
     public static Entity actionOver;
-    //提示框
-    public static Entity tipBar;
     //计牌器
     public static Entity sumProduce;
     //人物实体
@@ -44,11 +42,6 @@ public class BattleEntities {
     public static void initBattleEntities() {
         //初始化背景
         //bg = FXGL.spawn("bg");
-        for (int i = 0; i < 40; i++) {
-            Card strike = FXGL.getAssetLoader().loadJSON("data/card/soldier/strike.json", Card.class).get();
-            PlayerInformation.cards.add(strike);
-            System.out.println(Effects.CardEffectsToString(strike));
-        }
         //初始化战斗信息
         BattleInformation.initBattle();
         //初始化出牌框
@@ -69,8 +62,6 @@ public class BattleEntities {
         target = FXGL.spawn("target");
         //初始化结束回合按钮
         actionOver = FXGL.spawn("actionOver");
-        //初始化提示文本框
-        tipBar = FXGL.spawn("tipBar");
         //初始化记牌器
         sumProduce = FXGL.spawn("sumProduce");
         //初始化人物角色
@@ -85,5 +76,6 @@ public class BattleEntities {
         actionBox = FXGL.spawn("actionBox");
 
         BattleInformation.battle();
+        BattleInformation.effectExecution();
     }
 }

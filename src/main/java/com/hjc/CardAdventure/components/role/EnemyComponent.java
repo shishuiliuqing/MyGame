@@ -2,14 +2,16 @@ package com.hjc.CardAdventure.components.role;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
-import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
+import com.hjc.CardAdventure.components.battle.ActionOverComponent;
 import com.hjc.CardAdventure.components.battle.TargetComponent;
-import com.hjc.CardAdventure.components.battle.TipBarComponent;
+import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.enemy.Enemy;
+import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
@@ -20,6 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
 
 public class EnemyComponent extends Component {
     //指定框移动距离
@@ -33,6 +36,8 @@ public class EnemyComponent extends Component {
     private Enemy enemy;
     //是否被选择
     private boolean isSelected;
+    //是否正在受伤
+    private boolean isAction = false;
 
     @Override
     public void onAdded() {
@@ -51,6 +56,16 @@ public class EnemyComponent extends Component {
                 TipBarComponent.update(String.valueOf(boxNum))
         );
         entity.getViewComponent().addOnClickHandler(e -> target());
+        enemy.setArmor(60);
+        entity.getViewComponent().addOnClickHandler(e->addArmor());
+    }
+
+    @Override
+    public void onUpdate(double tpf) {
+        //死亡效果
+//        if(enemy.getBlood() == 0) {
+//
+//        }
     }
 
     //添加其他组件
@@ -63,18 +78,18 @@ public class EnemyComponent extends Component {
 
 
         //血条框制作
-        double bloodBoxLen = 180.0;
+        double bloodBoxLen = 120.0;
         double bloodBoxHei = 11.0;
 
         Rectangle bloodBox = new Rectangle(bloodBoxLen, bloodBoxHei, Color.BLACK);
-        bloodBox.setTranslateX(TARGET_X_MOVE + 215 * boxNum + bloodBoxLen / 2 - 55);
+        bloodBox.setTranslateX(TARGET_X_MOVE + 215 * boxNum + bloodBoxLen / 2 + 5);
         bloodBox.setTranslateY(TARGET_Y_MOVE + 180);
         entity.getViewComponent().addChild(bloodBox);
 
         //血条制作
         double p = enemy.getBlood() * 1.0 / enemy.getMaxBlood();
         Rectangle blood = new Rectangle(bloodBoxLen * p, bloodBoxHei - 2, Color.RED);
-        blood.setTranslateX(TARGET_X_MOVE + 215 * boxNum + bloodBoxLen / 2 - 55);
+        blood.setTranslateX(TARGET_X_MOVE + 215 * boxNum + bloodBoxLen / 2 + 5);
         blood.setTranslateY(TARGET_Y_MOVE + 181);
         entity.getViewComponent().addChild(blood);
 
@@ -87,13 +102,14 @@ public class EnemyComponent extends Component {
         StackPane stackPane = new StackPane(rectangle);
         stackPane.getChildren().add(bloodValue);
         //stackPane.setMaxSize(bloodBoxLen, bloodBoxHei);
-        stackPane.setTranslateX(TARGET_X_MOVE + 215 * boxNum + bloodBoxLen / 2 - 55);
+        stackPane.setTranslateX(TARGET_X_MOVE + 215 * boxNum + bloodBoxLen / 2 + 5);
         stackPane.setTranslateY(TARGET_Y_MOVE + 178);
         entity.getViewComponent().addChild(stackPane);
     }
 
     //添加敌人
     private void addEnemy() {
+        if (isAction) return;
         enemyTexture = FXGL.texture(enemy.getImg(), enemy.getWidth(), enemy.getHeight());
         enemyTexture.setTranslateX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
         enemyTexture.setTranslateY(TARGET_Y_MOVE + enemy.getY());
@@ -102,12 +118,14 @@ public class EnemyComponent extends Component {
 
     //受伤动画
     public void hurt(int value) {
+        //正在受伤
+        isAction = true;
         //受伤数字显示
         Text hurtValue = new Text("- " + value);
         hurtValue.setFill(Color.RED);
         hurtValue.setFont(new Font("华文琥珀", 50));
         //受伤人物显示
-        Texture hurtEnemy = enemyTexture.multiplyColor(Color.BLACK);
+        Texture hurtEnemy = FXGL.texture(enemy.getImg(), enemy.getWidth(), enemy.getHeight()).multiplyColor(Color.BLACK);
         Entity hurt = FXGL.entityBuilder().view(hurtValue).view(hurtEnemy).buildAndAttach();
 
 
@@ -127,12 +145,127 @@ public class EnemyComponent extends Component {
         ParallelTransition pt = new ParallelTransition(tNum, tHP);
         pt.setOnFinished(e -> {
             hurt.removeFromWorld();
+            isAction = false;
             if (!isExist())
-                entity.getViewComponent().addChild(enemyTexture);
+                addEnemy();
         });
         entity.getViewComponent().clearChildren();
         addOther();
         pt.play();
+    }
+
+    //单段攻击动画
+    public void attack(int value) {
+        //正在攻击
+        isAction = true;
+
+        //攻击人物显示
+        Texture attackEnemy = FXGL.texture(enemy.getImg(), enemy.getWidth(), enemy.getHeight());
+        Entity attack = FXGL.entityBuilder().view(attackEnemy).buildAndAttach();
+
+        //令人物显示移动
+        TranslateTransition tHP = new TranslateTransition(Duration.seconds(0.3), attackEnemy);
+        tHP.setFromX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
+        tHP.setFromY(TARGET_Y_MOVE + enemy.getY());
+        tHP.setToX(TARGET_X_MOVE + 215 * boxNum + enemy.getX() - 100);
+        tHP.setToY(TARGET_Y_MOVE + enemy.getY());
+
+        tHP.setOnFinished(e -> {
+            //移除该动画实体
+//            attack.removeFromWorld();
+//            isAction = false;
+//            if (!isExist())
+//                addEnemy();
+//            //角色受伤
+//            PlayerInformation.player.physicalHurt(value);
+            attack(attack, value);
+        });
+        entity.getViewComponent().clearChildren();
+        addOther();
+        tHP.play();
+    }
+
+    //单段攻击动画2
+    private void attack(Entity attack, int value) {
+        //令人物返回
+        TranslateTransition tHP = new TranslateTransition(Duration.seconds(0.3), attack.getViewComponent().getChildren().get(0));
+        tHP.setFromX(TARGET_X_MOVE + 215 * boxNum + enemy.getX() - 100);
+        tHP.setFromY(TARGET_Y_MOVE + enemy.getY());
+        tHP.setToX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
+        tHP.setToY(TARGET_Y_MOVE + enemy.getY());
+        tHP.setOnFinished(e -> {
+            attack.removeFromWorld();
+            isAction = false;
+            if (!isExist())
+                addEnemy();
+            //角色受伤
+            PlayerInformation.player.physicalHurt(value);
+            //添加回合结束效果
+//            BattleInformation.EFFECTS.add(new ActionOver(enemy, enemy, 1));
+            //回合结束触发
+//            ActionOverComponent.nextStage = true;
+            //回合结束
+
+            ActionOverComponent.actionOver(enemy);
+        });
+        tHP.play();
+    }
+
+    //护甲生成动画
+    public void addArmor() {
+        //创建动画实体
+        Texture armorTexture = FXGL.texture("effect/armor.png", enemy.getWidth() + 50, enemy.getWidth() + 50);
+        armorTexture.setTranslateX(TARGET_X_MOVE + 215 * boxNum + enemy.getX() - 25);
+        armorTexture.setTranslateY(TARGET_Y_MOVE + enemy.getY() - 25);
+        Entity armor = FXGL.entityBuilder().view(armorTexture).buildAndAttach();
+        //透明动画
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), armorTexture);
+        ft.setToValue(0);
+
+        //移动动画
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), armorTexture);
+        tt.setFromY(TARGET_Y_MOVE + enemy.getY() - 25);
+        tt.setToY(TARGET_Y_MOVE + enemy.getY() + 25);
+
+        ParallelTransition pt = new ParallelTransition(ft, tt);
+        pt.setOnFinished(e -> {
+            armor.removeFromWorld();
+            updateArmor();
+        });
+        pt.play();
+    }
+
+    //更新护甲
+    public void updateArmor() {
+        entity.getViewComponent().clearChildren();
+        addOther();
+        addEnemy();
+
+        Texture armor = FXGL.texture("effect/armorBlood.png", 40, 40);
+        armor.setTranslateX(TARGET_X_MOVE + 215 * boxNum + 20 + 5);
+        armor.setTranslateY(TARGET_Y_MOVE + 160);
+        entity.getViewComponent().addChild(armor);
+
+        Rectangle textBar = new Rectangle(40, 40, Color.rgb(0, 0, 0, 0));
+        Text text = new Text(String.valueOf(enemy.getArmor()));
+        text.setFont(new Font("微软雅黑", 15));
+        StackPane stackPane = new StackPane(textBar);
+        stackPane.getChildren().add(text);
+        stackPane.setTranslateX(TARGET_X_MOVE + 215 * boxNum + 20 + 5);
+        stackPane.setTranslateY(TARGET_Y_MOVE + 160);
+        //pane.getChildren().add(stackPane);
+        entity.getViewComponent().addChild(stackPane);
+
+
+        Rectangle rectangle = new Rectangle(120, 11, Color.valueOf("#a7fefeB3"));
+        rectangle.setTranslateX(TARGET_X_MOVE + 215 * boxNum + 20 + 5 + 40);
+        rectangle.setTranslateY(TARGET_Y_MOVE + 180);
+        entity.getViewComponent().addChild(rectangle);
+    }
+
+    //死亡动画
+    private void deathAnimation() {
+
     }
 
     //选择该目标
@@ -145,7 +278,7 @@ public class EnemyComponent extends Component {
         for (int i = 0; i < BattleEntities.enemies.length; i++) {
             Entity e = BattleEntities.enemies[i];
             if (e == null) continue;
-            if (e.getBoolean("isSelected")) {
+            if (e.getComponent(EnemyComponent.class).isSelected) {
                 e.getComponent(EnemyComponent.class).update(false);
             }
         }
