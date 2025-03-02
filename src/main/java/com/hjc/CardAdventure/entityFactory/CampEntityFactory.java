@@ -40,4 +40,28 @@ public class CampEntityFactory implements EntityFactory {
                 .neverUpdated()
                 .build();
     }
+
+    @Spawns("rest")
+    public Entity newRest(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .with(new RestComponent())
+                .neverUpdated()
+                .build();
+    }
+
+    @Spawns("adventure")
+    public Entity newAdventure(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .with(new AdventureComponent())
+                .neverUpdated()
+                .build();
+    }
+
+    @Spawns("event")
+    public Entity newEvent(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .with(new EventComponent())
+                .neverUpdated()
+                .build();
+    }
 }

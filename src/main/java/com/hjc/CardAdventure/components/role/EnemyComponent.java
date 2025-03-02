@@ -56,7 +56,7 @@ public class EnemyComponent extends Component {
                 TipBarComponent.update(String.valueOf(boxNum))
         );
         entity.getViewComponent().addOnClickHandler(e -> target());
-        enemy.setArmor(60);
+        //enemy.setArmor(60);
         //entity.getViewComponent().addOnClickHandler(e->addArmor());
     }
 

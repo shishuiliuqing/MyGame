@@ -17,38 +17,38 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-public class BattleComponent extends Component {
-    public static boolean canBattle = true;
+public class AdventureComponent extends Component {
+    public static boolean canAdventure = true;
 
     @Override
     public void onAdded() {
-        GoBattle();
+        GoAdventure();
     }
 
-    public void GoBattle() {
-        Rectangle rectangle = new Rectangle(200, 80, Color.RED);
-        rectangle.setTranslateX(CardAdventureApp.APP_WITH / 2.0 - 250);
+    public void GoAdventure() {
+        Rectangle rectangle = new Rectangle(200, 80, Color.ORANGE);
+        rectangle.setTranslateX(CardAdventureApp.APP_WITH / 2.0 + 50);
         rectangle.setTranslateY(800);
         entity.getViewComponent().addChild(rectangle);
 
-        Texture img = FXGL.texture("camp/battle.png", 80, 80);
-        img.setTranslateX(CardAdventureApp.APP_WITH / 2.0 - 250);
+        Texture img = FXGL.texture("camp/adventure.png", 80, 80);
+        img.setTranslateX(CardAdventureApp.APP_WITH / 2.0 + 50);
         img.setTranslateY(800);
         entity.getViewComponent().addChild(img);
 
-        Text text = new Text("战斗");
+        Text text = new Text("探险");
         text.setFont(new Font("华文行楷", 50));
         text.setFill(Color.WHITE);
-        text.setTranslateX(CardAdventureApp.APP_WITH / 2.0 - 250 + 80);
+        text.setTranslateX(CardAdventureApp.APP_WITH / 2.0 + 130);
         text.setTranslateY(850);
         entity.getViewComponent().addChild(text);
 
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
-        entity.getViewComponent().addOnClickHandler(e -> battle());
+        //entity.getViewComponent().addOnClickHandler(e -> rest());
     }
 
     //战斗爽！
-    private void battle() {
+    private void rest() {
         //加载动画
         Rectangle rectangle = new Rectangle(1, 1, Color.BLACK);
         rectangle.setTranslateX((CardAdventureApp.APP_WITH - 1) / 2.0);
@@ -60,7 +60,10 @@ public class BattleComponent extends Component {
         st.setToY(CardAdventureApp.APP_HEIGHT - 70);
 
         st.setOnFinished(e -> {
-            CampEntities.clearCampEntities();
+            CampEntities.battle.removeFromWorld();
+            CampEntities.playerAttribute.removeFromWorld();
+            CampEntities.fire.removeFromWorld();
+            CampEntities.cards.removeFromWorld();
 
             load.removeFromWorld();
             BattleEntities.initBattleEntities();
@@ -68,11 +71,11 @@ public class BattleComponent extends Component {
         st.play();
     }
 
-    //查看战斗键信息
+    //查看探险键信息
     private void lookInformation() {
-        String text = "战斗" + Effect.NEW_LINE;
-        text += "寻找怪物（非精英，非boss），并开展战斗，获得卡牌，经验，金币等奖励！" + Effect.NEW_LINE;
-        text += "只有fw才会选择休息的，我必须立刻战斗爽！\n\n          --by某位不愿意透露姓名的开发者";
+        String text = "休息" + Effect.NEW_LINE;
+        text += "将出发进行探险，可以解锁某些事件（使其在之后可以触发），会遇到精英怪，每个场景最多探险4次" + Effect.NEW_LINE;
+        text += "这你也敢探？看来你很勇嘛！！！\n\n          --by某位不愿意透露姓名的开发者";
         TipBarComponent.update(text);
     }
 }

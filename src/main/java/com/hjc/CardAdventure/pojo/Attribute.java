@@ -39,12 +39,6 @@ public class Attribute {
         else return "   ";
     }
 
-    //敏捷属性抽牌判断
-    public int getDrawNum() {
-        if (this.agility <= 3) return agility;
-        return 3 + (agility - 3) % 2;
-    }
-
     //属性克隆
     public static void cloneAttribute(Attribute from, Attribute to) {
         to.power = from.power;

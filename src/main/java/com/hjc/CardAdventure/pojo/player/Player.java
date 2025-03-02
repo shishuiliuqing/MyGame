@@ -7,6 +7,7 @@ import com.hjc.CardAdventure.components.battle.CardComponent;
 import com.hjc.CardAdventure.components.role.PlayerComponent;
 import com.hjc.CardAdventure.pojo.*;
 import com.hjc.CardAdventure.pojo.effects.DrawEffect;
+import com.hjc.CardAdventure.util.AttributeUtil;
 import lombok.*;
 
 
@@ -46,7 +47,8 @@ public class Player implements Role {
         ActionOverComponent.isPlayer = true;
 
         //抽牌阶段
-        DrawEffect drawEffect = new DrawEffect(this, this, attribute.getDrawNum());
+        int drawNum = AttributeUtil.drawNum();
+        DrawEffect drawEffect = new DrawEffect(this, this, drawNum);
         BattleInformation.EFFECTS.add(drawEffect);
         //BattleInformation.effectExecution();
 
