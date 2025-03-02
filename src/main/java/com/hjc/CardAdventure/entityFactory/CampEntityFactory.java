@@ -32,4 +32,12 @@ public class CampEntityFactory implements EntityFactory {
                 .neverUpdated()
                 .build();
     }
+
+    @Spawns("playerAttribute")
+    public Entity newPlayerAttribute(SpawnData data) {
+        return FXGL.entityBuilder(data)
+                .with(new PlayerAttributeComponent())
+                .neverUpdated()
+                .build();
+    }
 }

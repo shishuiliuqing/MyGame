@@ -12,9 +12,9 @@ public class PlayerAttributeComponent extends Component {
     @Override
     public void onAdded() {
         Label label = new Label("当前玩家属性：\n" + PlayerInformation.player.getAttribute().displayAttribute());
-        label.setMaxSize(400,400);
-        label.setTranslateX(CardAdventureApp.APP_WITH - 400 - 10);
-        label.setTranslateY(70);
+        label.setMaxSize(600,400);
+        label.setTranslateX(CardAdventureApp.APP_WITH - 600 - 10);
+        label.setTranslateY(170);
         label.setFont(new Font("华文行楷",50));
 
         entity.getViewComponent().addChild(label);

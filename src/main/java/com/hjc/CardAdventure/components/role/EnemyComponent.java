@@ -57,7 +57,7 @@ public class EnemyComponent extends Component {
         );
         entity.getViewComponent().addOnClickHandler(e -> target());
         enemy.setArmor(60);
-        entity.getViewComponent().addOnClickHandler(e->addArmor());
+        //entity.getViewComponent().addOnClickHandler(e->addArmor());
     }
 
     @Override

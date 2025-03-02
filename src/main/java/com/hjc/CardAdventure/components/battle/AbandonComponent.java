@@ -46,6 +46,17 @@ public class AbandonComponent extends Component {
 
     //弃牌判断
     public void abandonJudge() {
+        //允许选牌
+        CardComponent.selectable = true;
+        //将被选择的牌全部放下
+        while (!CardComponent.CARD_COMPONENTS.isEmpty()) {
+            CardComponent cardComponent = CardComponent.CARD_COMPONENTS.get(0);
+            cardComponent.select();
+        }
+
+
+        //不允许选卡
+        CardComponent.selectable = false;
         //System.out.println(needAbandon);
         //弃牌数<=0，无需弃牌
         if (needAbandon <= 0) {
@@ -61,11 +72,6 @@ public class AbandonComponent extends Component {
                 //CardComponent.HAND_CARDS.remove(cardComponent);
             }
 
-            //添加回合结束效果
-//            BattleInformation.EFFECTS.add(new ActionOver(PlayerInformation.player, PlayerInformation.player, 1));
-            //进入下一阶段
-            //ActionOverComponent.nextStage = true;
-//            BattleInformation.effectExecution();
             //回合结束
             ActionOverComponent.actionOver(PlayerInformation.player);
             return;
@@ -74,11 +80,6 @@ public class AbandonComponent extends Component {
 
         //允许选牌
         CardComponent.selectable = true;
-        //将被选择的牌全部放下
-        while (!CardComponent.CARD_COMPONENTS.isEmpty()) {
-            CardComponent cardComponent = CardComponent.CARD_COMPONENTS.get(0);
-            cardComponent.select();
-        }
         //自己选择弃牌
         CardComponent.isAbandon = true;
         //生成弃牌提示文本

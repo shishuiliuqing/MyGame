@@ -11,9 +11,9 @@ public class FireComponent extends Component {
     @Override
     public void onAdded() {
         //添加篝火
-        Texture fireTexture = FXGL.texture("camp/fire.png", 600, 600);
-        fireTexture.setTranslateX((CardAdventureApp.APP_WITH - 600) * 1.0 / 2);
-        fireTexture.setTranslateY((CardAdventureApp.APP_HEIGHT - 600) * 1.0 / 2);
+        Texture fireTexture = FXGL.texture("camp/fire.png", 500, 500);
+        fireTexture.setTranslateX((CardAdventureApp.APP_WITH - 500) * 1.0 / 2);
+        fireTexture.setTranslateY((CardAdventureApp.APP_HEIGHT - 500) * 1.0 / 2);
         entity.getViewComponent().addChild(fireTexture);
     }
 }

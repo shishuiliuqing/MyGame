@@ -37,7 +37,7 @@ public class PlayerComponent extends Component {
         //添加角色
         addPlayer();
 
-        entity.getViewComponent().addOnClickHandler(e -> addArmor());
+        //entity.getViewComponent().addOnClickHandler(e -> addArmor());
     }
 
     //更新人物角色
