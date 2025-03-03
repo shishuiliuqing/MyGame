@@ -1,5 +1,11 @@
 package com.hjc.CardAdventure.util;
 
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.texture.Texture;
+import com.hjc.CardAdventure.pojo.enemy.Enemy;
+import com.hjc.CardAdventure.pojo.enemy.IntentionType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -32,5 +38,41 @@ public class Utils {
         if (colorS.equals("#ff0000")) return "Red";
         if (colorS.equals("#76d1ff")) return "Blue";
         return "";
+    }
+
+    //意图生成器
+    public static void intentionImg(Enemy enemy, Entity entity, double x, double y) {
+        System.out.println(enemy.getNowIntention());
+        if (enemy.getNowIntention() == null) return;
+        //生成攻击意图
+        if (enemy.getNowIntention().getIntentionType() == IntentionType.ATTACK) {
+            Texture attackTexture = FXGL.texture("intention/attack.png", 40, 40);
+            attackTexture.setTranslateX(x - 50);
+            attackTexture.setTranslateY(y - 50);
+            entity.getViewComponent().addChild(attackTexture);
+
+            int[] value = IntentionType.getAttackValue(enemy, enemy.getNowIntention().getEffects());
+            String attackValue;
+//            value[0] = 20;
+//            value[1] = 999;
+            if (value[0] == 0) {
+                attackValue = String.valueOf(value[1]);
+            } else {
+                attackValue = value[1] + "✖" + value[0];
+            }
+            Label label = new Label(attackValue);
+            label.setFont(new Font("微软雅黑", 17));
+            label.setTextFill(Color.RED);
+            label.setTranslateX(x - 10);
+            label.setTranslateY(y - 50);
+            label.setMaxSize(enemy.getWidth() / 2, 40);
+            entity.getViewComponent().addChild(label);
+            //防御意图生成
+        } else if (enemy.getNowIntention().getIntentionType() == IntentionType.DEFENSE) {
+            Texture armorTexture = FXGL.texture("intention/defense.png", 40, 40);
+            armorTexture.setTranslateX(x - 20);
+            armorTexture.setTranslateY(y - 50);
+            entity.getViewComponent().addChild(armorTexture);
+        }
     }
 }

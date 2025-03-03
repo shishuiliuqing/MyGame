@@ -17,8 +17,6 @@ public class ActionOverComponent extends Component {
 
     //判断是否是玩家回合
     public static boolean isPlayer = false;
-    //是否执行下一阶段
-    public static boolean nextStage = false;
     //沙漏组件
     public static AnimatedTexture animatedTexture;
     //回合结束判断间隔器

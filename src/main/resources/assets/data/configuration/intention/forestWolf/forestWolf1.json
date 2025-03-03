@@ -1,0 +1,24 @@
+[
+  {
+    "num": 0,
+    "intentionType": 0,
+    "intentionGenerateType": 0,
+    "effects": [
+      6001,
+      99,
+      98
+    ],
+    "consecutiveStarts": 0
+  },
+  {
+    "num": 1,
+    "intentionType": 1,
+    "intentionGenerateType": 0,
+    "effects": [
+      6020,
+      99,
+      98
+    ],
+    "consecutiveStarts": 0
+  }
+]

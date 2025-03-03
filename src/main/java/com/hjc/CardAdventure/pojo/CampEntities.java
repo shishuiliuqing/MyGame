@@ -2,6 +2,10 @@ package com.hjc.CardAdventure.pojo;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
+import com.hjc.CardAdventure.components.camp.AdventureComponent;
+import com.hjc.CardAdventure.components.camp.RestComponent;
+import com.hjc.CardAdventure.pojo.environment.InsideInformation;
+import com.hjc.CardAdventure.pojo.environment.TimeStatus;
 
 public class CampEntities {
     //篝火
@@ -21,12 +25,16 @@ public class CampEntities {
 
     //初始化营地各实体
     public static void initCampEntities() {
+        if (InsideInformation.timeStatus == TimeStatus.DAY) {
+            RestComponent.canRest = true;
+        }
+
         fire = FXGL.spawn("fire");
         cards = FXGL.spawn("cards");
         playerAttribute = FXGL.spawn("playerAttribute");
         battle = FXGL.spawn("battle");
-        rest = FXGL.spawn("rest");
-        adventure = FXGL.spawn("adventure");
+        if (RestComponent.canRest) rest = FXGL.spawn("rest");
+        if (AdventureComponent.adventureNum < 4) adventure = FXGL.spawn("adventure");
         event = FXGL.spawn("event");
     }
 

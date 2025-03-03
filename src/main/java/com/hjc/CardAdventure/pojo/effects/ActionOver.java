@@ -4,6 +4,7 @@ import com.hjc.CardAdventure.components.battle.ActionOverComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.Role;
 
+//回合结束
 public class ActionOver extends Effect {
     public ActionOver(Role from, Role to, int value) {
         super(from, to, value);

@@ -18,7 +18,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class AdventureComponent extends Component {
-    public static boolean canAdventure = true;
+    public static int adventureNum = 0;
 
     @Override
     public void onAdded() {

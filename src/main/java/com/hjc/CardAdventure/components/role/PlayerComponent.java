@@ -9,7 +9,6 @@ import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -27,8 +26,7 @@ public class PlayerComponent extends Component {
     private Texture playerImg;
     //人物是否在受伤
     private boolean isAction = false;
-    //护盾组件
-    private Pane pane;
+
 
     @Override
     public void onAdded() {
@@ -37,15 +35,23 @@ public class PlayerComponent extends Component {
         //添加角色
         addPlayer();
 
-        //entity.getViewComponent().addOnClickHandler(e -> addArmor());
+//        entity.getViewComponent().addOnClickHandler(e -> restoreBlood(6));
     }
 
-    //更新人物角色
+    //更新
+    public void update() {
+        entity.getViewComponent().clearChildren();
+        addOther();
+        addPlayer();
+    }
+
+    //被指定时，更新人物角色
     public void update(boolean isSelected) {
         PlayerComponent.isSelected = isSelected;
         entity.getViewComponent().clearChildren();
         addOther();
         addPlayer();
+        updateArmor();
     }
 
     //受伤动画
@@ -111,7 +117,8 @@ public class PlayerComponent extends Component {
     }
 
     //更新护甲
-    public void updateArmor() {
+    private void updateArmor() {
+        if (PlayerInformation.playerArmor <= 0) return;
         entity.getViewComponent().clearChildren();
         addOther();
         addPlayer();
@@ -134,6 +141,28 @@ public class PlayerComponent extends Component {
         rectangle.setTranslateX(485);
         rectangle.setTranslateY(480);
         entity.getViewComponent().addChild(rectangle);
+    }
+
+    //回血特效
+    public void restoreBlood(int value) {
+        //受伤数字显示
+        Text restoreValue = new Text("+ " + value);
+        restoreValue.setFill(Color.valueOf("#00FF7F"));
+        restoreValue.setFont(new Font("华文琥珀", 50));
+        Entity restoreBlood = FXGL.entityBuilder().view(restoreValue).buildAndAttach();
+
+        //令文本移动
+        TranslateTransition tNum = new TranslateTransition(Duration.seconds(0.2), restoreValue);
+        tNum.setFromX(600);
+        tNum.setFromY(350);
+        tNum.setToX(600);
+        tNum.setToY(250);
+
+        tNum.setOnFinished(e -> {
+            restoreBlood.removeFromWorld();
+            update();
+        });
+        tNum.play();
     }
 
     //添加非人物对象

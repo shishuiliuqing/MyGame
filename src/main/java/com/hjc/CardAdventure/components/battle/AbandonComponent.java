@@ -6,6 +6,7 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
 import com.hjc.CardAdventure.CardAdventureApp;
+import com.hjc.CardAdventure.components.camp.AdventureComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.effects.ActionOver;
@@ -60,7 +61,7 @@ public class AbandonComponent extends Component {
         //System.out.println(needAbandon);
         //弃牌数<=0，无需弃牌
         if (needAbandon <= 0) {
-            ActionOverComponent.nextStage = true;
+            ActionOverComponent.actionOver(PlayerInformation.player);
             return;
         }
         //如果需要弃置的牌大于手牌，弃置所有手牌

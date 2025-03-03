@@ -51,4 +51,10 @@ public class InsideInformation {
         //重置时间状态
         timeStatus = TimeStatus.DAY;
     }
+
+    //时间状态更新
+    public static void turnTimeStatus() {
+        timeStatus = TimeStatus.turn(timeStatus);
+        if (timeStatus == TimeStatus.DAY) day++;
+    }
 }

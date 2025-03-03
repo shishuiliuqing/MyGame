@@ -66,6 +66,8 @@ public class Enemy implements Role {
         //BattleInformation.effectExecution();
 //        BattleInformation.EFFECTS.add(new ActionOver(this, this, 1));
 //        BattleInformation.EFFECTS.add(new DrawEffect(PlayerInformation.player,PlayerInformation.player,1));
+        int index = getEntityIndex();
+        BattleEntities.enemies[index].getComponent(EnemyComponent.class).end();
     }
 
     @Override
@@ -108,6 +110,22 @@ public class Enemy implements Role {
         if (index == -1) return;
         //执行攻击效果
         BattleEntities.enemies[index].getComponent(EnemyComponent.class).attack(value);
+    }
+
+    //回复血量
+    @Override
+    public void restoreBlood(int value) {
+        this.blood = this.blood + value;
+        if (this.blood > maxBlood) this.blood = this.maxBlood;
+        int index = getEntityIndex();
+        BattleEntities.enemies[index].getComponent(EnemyComponent.class).restoreBlood(value);
+    }
+
+    @Override
+    public void addArmor(int value) {
+        armor += value;
+        int index = getEntityIndex();
+        BattleEntities.enemies[index].getComponent(EnemyComponent.class).addArmor();
     }
 
     //获得当前敌人实体所在位置索引

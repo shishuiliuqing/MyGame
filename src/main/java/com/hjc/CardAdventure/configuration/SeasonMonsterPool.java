@@ -2,12 +2,15 @@ package com.hjc.CardAdventure.configuration;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.hjc.CardAdventure.pojo.enemy.Enemy;
+import com.hjc.CardAdventure.pojo.enemy.Intention;
+import com.hjc.CardAdventure.pojo.environment.InsideInformation;
 import com.hjc.CardAdventure.pojo.environment.TimeStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 @Data
@@ -18,6 +21,8 @@ public class SeasonMonsterPool {
     public static final String MONSTER_POOL_ADDRESS = "data/configuration/forest/spring.json";
     //怪物文件地址
     public static final String MONSTER_ADDRESS = "data/enemy/";
+    //怪物意图文件地址
+    public static final String MONSTER_INTENTION_ADDRESS = "data/configuration/intention/";
 
     //弱怪池
     private TimeMonsterPool weak;
@@ -34,6 +39,11 @@ public class SeasonMonsterPool {
         ArrayList<Enemy> enemies = new ArrayList<>();
         for (String monster : monsters) {
             Enemy enemy = FXGL.getAssetLoader().loadJSON(MONSTER_ADDRESS + monster + ".json", Enemy.class).get();
+            String stage = String.valueOf((InsideInformation.day - 1) / 6 + 1);
+            //System.out.println(MONSTER_INTENTION_ADDRESS + monster + stage + ".json");
+            Intention[] intentions = FXGL.getAssetLoader().loadJSON(MONSTER_INTENTION_ADDRESS + monster + "/" + monster + stage + ".json", Intention[].class).get();
+            ArrayList<Intention> intentionArrayList = new ArrayList<>(Arrays.asList(intentions));
+            enemy.setIntentions(intentionArrayList);
             enemies.add(enemy);
         }
         return enemies;

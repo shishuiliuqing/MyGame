@@ -42,7 +42,7 @@ public class BarComponent extends Component {
         entity.getViewComponent().addChild(insideInformation);
 
         //当前行动对象框
-        Rectangle rectangle = new Rectangle(50,50,Color.BLACK);
+        Rectangle rectangle = new Rectangle(50, 50, Color.BLACK);
         rectangle.setTranslateX(1400);
         rectangle.setTranslateY(10);
         entity.getViewComponent().addChild(rectangle);
@@ -50,7 +50,7 @@ public class BarComponent extends Component {
 
     //更新局内信息
     public void update() {
-        entity.removeFromWorld();
-        Entities.informationBar = FXGL.spawn("informationBar");
+        entity.getViewComponent().clearChildren();
+        onAdded();
     }
 }

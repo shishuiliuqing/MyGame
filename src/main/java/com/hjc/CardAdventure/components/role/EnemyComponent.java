@@ -4,6 +4,7 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
+import com.almasb.fxgl.time.LocalTimer;
 import com.hjc.CardAdventure.components.battle.ActionOverComponent;
 import com.hjc.CardAdventure.components.battle.TargetComponent;
 import com.hjc.CardAdventure.components.TipBarComponent;
@@ -11,6 +12,7 @@ import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.enemy.Enemy;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import com.hjc.CardAdventure.util.Utils;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
@@ -36,8 +38,9 @@ public class EnemyComponent extends Component {
     private Enemy enemy;
     //是否被选择
     private boolean isSelected;
-    //是否正在受伤
+    //是否生成角色
     private boolean isAction = false;
+
 
     @Override
     public void onAdded() {
@@ -57,16 +60,9 @@ public class EnemyComponent extends Component {
         );
         entity.getViewComponent().addOnClickHandler(e -> target());
         //enemy.setArmor(60);
-        //entity.getViewComponent().addOnClickHandler(e->addArmor());
+//        entity.getViewComponent().addOnClickHandler(e->restoreBlood(6));
     }
 
-    @Override
-    public void onUpdate(double tpf) {
-        //死亡效果
-//        if(enemy.getBlood() == 0) {
-//
-//        }
-    }
 
     //添加其他组件
     private void addOther() {
@@ -105,6 +101,9 @@ public class EnemyComponent extends Component {
         stackPane.setTranslateX(TARGET_X_MOVE + 215 * boxNum + bloodBoxLen / 2 + 5);
         stackPane.setTranslateY(TARGET_Y_MOVE + 178);
         entity.getViewComponent().addChild(stackPane);
+
+        //意图添加
+        Utils.intentionImg(enemy, entity, TARGET_X_MOVE + 215 * boxNum + enemy.getX() + enemy.getWidth() / 2, TARGET_Y_MOVE + enemy.getY());
     }
 
     //添加敌人
@@ -149,8 +148,7 @@ public class EnemyComponent extends Component {
             if (!isExist())
                 addEnemy();
         });
-        entity.getViewComponent().clearChildren();
-        addOther();
+        update();
         pt.play();
     }
 
@@ -158,7 +156,6 @@ public class EnemyComponent extends Component {
     public void attack(int value) {
         //正在攻击
         isAction = true;
-
         //攻击人物显示
         Texture attackEnemy = FXGL.texture(enemy.getImg(), enemy.getWidth(), enemy.getHeight());
         Entity attack = FXGL.entityBuilder().view(attackEnemy).buildAndAttach();
@@ -173,15 +170,14 @@ public class EnemyComponent extends Component {
         tHP.setOnFinished(e -> {
             //移除该动画实体
 //            attack.removeFromWorld();
-//            isAction = false;
+//            isGenerateEnemy = false;
 //            if (!isExist())
 //                addEnemy();
 //            //角色受伤
 //            PlayerInformation.player.physicalHurt(value);
             attack(attack, value);
         });
-        entity.getViewComponent().clearChildren();
-        addOther();
+        update();
         tHP.play();
     }
 
@@ -204,15 +200,13 @@ public class EnemyComponent extends Component {
 //            BattleInformation.EFFECTS.add(new ActionOver(enemy, enemy, 1));
             //回合结束触发
 //            ActionOverComponent.nextStage = true;
-            //回合结束
-
-            ActionOverComponent.actionOver(enemy);
         });
         tHP.play();
     }
 
     //护甲生成动画
     public void addArmor() {
+        //isAction = true;
         //创建动画实体
         Texture armorTexture = FXGL.texture("effect/armor.png", enemy.getWidth() + 50, enemy.getWidth() + 50);
         armorTexture.setTranslateX(TARGET_X_MOVE + 215 * boxNum + enemy.getX() - 25);
@@ -236,7 +230,8 @@ public class EnemyComponent extends Component {
     }
 
     //更新护甲
-    public void updateArmor() {
+    private void updateArmor() {
+        if (enemy.getArmor() <= 0) return;
         entity.getViewComponent().clearChildren();
         addOther();
         addEnemy();
@@ -261,6 +256,27 @@ public class EnemyComponent extends Component {
         rectangle.setTranslateX(TARGET_X_MOVE + 215 * boxNum + 20 + 5 + 40);
         rectangle.setTranslateY(TARGET_Y_MOVE + 180);
         entity.getViewComponent().addChild(rectangle);
+    }
+
+    //血量回复特效
+    public void restoreBlood(int value) {
+        //isAction = true;
+        //回复数字显示
+        Text restoreValue = new Text("+ " + value);
+        restoreValue.setFill(Color.valueOf("#00ff7f"));
+        restoreValue.setFont(new Font("华文琥珀", 50));
+        Entity restore = FXGL.entityBuilder().view(restoreValue).buildAndAttach();
+        //令文本移动
+        TranslateTransition tNum = new TranslateTransition(Duration.seconds(0.3), restoreValue);
+        tNum.setFromX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
+        tNum.setFromY(TARGET_Y_MOVE + enemy.getY());
+        tNum.setToX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
+        tNum.setToY(TARGET_Y_MOVE + enemy.getY() - 50);
+        tNum.setOnFinished(e -> {
+            restore.removeFromWorld();
+            update();
+        });
+        tNum.play();
     }
 
     //死亡动画
@@ -290,9 +306,15 @@ public class EnemyComponent extends Component {
     //是否被选择
     public void update(boolean isSelected) {
         this.isSelected = isSelected;
+        update();
+    }
+
+    //更新
+    public void update() {
         entity.getViewComponent().clearChildren();
         addOther();
         addEnemy();
+        updateArmor();
     }
 
     //判断实体是否被添加
@@ -301,5 +323,26 @@ public class EnemyComponent extends Component {
             if (child == enemyTexture) return true;
         }
         return false;
+    }
+
+    //特效动画均结束，回合结束
+    public void end() {
+        //endTimer.capture();
+//        while (!endTimer.elapsed(Duration.seconds(1))) {
+//            System.out.println(1);
+//        }
+
+        //回合结束
+        Rectangle r = new Rectangle(1, 1, Color.rgb(0, 0, 0, 0));
+        Entity re = FXGL.entityBuilder().view(r).buildAndAttach();
+        //设置行动时间
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(2), r);
+        tt.setToX(1);
+        tt.setOnFinished(e -> {
+            re.removeFromWorld();
+            update();
+            ActionOverComponent.actionOver(enemy);
+        });
+        tt.play();
     }
 }

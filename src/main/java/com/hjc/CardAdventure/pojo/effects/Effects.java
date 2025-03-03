@@ -15,6 +15,12 @@ public enum Effects {
     //10.抽牌效果x010（x为抽牌数）
     DRAW,
 
+    //20.血量回复
+    RESTORE_BLOOD,
+
+    //40.护盾添加
+    ARMOR_ADD,
+
     //80.弃牌效果--弃掉当前行动的牌x080（x无效果）
     ABANDON_ACTION,
 
@@ -46,6 +52,10 @@ public enum Effects {
             case 1 -> new PhysicalDamage(PlayerInformation.player, null, value);
             //10.抽牌效果
             case 10 -> new DrawEffect(PlayerInformation.player, PlayerInformation.player, value);
+            //20.血量回复效果
+            case 20 -> new RestoreBlood(PlayerInformation.player, PlayerInformation.player, value);
+            //40.护盾添加
+            case 40 -> new ArmorAdd(PlayerInformation.player, PlayerInformation.player, value);
             //80.弃牌效果--弃掉当前行动的牌
             case 80 -> new AbandonAction(PlayerInformation.player, PlayerInformation.player, value);
             //98.结束当前玩家回合

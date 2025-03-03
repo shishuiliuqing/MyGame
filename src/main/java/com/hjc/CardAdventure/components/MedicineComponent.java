@@ -39,7 +39,7 @@ public class MedicineComponent extends Component {
     }
 
     public void update() {
-        entity.removeFromWorld();
-        Entities.medicine = FXGL.spawn("medicine");
+        entity.getViewComponent().clearChildren();
+        onAdded();
     }
 }

@@ -13,5 +13,11 @@ public interface Role {
     void physicalHurt(int value);
 
     //攻击
-    void physicalAttack(Role target,int value);
+    void physicalAttack(Role target, int value);
+
+    //回血
+    void restoreBlood(int value);
+
+    //护甲增加
+    void addArmor(int value);
 }

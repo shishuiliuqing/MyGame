@@ -25,7 +25,7 @@ public class GoldComponent extends Component {
     }
 
     public void update() {
-        entity.removeFromWorld();
-        Entities.gold = FXGL.spawn("gold");
+        entity.getViewComponent().clearChildren();
+        onAdded();
     }
 }

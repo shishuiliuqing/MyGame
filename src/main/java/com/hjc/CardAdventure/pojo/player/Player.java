@@ -96,6 +96,23 @@ public class Player implements Role {
         target.physicalHurt(value);
     }
 
+    //回复血量
+    @Override
+    public void restoreBlood(int value) {
+        this.blood = this.blood + value;
+        if (this.blood > maxBlood) this.blood = this.maxBlood;
+        Entities.playerBlood.getComponent(BloodComponent.class).update();
+        if (BattleEntities.playerBattle != null) {
+            BattleEntities.playerBattle.getComponent(PlayerComponent.class).restoreBlood(value);
+        }
+    }
+
+    @Override
+    public void addArmor(int value) {
+        PlayerInformation.playerArmor += value;
+        BattleEntities.playerBattle.getComponent(PlayerComponent.class).addArmor();
+    }
+
     //弃牌阶段
     public void abandon() {
         //可保留的牌的数量

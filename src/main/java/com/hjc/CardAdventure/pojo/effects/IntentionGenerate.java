@@ -4,6 +4,7 @@ import com.hjc.CardAdventure.pojo.Role;
 import com.hjc.CardAdventure.pojo.enemy.Enemy;
 import com.hjc.CardAdventure.pojo.enemy.IntentionGenerateType;
 
+//意图生成
 public class IntentionGenerate extends Effect {
     public IntentionGenerate(Role from, Role to, int value) {
         super(from, to, value);

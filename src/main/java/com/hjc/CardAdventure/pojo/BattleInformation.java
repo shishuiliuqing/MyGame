@@ -114,7 +114,7 @@ public class BattleInformation {
         THIS_ACTION.add(PlayerInformation.player);
         THIS_ACTION.addAll(ENEMIES);
         sort(THIS_ACTION);
-        System.out.println(THIS_ACTION);
+        //System.out.println(THIS_ACTION);
         NEXT_ACTION.addAll(THIS_ACTION);
     }
 

@@ -29,7 +29,7 @@ public class BloodComponent extends Component {
 
     //更新血量
     public void update() {
-        entity.removeFromWorld();
-        Entities.playerBlood = FXGL.spawn("playerBlood");
+        entity.getViewComponent().clearChildren();
+        onAdded();
     }
 }

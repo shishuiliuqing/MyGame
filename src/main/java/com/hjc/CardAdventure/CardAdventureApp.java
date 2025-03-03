@@ -17,6 +17,8 @@ import com.hjc.CardAdventure.pojo.player.Player;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import javafx.scene.paint.Color;
 
+import java.util.Arrays;
+
 public class CardAdventureApp extends GameApplication {
     public static final int APP_WITH = 1900;
     public static final int APP_HEIGHT = 980;
