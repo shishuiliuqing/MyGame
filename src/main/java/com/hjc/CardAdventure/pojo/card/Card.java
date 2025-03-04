@@ -105,7 +105,7 @@ public class Card {
             TargetComponent.needTarget = false;
             if (targetType == TargetType.INDIVIDUAL) {
                 int index = BattleInformation.ENEMIES.indexOf(target);
-                BattleEntities.enemies[index].getComponent(EnemyComponent.class).update(false);
+                if (index != -1) BattleEntities.enemies[index].getComponent(EnemyComponent.class).update(false);
             } else {
                 BattleEntities.playerBattle.getComponent(PlayerComponent.class).update(false);
             }

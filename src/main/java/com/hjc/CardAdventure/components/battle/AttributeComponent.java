@@ -7,13 +7,14 @@ import com.hjc.CardAdventure.entityFactory.ImgEntityFactory;
 import com.hjc.CardAdventure.pojo.Attribute;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
+import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Border;
 import javafx.scene.text.Font;
 
 public class AttributeComponent extends Component {
-    public static Attribute attribute = BattleInformation.attribute;
+    public static Attribute attribute = PlayerInformation.player.getAttribute();
 
     @Override
     public void onAdded() {

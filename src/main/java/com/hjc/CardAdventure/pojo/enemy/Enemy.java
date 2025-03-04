@@ -5,9 +5,7 @@ import com.hjc.CardAdventure.pojo.Attribute;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.Role;
-import com.hjc.CardAdventure.pojo.effects.ActionOver;
-import com.hjc.CardAdventure.pojo.effects.DrawEffect;
-import com.hjc.CardAdventure.pojo.effects.IntentionGenerate;
+import com.hjc.CardAdventure.pojo.effects.*;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import lombok.*;
 
@@ -52,6 +50,12 @@ public class Enemy implements Role {
 
     @Override
     public void action() {
+        //当前敌人不在场上，直接下一个回合
+//        if (getEntityIndex() == -1) {
+//            BattleInformation.EFFECTS.add(new ActionOver(this, this, 1));
+//            return;
+//        }
+        System.out.println(BattleInformation.ENEMIES);
         //无意图，生成下一个意图，回合结束
         if (nowIntention == null) {
             //生成一个意图
@@ -98,6 +102,7 @@ public class Enemy implements Role {
             //受伤动画
             BattleEntities.enemies[index].getComponent(EnemyComponent.class).hurt(value);
             //BattleEntities.enemies[index].getComponent(EnemyComponent.class).onOver(false);
+            if (this.blood == 0) BattleInformation.insetEffect(new DeathEffect(this, this, 1));
         } else {
             this.armor = value * (-1);
         }
@@ -130,9 +135,24 @@ public class Enemy implements Role {
 
     //获得当前敌人实体所在位置索引
     private int getEntityIndex() {
-        for (int i = 0; i < BattleInformation.ENEMIES.size(); i++) {
-            if (BattleInformation.ENEMIES.get(i) == this) return i;
+        for (int i = 0; i < BattleEntities.enemyGenerateOrder.length; i++) {
+            if (BattleInformation.ROLE_LOCATION.get(this).equals(String.valueOf(BattleEntities.enemyGenerateOrder[i])))
+                return i;
         }
         return -1;
+    }
+
+    @Override
+    public String toString() {
+        return name + "   " + blood + "/" + maxBlood + Effect.NEW_LINE + attribute.displayAttribute() + Effect.NEW_LINE + IntentionType.intentionParse(this);
+    }
+
+    @Override
+    public void die() {
+        int index = getEntityIndex();
+        //怪物序列移除该敌人
+        BattleInformation.ENEMIES.remove(this);
+        //播放死亡动画
+        BattleEntities.enemies[index].getComponent(EnemyComponent.class).deathAnimation();
     }
 }

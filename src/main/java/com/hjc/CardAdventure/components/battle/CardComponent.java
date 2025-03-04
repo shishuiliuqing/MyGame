@@ -10,6 +10,7 @@ import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.effects.Effects;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import com.hjc.CardAdventure.util.OutUtil;
 import javafx.animation.*;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -262,47 +263,76 @@ public class CardComponent extends Component {
     }
 
     //牌使用后的消失特效
-    public void abandonAnimation3() {
+    public void endUseAnimation(int flag) {
         //手牌区删除此牌
         HAND_CARDS.remove(this);
         //删除该实体
         entity.removeFromWorld();
         //更新抽牌区状态
         DrawCardsComponent.CARD_BOX_STATUS[boxNum - 1] = 0;
-        //弃牌区添加此牌
-        BattleInformation.ABANDON_CARDS.add(this.card);
+
+        //flag==0,弃牌区添加此牌
+        if (flag == 0) BattleInformation.ABANDON_CARDS.add(this.card);
+        else if (flag == 1) {
+            //抽牌堆插入此牌
+            BattleInformation.DRAW_CARDS.add(card);
+            //打乱抽牌堆
+            OutUtil.disruptCards(BattleInformation.DRAW_CARDS);
+        } else {
+            //消耗牌堆插入此牌
+            BattleInformation.CONSUME_CARDS.add(card);
+        }
         //生成矩形
         Rectangle rectangle = new Rectangle(CARD_WIDTH, CARD_HEIGHT, Color.valueOf(this.card.getColorS()));
         rectangle.setTranslateX((CardAdventureApp.APP_WITH - CARD_WIDTH) / 2.0);
         rectangle.setTranslateY(Y_MOVE + Y_TO_BOX_MOVE - 290);
-        Entity abandon = FXGL.entityBuilder().view(rectangle).buildAndAttach();
+        Entity endUse = FXGL.entityBuilder().view(rectangle).buildAndAttach();
         //生成矩形移动动画
         //System.out.println(isSelected());
         ScaleTransition st = new ScaleTransition(Duration.seconds(0.5), rectangle);
         st.setToX(0.2);
         st.setToY(0.2);
         st.setOnFinished(e -> {
-            abandon.removeFromWorld();
-            abandonAnimation4();
+            endUse.removeFromWorld();
+            endUseAnimation1(flag);
         });
         st.play();
     }
 
     //牌使用后的消失特效
-    private void abandonAnimation4() {
+    private void endUseAnimation1(int flag) {
         //System.out.println(isSelected());
         //生成圆圈实体
         Circle circle = new Circle(20, Color.valueOf(PlayerInformation.player.getColorS()));
         circle.setCenterX(CardAdventureApp.APP_WITH / 2.0);
         circle.setCenterY(Y_MOVE + Y_TO_BOX_MOVE - 290 + CARD_HEIGHT / 2);
-        Entity abandon = FXGL.entityBuilder().view(circle).buildAndAttach();
+        Entity endUse = FXGL.entityBuilder().view(circle).buildAndAttach();
+
+        double toX = 0;
+        double toY = 0;
+        if (flag == 0) {
+            toX = 885;
+            toY = 290;
+        } else if (flag == 1) {
+            toX = -880;
+            toY = 290;
+        } else {
+            toX = 870;
+            toY = 30;
+        }
         //生成圆圈移动动画
         TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), circle);
-        tt.setToX(885);
-        tt.setToY(290);
+        tt.setToX(toX);
+        tt.setToY(toY);
         tt.setOnFinished(e -> {
-            abandon.removeFromWorld();
-            BattleEntities.abandonCards.getComponent(AbandonCardsComponent.class).update();
+            endUse.removeFromWorld();
+            if (flag == 0) {
+                BattleEntities.abandonCards.getComponent(AbandonCardsComponent.class).update();
+            } else if (flag == 1) {
+                BattleEntities.drawCards.getComponent(DrawCardsComponent.class).update();
+            } else {
+                BattleEntities.consumeCards.getComponent(ConsumeCardsComponent.class).update();
+            }
         });
         tt.play();
     }

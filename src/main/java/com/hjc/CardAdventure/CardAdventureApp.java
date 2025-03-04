@@ -15,6 +15,7 @@ import com.hjc.CardAdventure.pojo.environment.InsideInformation;
 import com.hjc.CardAdventure.pojo.environment.TimeStatus;
 import com.hjc.CardAdventure.pojo.player.Player;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import com.hjc.CardAdventure.subScene.RewardSubScene;
 import javafx.scene.paint.Color;
 
 import java.util.Arrays;
@@ -63,7 +64,7 @@ public class CardAdventureApp extends GameApplication {
         FXGL.getGameWorld().addEntityFactory(new CampEntityFactory());
         //初始化所有实体
         Entities.initEntities();
-        for (int i = 0; i < 40; i++) {
+        for (int i = 0; i < 5; i++) {
             Card strike = FXGL.getAssetLoader().loadJSON("data/card/soldier/strike.json", Card.class).get();
             PlayerInformation.cards.add(strike);
             //System.out.println(Effects.CardEffectsToString(strike));

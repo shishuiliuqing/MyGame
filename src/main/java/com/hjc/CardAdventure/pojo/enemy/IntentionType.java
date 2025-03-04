@@ -61,6 +61,31 @@ public enum IntentionType {
         };
     }
 
+
+    //意图文本解析
+    public static String intentionParse(Enemy enemy) {
+        if (enemy.getNowIntention() == null) return "";
+        if (enemy.getNowIntention().getIntentionType() == ATTACK) {
+            return "这个敌人将进行攻击，对你造成物理伤害";
+        } else if (enemy.getNowIntention().getIntentionType() == DEFENSE) {
+            return "这个敌人将进行防御，获得护甲";
+        } else if (enemy.getNowIntention().getIntentionType() == STRENGTHEN) {
+            return "这个敌人将进行一项或多项强化";
+        } else if (enemy.getNowIntention().getIntentionType() == WEAKEN) {
+            return "这个敌人将给你添加负面状态";
+        } else if (enemy.getNowIntention().getIntentionType() == PREPARE) {
+            return "这个敌人正在进行下一意图的准备，此意图下敌人无法行动";
+        } else if (enemy.getNowIntention().getIntentionType() == ATTACK_DEFENSE) {
+            return "这个敌人将进行攻击，同时获得护甲";
+        } else if (enemy.getNowIntention().getIntentionType() == ATTACK_EFFECT) {
+            return "这个敌人将进行攻击，同时触发其他效果";
+        } else if (enemy.getNowIntention().getIntentionType() == DEFENSE_STRENGTHEN) {
+            return "这个敌人将进行防御，同时强化自己";
+        } else if (enemy.getNowIntention().getIntentionType() == DEFENSE_WEAK) {
+            return "这个敌人将进行防御，同时给你添加负面效果";
+        } else return "未知意图";
+    }
+
     //伤害意图伤害解析器
     public static int[] getAttackValue(Enemy enemy, int[] effects) {
         int[] value = new int[2];

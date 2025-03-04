@@ -96,6 +96,11 @@ public class Player implements Role {
         target.physicalHurt(value);
     }
 
+    @Override
+    public void die() {
+
+    }
+
     //回复血量
     @Override
     public void restoreBlood(int value) {

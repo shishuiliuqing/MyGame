@@ -5,11 +5,13 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.time.LocalTimer;
+import com.hjc.CardAdventure.components.battle.ActionComponent;
 import com.hjc.CardAdventure.components.battle.ActionOverComponent;
 import com.hjc.CardAdventure.components.battle.TargetComponent;
 import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
+import com.hjc.CardAdventure.pojo.effects.Effect;
 import com.hjc.CardAdventure.pojo.enemy.Enemy;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import com.hjc.CardAdventure.util.Utils;
@@ -56,7 +58,7 @@ public class EnemyComponent extends Component {
         addEnemy();
 
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e ->
-                TipBarComponent.update(String.valueOf(boxNum))
+                TipBarComponent.update("当前位置：" + boxNum + "号位" + Effect.NEW_LINE + enemy.toString())
         );
         entity.getViewComponent().addOnClickHandler(e -> target());
         //enemy.setArmor(60);
@@ -280,8 +282,20 @@ public class EnemyComponent extends Component {
     }
 
     //死亡动画
-    private void deathAnimation() {
+    public void deathAnimation() {
+        entity.removeFromWorld();
+        Texture enemyTexture = FXGL.texture(enemy.getImg(), enemy.getWidth(), enemy.getHeight());
+        enemyTexture.setTranslateX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
+        enemyTexture.setTranslateY(TARGET_Y_MOVE + enemy.getY());
+        Entity death = FXGL.entityBuilder().view(enemyTexture).buildAndAttach();
 
+        FadeTransition ft = new FadeTransition(Duration.seconds(1), enemyTexture);
+        ft.setToValue(0);
+        ft.setOnFinished(e -> {
+            death.removeFromWorld();
+            BattleEntities.actionBox.getComponent(ActionComponent.class).update();
+        });
+        ft.play();
     }
 
     //选择该目标
@@ -319,6 +333,7 @@ public class EnemyComponent extends Component {
 
     //判断实体是否被添加
     public boolean isExist() {
+        if (entity == null) return true;
         for (Node child : entity.getViewComponent().getChildren()) {
             if (child == enemyTexture) return true;
         }

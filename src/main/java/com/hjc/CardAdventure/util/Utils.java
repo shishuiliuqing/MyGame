@@ -42,7 +42,7 @@ public class Utils {
 
     //意图生成器
     public static void intentionImg(Enemy enemy, Entity entity, double x, double y) {
-        System.out.println(enemy.getNowIntention());
+        //System.out.println(enemy.getNowIntention());
         if (enemy.getNowIntention() == null) return;
         //生成攻击意图
         if (enemy.getNowIntention().getIntentionType() == IntentionType.ATTACK) {

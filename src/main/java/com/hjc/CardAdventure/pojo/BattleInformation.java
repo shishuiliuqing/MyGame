@@ -2,20 +2,26 @@ package com.hjc.CardAdventure.pojo;
 
 import com.almasb.fxgl.dsl.FXGL;
 import com.hjc.CardAdventure.CardAdventureApp;
-import com.hjc.CardAdventure.components.battle.CardComponent;
+import com.hjc.CardAdventure.components.battle.*;
 import com.hjc.CardAdventure.pojo.card.Card;
+import com.hjc.CardAdventure.pojo.effects.ActionOver;
 import com.hjc.CardAdventure.pojo.effects.Effect;
 import com.hjc.CardAdventure.pojo.effects.RoleAction;
 import com.hjc.CardAdventure.pojo.enemy.Enemy;
+import com.hjc.CardAdventure.pojo.enemy.EnemyType;
 import com.hjc.CardAdventure.pojo.enemy.IntentionGenerateType;
 import com.hjc.CardAdventure.pojo.environment.TimeStatus;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import com.hjc.CardAdventure.subScene.RewardSubScene;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 
 public class BattleInformation {
+    //敌人类型，用于决定获得经验
+    public static EnemyType enemyType;
     //敌人序列
     public static final ArrayList<Enemy> ENEMIES = new ArrayList<>();
     //记录敌人所在位置
@@ -38,6 +44,8 @@ public class BattleInformation {
     public static int rounds;
     //战斗中的人物属性
     public static Attribute attribute;
+    //判断是否在战斗
+    public static boolean isBattle = false;
 
     private BattleInformation() {
     }
@@ -58,6 +66,8 @@ public class BattleInformation {
         //初始化回合数
         rounds = 1;
 
+        //正在战斗
+        isBattle = true;
         //System.out.println(ENEMIES.get(0) == ENEMIES.get(1));
         //开始战斗
         //battle();
@@ -96,13 +106,37 @@ public class BattleInformation {
 //        for (int i = 0; i < 10; i++) {
 //            HAND_CARDS[i] = null;
 //        }
+        //清除手牌区状态
+        Arrays.fill(DrawCardsComponent.CARD_BOX_STATUS, 0);
     }
 
     //保存角色原有属性,并初始化玩家属性
     private static void initAttribute() {
         attribute = new Attribute();
+        //保留玩家初始属性
         Attribute.cloneAttribute(PlayerInformation.player.getAttribute(), attribute);
         PlayerInformation.playerArmor = 0;
+        //初始化各组件布尔值
+        AbandonComponent.isLight = false;
+        //非玩家回合
+        ActionOverComponent.isPlayer = false;
+        //属性更新
+        AttributeComponent.attribute = PlayerInformation.player.getAttribute();
+        //非弃牌阶段
+        CardComponent.isAbandon = false;
+        //不可选择卡牌
+        CardComponent.selectable = false;
+        //当前行动卡牌清空
+        CardComponent.actionCard = null;
+        //使用键暗
+        ProduceComponent.isLight = false;
+        //记牌器刷新
+        SumCardsComponent.remainingProduce = 0;
+        //目标指定刷新
+        TargetComponent.needTarget = false;
+        TargetComponent.isRam = false;
+        TargetComponent.isAll = false;
+        TargetComponent.target = null;
     }
 
     //初始化行动序列
@@ -148,6 +182,7 @@ public class BattleInformation {
             THIS_ACTION.addAll(NEXT_ACTION);
         }
         //获取当前行动对象
+        System.out.println(THIS_ACTION);
         Role role = THIS_ACTION.get(0);
         THIS_ACTION.remove(0);
         //生成行动执行效果
@@ -160,9 +195,34 @@ public class BattleInformation {
     //效果执行器
     public static void effectExecution() {
         while (!EFFECTS.isEmpty()) {
+            System.out.println(EFFECTS);
+            if (ENEMIES.isEmpty()) {
+                EFFECTS.clear();
+                if (isBattle) {
+                    Attribute.cloneAttribute(attribute, PlayerInformation.player.getAttribute());
+                    FXGL.getSceneService().pushSubScene(new RewardSubScene());
+                }
+                isBattle = false;
+                break;
+            }
+
             Effect effect = EFFECTS.get(0);
             EFFECTS.remove(0);
             effect.action();
         }
+    }
+
+    //删除某个角色
+    public static void clearRole(Role role) {
+        //行动序列移除该角色
+        THIS_ACTION.remove(role);
+        NEXT_ACTION.remove(role);
+        //移除所有有关该角色的效果（除回合结束）
+        EFFECTS.removeIf(effect -> (!(effect instanceof ActionOver)) && (effect.getFrom() == role || effect.getTo() == role));
+    }
+
+    //效果序列插入一种效果
+    public static void insetEffect(Effect effect) {
+        EFFECTS.add(0, effect);
     }
 }

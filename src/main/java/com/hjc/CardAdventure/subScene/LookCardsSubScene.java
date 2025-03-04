@@ -26,7 +26,7 @@ public class LookCardsSubScene extends SubScene {
     //要展示的牌堆
     public static ArrayList<Card> cards;
     //返回键
-    private static Texture back = FXGL.texture("back.png", 200, 200);
+    private static final Texture back = FXGL.texture("back.png", 200, 200);
     //x偏移量
     private final int X_MOVE = 10;
     //y偏移量

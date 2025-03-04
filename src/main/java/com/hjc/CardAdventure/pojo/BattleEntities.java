@@ -17,7 +17,7 @@ public class BattleEntities {
     //弃牌区
     public static Entity abandonCards;
     //消耗牌区
-    private static Entity consumeCards;
+    public static Entity consumeCards;
     //属性表
     public static Entity attribute;
     //使用按钮

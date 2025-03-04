@@ -7,8 +7,10 @@ import com.almasb.fxgl.texture.Texture;
 import com.hjc.CardAdventure.CardAdventureApp;
 import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
+import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.CampEntities;
 import com.hjc.CardAdventure.pojo.effects.Effect;
+import com.hjc.CardAdventure.pojo.enemy.EnemyType;
 import javafx.animation.ScaleTransition;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -49,6 +51,8 @@ public class BattleComponent extends Component {
 
     //战斗爽！
     private void battle() {
+        //该战斗为小怪
+        BattleInformation.enemyType = EnemyType.LITTLE_MONSTER;
         //加载动画
         Rectangle rectangle = new Rectangle(1, 1, Color.BLACK);
         rectangle.setTranslateX((CardAdventureApp.APP_WITH - 1) / 2.0);

@@ -23,21 +23,28 @@ public class DrawCardsComponent extends Component {
 
     public static final int[] CARD_BOX_STATUS = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-    private final int num;
+    private int num;
     private final String colorS;
     private final double speed = 450;
 
     public DrawCardsComponent() {
         super();
-        this.num = BattleInformation.DRAW_CARDS.size();
         this.colorS = PlayerInformation.player.getColorS();
-        //添加监听事件
     }
 
     @Override
     public void onAdded() {
-        entity.getViewComponent().clearChildren();
+        addComponent();
 
+        //entity.getViewComponent().addOnClickHandler(e -> draw());
+
+        entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
+        entity.getViewComponent().addOnClickHandler(e -> lookDrawCards());
+    }
+
+    //添加组件
+    private void addComponent() {
+        num = BattleInformation.DRAW_CARDS.size();
         //卡牌宽度
         double cardWith = CardEntityFactory.CARD_X / (PICTURE_X / CARD_BOX_X);
         //卡牌高度
@@ -62,10 +69,6 @@ public class DrawCardsComponent extends Component {
         entity.getViewComponent().addChild(cardBox);
         entity.getViewComponent().addChild(drawCards);
         entity.getViewComponent().addChild(stackPane);
-        //entity.getViewComponent().addOnClickHandler(e -> draw());
-
-        entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
-        entity.getViewComponent().addOnClickHandler(e -> lookDrawCards());
     }
 
     //查看抽牌堆
@@ -82,31 +85,40 @@ public class DrawCardsComponent extends Component {
 
 
     //发牌
-    public void draw() {
+    public int draw() {
         int boxNum = nearEmptyBox();
-        if (boxNum == -1) return;
+        if (boxNum == -1) return 0;
         //抽牌堆没牌
-        if (BattleInformation.DRAW_CARDS.isEmpty()) return;
+        if (BattleInformation.DRAW_CARDS.isEmpty()) {
+            return 1;
+        }
 
         //更新抽牌堆
-        entity.removeFromWorld();
         Card card = BattleInformation.DRAW_CARDS.get(0);
         BattleInformation.DRAW_CARDS.remove(0);
-        BattleEntities.drawCards = FXGL.spawn("drawCards", new SpawnData());
+        update();
         FXGL.spawn("draw", new SpawnData()
                 .put("boxNum", boxNum)
                 .put("card", card)
         );
+        CARD_BOX_STATUS[boxNum - 1] = 1;
+        return 0;
     }
 
     //获取最近的空选牌框
     private int nearEmptyBox() {
         for (int i = 0; i < CARD_BOX_STATUS.length; i++) {
             if (CARD_BOX_STATUS[i] == 0) {
-                CARD_BOX_STATUS[i] = 1;
+                //CARD_BOX_STATUS[i] = 1;
                 return i + 1;
             }
         }
         return -1;
+    }
+
+    //更新抽牌堆
+    public void update() {
+        entity.getViewComponent().clearChildren();
+        addComponent();
     }
 }

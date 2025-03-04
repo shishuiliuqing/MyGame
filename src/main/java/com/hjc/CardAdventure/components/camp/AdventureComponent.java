@@ -9,6 +9,7 @@ import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.CampEntities;
 import com.hjc.CardAdventure.pojo.effects.Effect;
+import com.hjc.CardAdventure.subScene.RewardSubScene;
 import javafx.animation.ScaleTransition;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -45,6 +46,7 @@ public class AdventureComponent extends Component {
 
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
         //entity.getViewComponent().addOnClickHandler(e -> rest());
+        //entity.getViewComponent().addOnClickHandler(e->FXGL.getSceneService().pushSubScene(new RewardSubScene()));
     }
 
     //战斗爽！

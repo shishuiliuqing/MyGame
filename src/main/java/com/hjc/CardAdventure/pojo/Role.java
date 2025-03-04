@@ -15,6 +15,9 @@ public interface Role {
     //攻击
     void physicalAttack(Role target, int value);
 
+    //死亡
+    void die();
+
     //回血
     void restoreBlood(int value);
 
