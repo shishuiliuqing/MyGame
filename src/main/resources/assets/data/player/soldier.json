@@ -10,6 +10,7 @@
     "purity": 0,
     "speed": 3
   },
+  "experience": 0,
   "playerType": 0,
   "colorS": "#ff0000",
   "img": "player/soldier.png",

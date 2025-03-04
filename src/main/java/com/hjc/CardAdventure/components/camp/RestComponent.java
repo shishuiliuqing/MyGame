@@ -58,7 +58,7 @@ public class RestComponent extends Component {
         entity.getViewComponent().addOnClickHandler(e -> rest());
     }
 
-    //战斗爽！
+    //休息
     private void rest() {
         //回血数值
         int value = OutUtil.getRestValue();

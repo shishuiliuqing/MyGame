@@ -24,6 +24,9 @@ public class Player implements Role {
     private int maxBlood;
     //属性
     private Attribute attribute;
+    //人物经验
+    private int experience;
+
     //角色类型
     private PlayerType playerType;
     //角色颜色

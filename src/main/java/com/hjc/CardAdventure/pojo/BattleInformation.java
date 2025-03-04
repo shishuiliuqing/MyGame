@@ -196,12 +196,10 @@ public class BattleInformation {
     public static void effectExecution() {
         while (!EFFECTS.isEmpty()) {
             System.out.println(EFFECTS);
-            if (ENEMIES.isEmpty()) {
+            if (ENEMIES.isEmpty() && isBattle) {
                 EFFECTS.clear();
-                if (isBattle) {
-                    Attribute.cloneAttribute(attribute, PlayerInformation.player.getAttribute());
-                    FXGL.getSceneService().pushSubScene(new RewardSubScene());
-                }
+                Attribute.cloneAttribute(attribute, PlayerInformation.player.getAttribute());
+                FXGL.getSceneService().pushSubScene(new RewardSubScene());
                 isBattle = false;
                 break;
             }
