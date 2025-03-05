@@ -5,8 +5,10 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.scene.SubScene;
 import com.almasb.fxgl.texture.Texture;
 import com.hjc.CardAdventure.CardAdventureApp;
+import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.CampEntities;
 import com.hjc.CardAdventure.pojo.Entities;
+import com.hjc.CardAdventure.pojo.enemy.EnemyType;
 import com.hjc.CardAdventure.pojo.environment.InsideInformation;
 import javafx.animation.*;
 import javafx.animation.ScaleTransition;
@@ -21,9 +23,9 @@ import java.util.ArrayList;
 
 public class RewardSubScene extends SubScene {
     //前进键
-    private static Texture forward = FXGL.texture("forward.png", 200, 200);
+    private static final Texture forward = FXGL.texture("forward.png", 200, 200);
     //奖励牌框
-    private static Texture box = FXGL.texture("rewardBox.png", 600, 200);
+    private static final Texture box = FXGL.texture("rewardBox.png", 600, 200);
 
 
     public RewardSubScene() {
@@ -37,31 +39,40 @@ public class RewardSubScene extends SubScene {
         forward.setTranslateX(1700);
         forward.setTranslateY(800);
         forward.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-            Rectangle r = new Rectangle(CardAdventureApp.APP_WITH, CardAdventureApp.APP_WITH, Color.rgb(0, 0, 0, 0));
-            getContentRoot().getChildren().add(r);
-
-            //加载动画
-            Rectangle load = new Rectangle(1, 1);
-            load.setTranslateX((CardAdventureApp.APP_WITH - 1) / 2.0);
-            load.setTranslateY((CardAdventureApp.APP_HEIGHT - 1) / 2.0);
-            getContentRoot().getChildren().add(load);
-            ScaleTransition st = new ScaleTransition(Duration.seconds(1), load);
-            st.setToX(CardAdventureApp.APP_WITH);
-            st.setToY(CardAdventureApp.APP_HEIGHT);
-            st.setOnFinished(event -> {
-                //关闭该场景
-                FXGL.getSceneService().popSubScene();
-                InsideInformation.turnTimeStatus();
-                //移除所有实体
-                ArrayList<Entity> entities = new ArrayList<>(FXGL.getGameWorld().getEntities());
-                FXGL.getGameWorld().removeEntities(entities);
-                //初始化信息栏
-                Entities.initEntities();
-                //初始化营地
-                CampEntities.initCampEntities();
-            });
-            st.play();
-
+//            Rectangle r = new Rectangle(CardAdventureApp.APP_WITH, CardAdventureApp.APP_WITH, Color.rgb(0, 0, 0, 0));
+//            getContentRoot().getChildren().add(r);
+//
+//            //加载动画
+//            Rectangle load = new Rectangle(1, 1);
+//            load.setTranslateX((CardAdventureApp.APP_WITH - 1) / 2.0);
+//            load.setTranslateY((CardAdventureApp.APP_HEIGHT - 1) / 2.0);
+//            getContentRoot().getChildren().add(load);
+//            ScaleTransition st = new ScaleTransition(Duration.seconds(1), load);
+//            st.setToX(CardAdventureApp.APP_WITH);
+//            st.setToY(CardAdventureApp.APP_HEIGHT);
+//            st.setOnFinished(event -> {
+//                //关闭该场景
+//                FXGL.getSceneService().popSubScene();
+//                InsideInformation.turnTimeStatus();
+//                //移除所有实体
+//                ArrayList<Entity> entities = new ArrayList<>(FXGL.getGameWorld().getEntities());
+//                FXGL.getGameWorld().removeEntities(entities);
+//                //初始化信息栏
+//                Entities.initEntities();
+//                //初始化营地
+//                CampEntities.initCampEntities();
+//            });
+//            st.play();
+            FXGL.getSceneService().popSubScene();
+            int experience;
+            if (BattleInformation.enemyType == EnemyType.LITTLE_MONSTER) {
+                experience = InsideInformation.day;
+            } else if (BattleInformation.enemyType == EnemyType.ELITE_MONSTER) {
+                experience = InsideInformation.day * 2;
+            } else {
+                experience = 40 * ((InsideInformation.day - 1) % 6) + 1;
+            }
+            FXGL.getSceneService().pushSubScene(new ExperienceSubScene(experience, 0));
         });
         getContentRoot().getChildren().add(forward);
 

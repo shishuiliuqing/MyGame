@@ -57,6 +57,21 @@ public enum Level {
         return experience + " / " + 10;
     }
 
+    //获取升级到下一等级需要达到的经验
+    public static int nextExperience(int experience) {
+        if (experience >= 850) return 9999;
+        if (experience >= 700) return 850;
+        if (experience >= 550) return 700;
+        if (experience >= 400) return 550;
+        if (experience >= 300) return 400;
+        if (experience >= 200) return 300;
+        if (experience >= 120) return 200;
+        if (experience >= 70) return 120;
+        if (experience >= 40) return 70;
+        if (experience >= 10) return 40;
+        return 10;
+    }
+
     //等级获取出牌数
     public static int playedCardNum(Level level) {
         return switch (level) {
@@ -70,5 +85,29 @@ public enum Level {
             case LV_10 -> 9;
             case LV_11 -> 10;
         };
+    }
+
+    //升级奖励判断
+    public static int[] upgrade(int experience) {
+        int[] reward = new int[3];
+        if (experience >= 850) {
+            reward[0] = 5;
+        } else if (experience >= 700) {
+            reward[1] = 1;
+            reward[2] = 1;
+        } else if (experience >= 400) {
+            reward[0] = 3;
+        } else if (experience >= 300) {
+            reward[1] = 1;
+            reward[2] = 1;
+        } else if (experience >= 120) {
+            reward[0] = 2;
+        } else if (experience >= 70) {
+            reward[1] = 1;
+            reward[2] = 1;
+        } else if (experience >= 10) {
+            reward[0] = 2;
+        }
+        return reward;
     }
 }
