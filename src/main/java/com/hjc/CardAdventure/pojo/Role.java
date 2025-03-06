@@ -16,8 +16,11 @@ public interface Role {
     //获得角色属性
     Attribute getRoleAttribute();
 
-    //受伤
+    //物理受伤
     void physicalHurt(int value);
+
+    //特殊受伤
+    void specialHurt(int value);
 
     //攻击
     void physicalAttack(Role target, int value);

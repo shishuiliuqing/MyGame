@@ -1,18 +1,18 @@
 {
-  "cardNum": 1,
-  "cardName": "打击",
+  "cardNum": 9,
+  "cardName": "重刃",
   "attribute": {
-    "power": 1,
+    "power": 7,
     "intelligence": 0,
     "defense": 0,
     "agility": 0,
     "purity": 0,
     "speed": 0
   },
-  "cardQuality": 0,
+  "cardQuality": 2,
   "colorS": "#ff0000",
   "cardEffects": [
-    601001,
+    2402001,
     80,
     1083
   ],

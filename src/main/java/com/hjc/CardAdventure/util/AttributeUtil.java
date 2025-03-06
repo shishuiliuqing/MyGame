@@ -22,9 +22,11 @@ public class AttributeUtil {
 
     public static int mathPhysicalDamage(PhysicalDamage physicalDamage) {
         int baseValue = physicalDamage.getValue();
-
+        int b = baseValue % 100;
+        //前两位为力量倍率
+        baseValue = baseValue / 100;
         //添加发动者的力量
-        baseValue += physicalDamage.getFrom().getRoleAttribute().getPower();
+        baseValue += (physicalDamage.getFrom().getRoleAttribute().getPower() * b);
         if (isDouble.contains(physicalDamage.getFrom())) baseValue = baseValue * 2;
         return baseValue;
     }

@@ -6,18 +6,25 @@
     "defense",
     "defense",
     "heavyBlow",
-    "pommelStrike"
+    "bloodrage",
+    "blockAssault"
   ],
   "white": [
     "strike",
     "defense",
-    "heavyBlow"
+    "heavyBlow",
+    "blockAssault"
   ],
   "blue": [
     "inspire",
     "anticipation",
-    "pommelStrike"
+    "pommelStrike",
+    "giantBladeSlash",
+    "bloodrage"
   ],
   "yellow": [
+    "heavyBlade",
+    "kaiTian",
+    "breakLimit"
   ]
 }

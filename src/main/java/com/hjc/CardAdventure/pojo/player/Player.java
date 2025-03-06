@@ -95,6 +95,7 @@ public class Player implements Role {
             //血量减少
             this.blood = this.blood - value;
             if (this.blood < 0) this.blood = 0;
+            lossBlood();
             //实体刷新
             //受伤动画
             BattleEntities.playerBattle.getComponent(PlayerComponent.class).hurt(value);
@@ -104,6 +105,19 @@ public class Player implements Role {
             PlayerInformation.playerArmor = value * (-1);
             BattleEntities.playerBattle.getComponent(PlayerComponent.class).reduceArmor(x);
         }
+    }
+
+    @Override
+    public void specialHurt(int value) {
+        this.blood -= value;
+        if (this.blood < 0) this.blood = 0;
+        lossBlood();
+        BattleEntities.playerBattle.getComponent(PlayerComponent.class).hurt(value);
+        Entities.playerBlood.getComponent(BloodComponent.class).update();
+    }
+
+    //失去生命时机
+    private void lossBlood() {
     }
 
     @Override

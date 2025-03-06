@@ -1,20 +1,21 @@
 {
-  "cardNum": 1,
-  "cardName": "打击",
+  "cardNum": 13,
+  "cardName": "血怒",
   "attribute": {
-    "power": 1,
+    "power": 0,
     "intelligence": 0,
     "defense": 0,
     "agility": 0,
-    "purity": 0,
+    "purity": 4,
     "speed": 0
   },
-  "cardQuality": 0,
+  "cardQuality": 1,
   "colorS": "#ff0000",
   "cardEffects": [
-    601001,
+    4021,
+    3050,
     80,
     1083
   ],
-  "targetType": 0
+  "targetType": 1
 }

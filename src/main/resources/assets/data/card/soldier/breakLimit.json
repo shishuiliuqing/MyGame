@@ -1,20 +1,20 @@
 {
-  "cardNum": 1,
-  "cardName": "打击",
+  "cardNum": 11,
+  "cardName": "突破极限",
   "attribute": {
-    "power": 1,
+    "power": 3,
     "intelligence": 0,
     "defense": 0,
     "agility": 0,
-    "purity": 0,
+    "purity": 6,
     "speed": 0
   },
-  "cardQuality": 0,
+  "cardQuality": 2,
   "colorS": "#ff0000",
   "cardEffects": [
-    601001,
-    80,
+    62,
+    82,
     1083
   ],
-  "targetType": 0
+  "targetType": 1
 }

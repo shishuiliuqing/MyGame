@@ -4,6 +4,7 @@ import com.hjc.CardAdventure.pojo.Role;
 import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.card.Card;
+import com.hjc.CardAdventure.pojo.effects.complexEffect.DoubleAttribute;
 import com.hjc.CardAdventure.pojo.effects.complexEffect.DoubleDamage;
 import com.hjc.CardAdventure.pojo.effects.complexEffect.DoubleDamageEnd;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
@@ -30,7 +31,8 @@ public enum Effects {
     SHUFFLE,
     //20.血量回复
     RESTORE_BLOOD,
-
+    //21.血量失去效果
+    LOST_BLOOD,
     //40.护盾添加
     ARMOR_ADD,
     //50.力量提升x050（x为提升的数值）
@@ -57,6 +59,8 @@ public enum Effects {
     PURITY_DOWN,
     //61.速度下降x055（x为下降的数值）
     SPEED_DOWN,
+    //62.力量翻倍
+    DOUBLE_POWER,
     //80.弃牌效果--弃掉当前行动的牌x080（x无效果）
     ABANDON_ACTION,
     //81.回抽效果--将当前行动的牌放回抽牌堆x081（x无效果）
@@ -110,6 +114,8 @@ public enum Effects {
             case 12 -> new ShuffleEffect(from, player, value);
             //20.血量回复效果
             case 20 -> new RestoreBlood(from, player, value);
+            //21.血量失去效果
+            case 21 -> new LostBlood(from, player, value);
             //40.护盾添加
             case 40 -> new ArmorAdd(from, player, value);
             //50.力量增强
@@ -136,6 +142,8 @@ public enum Effects {
             case 60 -> new AttributeDownEffect(from, to, value, AttributeDown.PURITY_DOWN);
             //61.速度下降
             case 61 -> new AttributeDownEffect(from, to, value, AttributeDown.SPEED_DOWN);
+            //62.力量翻倍
+            case 62 -> new DoubleAttribute(from, to, value, AttributeUp.POWER_UP);
             //80.弃牌效果--弃掉当前行动的牌
             case 80 -> new AbandonAction(from, player, value);
             //81.回抽效果--将当前行动的牌放回抽牌堆

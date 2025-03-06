@@ -104,6 +104,7 @@ public class Enemy implements Role {
             //血量减少
             this.blood = this.blood - value;
             if (this.blood < 0) this.blood = 0;
+            lossBlood();
             //实体刷新
             //受伤动画
             BattleEntities.enemies[index].getComponent(EnemyComponent.class).hurt(value);
@@ -114,6 +115,24 @@ public class Enemy implements Role {
             this.armor = value * (-1);
             BattleEntities.enemies[index].getComponent(EnemyComponent.class).reduceArmor(x);
         }
+    }
+
+    @Override
+    //无视护甲效果，直接受伤，不触发受伤效果（法伤，特殊伤害等）
+    public void specialHurt(int value) {
+        this.blood -= value;
+        if (this.blood < 0) {
+            this.blood = 0;
+        }
+        lossBlood();
+        int index = getEntityIndex();
+        //受伤动画
+        BattleEntities.enemies[index].getComponent(EnemyComponent.class).hurt(value);
+        if (this.blood == 0) BattleInformation.insetEffect(new DeathEffect(this, this, 1));
+    }
+
+    //失去生命时机
+    private void lossBlood() {
     }
 
     //物理攻击

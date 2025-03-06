@@ -23,7 +23,8 @@ public class PhysicalDamage extends Effect {
 
     @Override
     public String toString() {
-        return "造成" + AttributeUtil.mathPhysicalDamage(this) + "点伤害";
+        int b = getValue() % 100;
+        return "造成" + AttributeUtil.mathPhysicalDamage(this) + "点伤害" + (b == 1 ? "" : "（ " + b + "倍力量加成）");
     }
 
     @Override

@@ -14,8 +14,9 @@ public class PhysicalDamageAll extends Effect {
     public void action() {
         if (super.getFrom() == null) return;
         //对所有敌人造成物理伤害
+        int damage = AttributeUtil.mathPhysicalDamage(new PhysicalDamage(getFrom(), new Enemy(), getValue()));
         for (Enemy enemy : BattleInformation.ENEMIES) {
-            getFrom().physicalAttack(enemy, AttributeUtil.mathPhysicalDamage(new PhysicalDamage(getFrom(), enemy, getValue())));
+            getFrom().physicalAttack(enemy, damage);
         }
     }
 
