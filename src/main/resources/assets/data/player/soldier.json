@@ -1,14 +1,14 @@
 {
   "name": "战士",
-  "blood": 65,
+  "blood": 80,
   "maxBlood": 80,
   "attribute": {
     "power": 2,
     "intelligence": 0,
     "defense": 1,
-    "agility": 6,
-    "purity": 0,
-    "speed": 3
+    "agility": 1,
+    "purity": 1,
+    "speed": 2
   },
   "experience": 0,
   "playerType": 0,

@@ -3,6 +3,7 @@ package com.hjc.CardAdventure.pojo;
 import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
+import com.hjc.CardAdventure.components.role.EnemyComponent;
 import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.effects.Effects;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
@@ -77,5 +78,13 @@ public class BattleEntities {
 
         BattleInformation.battle();
         BattleInformation.effectExecution();
+    }
+
+    //更新所有敌人实体状态
+    public static void updateEnemies() {
+        for (Entity enemy : enemies) {
+            if (enemy == null) continue;
+            enemy.getComponent(EnemyComponent.class).update();
+        }
     }
 }

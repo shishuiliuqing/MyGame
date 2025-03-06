@@ -7,10 +7,12 @@ import com.almasb.fxgl.texture.Texture;
 import com.almasb.fxgl.time.LocalTimer;
 import com.hjc.CardAdventure.components.battle.ActionComponent;
 import com.hjc.CardAdventure.components.battle.ActionOverComponent;
+import com.hjc.CardAdventure.components.battle.AttributeComponent;
 import com.hjc.CardAdventure.components.battle.TargetComponent;
 import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
+import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.effects.Effect;
 import com.hjc.CardAdventure.pojo.enemy.Enemy;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
@@ -26,6 +28,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+
+import static com.hjc.CardAdventure.pojo.player.PlayerInformation.player;
 
 
 public class EnemyComponent extends Component {
@@ -63,6 +67,7 @@ public class EnemyComponent extends Component {
         entity.getViewComponent().addOnClickHandler(e -> target());
         //enemy.setArmor(60);
 //        entity.getViewComponent().addOnClickHandler(e->restoreBlood(6));
+        //entity.getViewComponent().addOnClickHandler(e -> attributeUP(AttributeUp.POWER_UP));
     }
 
 
@@ -231,6 +236,27 @@ public class EnemyComponent extends Component {
         pt.play();
     }
 
+    //护盾减少动画
+    public void reduceArmor(int value) {
+        //受伤数字显示
+        Text hurtValue = new Text("- " + value);
+        hurtValue.setFill(Color.valueOf("#15FEFC"));
+        hurtValue.setFont(new Font("华文琥珀", 50));
+        Entity hurt = FXGL.entityBuilder().view(hurtValue).buildAndAttach();
+
+        //令文本移动
+        TranslateTransition tNum = new TranslateTransition(Duration.seconds(0.2), hurtValue);
+        tNum.setFromX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
+        tNum.setFromY(TARGET_Y_MOVE + enemy.getY());
+        tNum.setToX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
+        tNum.setToY(TARGET_Y_MOVE + enemy.getY() - 50);
+        tNum.setOnFinished(e -> {
+            hurt.removeFromWorld();
+            update();
+        });
+        tNum.play();
+    }
+
     //更新护甲
     private void updateArmor() {
         if (enemy.getArmor() <= 0) return;
@@ -279,6 +305,31 @@ public class EnemyComponent extends Component {
             update();
         });
         tNum.play();
+    }
+
+    //属性添加
+    public void attributeUP(AttributeUp attributeUp) {
+        String s = switch (attributeUp) {
+            case POWER_UP -> "力量";
+            case SPEED_UP -> "速度";
+            case PURITY_UP -> "纯洁";
+            case DEFENSE_UP -> "防御";
+            case INTELLIGENCE_UP -> "智力";
+            case AGILITY_UP -> "敏捷";
+        } + " ⬆";
+
+        Text text = new Text(s);
+        text.setFont(new Font("华文行楷", 30));
+        text.setFill(Color.ORANGE);
+        text.setTranslateX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
+        text.setTranslateY(TARGET_Y_MOVE + enemy.getY() + 100);
+        Entity up = FXGL.entityBuilder().view(text).buildAndAttach();
+
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), text);
+        tt.setFromY(TARGET_Y_MOVE + enemy.getY() + 100);
+        tt.setToY(TARGET_Y_MOVE + enemy.getY());
+        tt.setOnFinished(e -> up.removeFromWorld());
+        tt.play();
     }
 
     //死亡动画

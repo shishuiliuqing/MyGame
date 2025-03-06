@@ -1,10 +1,10 @@
 {
-  "cardNum": 1,
-  "cardName": "打击",
+  "cardNum": 2,
+  "cardName": "防御",
   "attribute": {
-    "power": 1,
+    "power": 0,
     "intelligence": 0,
-    "defense": 0,
+    "defense": 1,
     "agility": 0,
     "purity": 0,
     "speed": 0
@@ -12,9 +12,9 @@
   "cardQuality": 0,
   "colorS": "#ff0000",
   "cardEffects": [
-    6001,
+    5040,
     80,
     1083
   ],
-  "targetType": 0
+  "targetType": 1
 }

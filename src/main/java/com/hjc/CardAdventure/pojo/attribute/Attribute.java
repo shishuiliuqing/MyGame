@@ -1,4 +1,4 @@
-package com.hjc.CardAdventure.pojo;
+package com.hjc.CardAdventure.pojo.attribute;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

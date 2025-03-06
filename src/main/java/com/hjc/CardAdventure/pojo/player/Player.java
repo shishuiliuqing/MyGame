@@ -6,9 +6,18 @@ import com.hjc.CardAdventure.components.battle.ActionOverComponent;
 import com.hjc.CardAdventure.components.battle.CardComponent;
 import com.hjc.CardAdventure.components.role.PlayerComponent;
 import com.hjc.CardAdventure.pojo.*;
+import com.hjc.CardAdventure.pojo.attribute.Attribute;
+import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.effects.DrawEffect;
+import com.hjc.CardAdventure.pojo.effects.ShuffleProduce;
+import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
+import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
 import com.hjc.CardAdventure.util.AttributeUtil;
 import lombok.*;
+
+import java.util.ArrayList;
+
+import static com.hjc.CardAdventure.pojo.player.PlayerInformation.player;
 
 
 @Getter
@@ -48,7 +57,8 @@ public class Player implements Role {
     public void action() {
         //回合开始阶段
         ActionOverComponent.isPlayer = true;
-
+        //刷新本回合出牌数
+        BattleInformation.EFFECTS.add(new ShuffleProduce(player, player, 1));
         //抽牌阶段
         int drawNum = AttributeUtil.drawNum();
         DrawEffect drawEffect = new DrawEffect(this, this, drawNum);
@@ -90,13 +100,17 @@ public class Player implements Role {
             BattleEntities.playerBattle.getComponent(PlayerComponent.class).hurt(value);
             Entities.playerBlood.getComponent(BloodComponent.class).update();
         } else {
+            int x = PlayerInformation.playerArmor + value;
             PlayerInformation.playerArmor = value * (-1);
+            BattleEntities.playerBattle.getComponent(PlayerComponent.class).reduceArmor(x);
         }
     }
 
     @Override
     public void physicalAttack(Role target, int value) {
         target.physicalHurt(value);
+        //攻击时时机
+        Opportunity.launchOpportunity(this, OpportunityType.ATTACK_TIME);
     }
 
     @Override
@@ -119,6 +133,25 @@ public class Player implements Role {
     public void addArmor(int value) {
         PlayerInformation.playerArmor += value;
         BattleEntities.playerBattle.getComponent(PlayerComponent.class).addArmor();
+    }
+
+    @Override
+    public void upAttribute(AttributeUp attributeUp) {
+        BattleEntities.playerBattle.getComponent(PlayerComponent.class).attributeUP(attributeUp);
+        //更新手牌数值
+        for (CardComponent handCard : CardComponent.HAND_CARDS) {
+            handCard.update();
+        }
+    }
+
+    @Override
+    public ArrayList<Opportunity> getRoleOpportunities() {
+        return PlayerInformation.opportunities;
+    }
+
+    @Override
+    public ArrayList<OpportunityType> getRoleOpportunityType() {
+        return PlayerInformation.opportunityTypes;
     }
 
     //弃牌阶段

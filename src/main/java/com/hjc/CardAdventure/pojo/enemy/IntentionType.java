@@ -1,10 +1,14 @@
 package com.hjc.CardAdventure.pojo.enemy;
 
+import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
+import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.effects.*;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import com.hjc.CardAdventure.util.AttributeUtil;
 
 import java.util.ArrayList;
+
+import static com.hjc.CardAdventure.pojo.player.PlayerInformation.player;
 
 public enum IntentionType {
     //攻击类意图
@@ -51,6 +55,30 @@ public enum IntentionType {
             case 10 -> new RestoreBlood(enemy, enemy, value);
             //20.护甲添加x020（x为护甲添加量）
             case 20 -> new ArmorAdd(enemy, enemy, value);
+            //50.力量增强
+            case 50 -> new AttributeUpEffect(enemy, enemy, value, AttributeUp.POWER_UP);
+            //51.智力增强
+            case 51 -> new AttributeUpEffect(enemy, enemy, value, AttributeUp.INTELLIGENCE_UP);
+            //52.防御增强
+            case 52 -> new AttributeUpEffect(enemy, enemy, value, AttributeUp.DEFENSE_UP);
+            //53.敏捷增强
+            case 53 -> new AttributeUpEffect(enemy, enemy, value, AttributeUp.AGILITY_UP);
+            //54.纯洁增强
+            case 54 -> new AttributeUpEffect(enemy, enemy, value, AttributeUp.PURITY_UP);
+            //55.速度增强
+            case 55 -> new AttributeUpEffect(enemy, enemy, value, AttributeUp.SPEED_UP);
+            //56.力量下降
+            case 56 -> new AttributeDownEffect(enemy, player, value, AttributeDown.POWER_DOWN);
+            //57.智力下降
+            case 57 -> new AttributeDownEffect(enemy, player, value, AttributeDown.INTELLIGENCE_DOWN);
+            //58.防御下降
+            case 58 -> new AttributeDownEffect(enemy, player, value, AttributeDown.DEFENSE_DOWN);
+            //59.敏捷下降
+            case 59 -> new AttributeDownEffect(enemy, player, value, AttributeDown.AGILITY_DOWN);
+            //60.纯洁下降
+            case 60 -> new AttributeDownEffect(enemy, player, value, AttributeDown.PURITY_DOWN);
+            //61.速度下降
+            case 61 -> new AttributeDownEffect(enemy, player, value, AttributeDown.SPEED_DOWN);
             //98.意图生成效果
             case 98 -> new IntentionGenerate(enemy, enemy, value);
             //99.意图移除效果

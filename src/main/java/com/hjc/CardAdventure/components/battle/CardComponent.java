@@ -72,6 +72,18 @@ public class CardComponent extends Component {
         HAND_CARDS.add(this);
         //System.out.println(data.get("boxNum").toString());
         //System.out.println(CARD_BOX_X * (int) data.get("boxNum"));
+        addUI();
+
+        entity.getViewComponent().addOnClickHandler(e -> select());
+        entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
+    }
+
+    private void lookInformation() {
+        TipBarComponent.update(this.card.cardToString());
+    }
+
+    //卡牌ui添加
+    private void addUI() {
         //制作卡牌（矩形
         Rectangle cardBack = new Rectangle(CARD_WIDTH, CARD_HEIGHT, Color.valueOf(this.card.getColorS()));
         cardBack.setTranslateX(X_MOVE + CARD_BOX_X * boxNum + X_TO_BOX_MOVE + 1);
@@ -119,13 +131,6 @@ public class CardComponent extends Component {
         cardAttribute.setTranslateY(Y_MOVE + Y_TO_BOX_MOVE + CARD_HEIGHT / 5);
         cardAttribute.setMaxSize(CARD_WIDTH - 10, CARD_HEIGHT * 3 / 10);
         entity.getViewComponent().addChild(cardAttribute);
-
-        entity.getViewComponent().addOnClickHandler(e -> select());
-        entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
-    }
-
-    private void lookInformation() {
-        TipBarComponent.update(this.card.cardToString());
     }
 
     //选择卡牌
@@ -139,11 +144,11 @@ public class CardComponent extends Component {
             entity.translateY(Y_MOVE_SELECTED);
             //选择区移除
             CARD_COMPONENTS.remove(this);
-            //如果选择区为空
-
+            //如果为弃牌状态
             if (isAbandon) {
                 //弃牌按钮变暗
                 BattleEntities.abandon.getComponent(AbandonComponent.class).resetButton(false);
+                //如果为出牌状态
             } else {
                 //触发牌的放下效果
                 card.putDown();
@@ -171,6 +176,7 @@ public class CardComponent extends Component {
                 return;
             }
 
+
             //添加该牌
             CARD_COMPONENTS.add(this);
             //牌数满足，弃牌键亮起
@@ -180,6 +186,15 @@ public class CardComponent extends Component {
             return;
         }
 
+
+        //出牌阶段
+        //当前出牌数为0，不允许选择牌
+        if (SumCardsComponent.remainingProduce == 0) {
+            //该牌强制下移
+            entity.translateY(Y_MOVE_SELECTED);
+            SumCardsComponent.warn();
+            return;
+        }
 
         if (!CARD_COMPONENTS.isEmpty()) {
             CARD_COMPONENTS.get(0).select();
@@ -211,6 +226,8 @@ public class CardComponent extends Component {
         //将该牌移至中央
         entity.setX(CardAdventureApp.APP_WITH / 2.0 - (X_MOVE + CARD_BOX_X * boxNum + X_TO_BOX_MOVE + 1));
         entity.setY(-290);
+        //更新抽牌区状态
+        DrawCardsComponent.CARD_BOX_STATUS[boxNum - 1] = 0;
         //运行卡牌效果
         card.action();
         //执行卡牌放下效果--目标指定刷新
@@ -269,7 +286,7 @@ public class CardComponent extends Component {
         //删除该实体
         entity.removeFromWorld();
         //更新抽牌区状态
-        DrawCardsComponent.CARD_BOX_STATUS[boxNum - 1] = 0;
+        //DrawCardsComponent.CARD_BOX_STATUS[boxNum - 1] = 0;
 
         //flag==0,弃牌区添加此牌
         if (flag == 0) BattleInformation.ABANDON_CARDS.add(this.card);
@@ -335,5 +352,11 @@ public class CardComponent extends Component {
             }
         });
         tt.play();
+    }
+
+    //卡牌更新
+    public void update() {
+        entity.getViewComponent().clearChildren();
+        addUI();
     }
 }

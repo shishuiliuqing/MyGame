@@ -40,7 +40,7 @@ public class Utils {
         return "";
     }
 
-    //意图生成器
+    //意图图标生成器
     public static void intentionImg(Enemy enemy, Entity entity, double x, double y) {
         //System.out.println(enemy.getNowIntention());
         if (enemy.getNowIntention() == null) return;

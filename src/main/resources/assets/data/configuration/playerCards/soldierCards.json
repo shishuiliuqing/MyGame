@@ -1,0 +1,23 @@
+{
+  "initial": [
+    "strike",
+    "strike",
+    "strike",
+    "defense",
+    "defense",
+    "heavyBlow",
+    "pommelStrike"
+  ],
+  "white": [
+    "strike",
+    "defense",
+    "heavyBlow"
+  ],
+  "blue": [
+    "inspire",
+    "anticipation",
+    "pommelStrike"
+  ],
+  "yellow": [
+  ]
+}

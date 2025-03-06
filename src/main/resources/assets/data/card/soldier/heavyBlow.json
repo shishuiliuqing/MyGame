@@ -1,8 +1,8 @@
 {
-  "cardNum": 1,
-  "cardName": "打击",
+  "cardNum": 3,
+  "cardName": "重击",
   "attribute": {
-    "power": 1,
+    "power": 2,
     "intelligence": 0,
     "defense": 0,
     "agility": 0,
@@ -12,7 +12,7 @@
   "cardQuality": 0,
   "colorS": "#ff0000",
   "cardEffects": [
-    6001,
+    9001,
     80,
     1083
   ],

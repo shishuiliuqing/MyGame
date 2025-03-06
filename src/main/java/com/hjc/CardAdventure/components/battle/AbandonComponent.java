@@ -61,7 +61,7 @@ public class AbandonComponent extends Component {
         //System.out.println(needAbandon);
         //弃牌数<=0，无需弃牌
         if (needAbandon <= 0) {
-            ActionOverComponent.actionOver(PlayerInformation.player);
+            nextStage();
             return;
         }
         //如果需要弃置的牌大于手牌，弃置所有手牌
@@ -74,7 +74,7 @@ public class AbandonComponent extends Component {
             }
 
             //回合结束
-            ActionOverComponent.actionOver(PlayerInformation.player);
+            nextStage();
             return;
         }
 
@@ -115,7 +115,8 @@ public class AbandonComponent extends Component {
         //ActionOverComponent.nextStage = true;
 //        BattleInformation.effectExecution();
         //回合结束
-        ActionOverComponent.actionOver(PlayerInformation.player);
+        nextStage();
+        //ActionOverComponent.actionOver(PlayerInformation.player);
     }
 
     //弃牌提示文本
@@ -133,5 +134,17 @@ public class AbandonComponent extends Component {
         AbandonComponent.isLight = isLight;
         entity.getViewComponent().clearChildren();
         addButton();
+    }
+
+    //
+    private void nextStage() {
+        if (SumCardsComponent.remainingProduce > 0) {
+            int x = SumCardsComponent.remainingProduce;
+            if (x > 6) x = 6;
+            AttributeUpComponent.attributeUP = x;
+            FXGL.entityBuilder().with(new AttributeUpComponent()).buildAndAttach();
+            return;
+        }
+        ActionOverComponent.actionOver(PlayerInformation.player);
     }
 }

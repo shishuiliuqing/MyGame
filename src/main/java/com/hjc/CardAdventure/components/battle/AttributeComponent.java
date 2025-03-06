@@ -1,12 +1,9 @@
 package com.hjc.CardAdventure.components.battle;
 
-import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.component.Component;
 import com.hjc.CardAdventure.CardAdventureApp;
 import com.hjc.CardAdventure.entityFactory.ImgEntityFactory;
-import com.hjc.CardAdventure.pojo.Attribute;
-import com.hjc.CardAdventure.pojo.BattleEntities;
-import com.hjc.CardAdventure.pojo.BattleInformation;
+import com.hjc.CardAdventure.pojo.attribute.Attribute;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Background;

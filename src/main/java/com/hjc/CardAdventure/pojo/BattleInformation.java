@@ -3,6 +3,7 @@ package com.hjc.CardAdventure.pojo;
 import com.almasb.fxgl.dsl.FXGL;
 import com.hjc.CardAdventure.CardAdventureApp;
 import com.hjc.CardAdventure.components.battle.*;
+import com.hjc.CardAdventure.pojo.attribute.Attribute;
 import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.effects.ActionOver;
 import com.hjc.CardAdventure.pojo.effects.Effect;
@@ -11,8 +12,10 @@ import com.hjc.CardAdventure.pojo.enemy.Enemy;
 import com.hjc.CardAdventure.pojo.enemy.EnemyType;
 import com.hjc.CardAdventure.pojo.enemy.IntentionGenerateType;
 import com.hjc.CardAdventure.pojo.environment.TimeStatus;
+import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import com.hjc.CardAdventure.subScene.RewardSubScene;
+import com.hjc.CardAdventure.util.OutUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,6 +49,8 @@ public class BattleInformation {
     public static Attribute attribute;
     //判断是否在战斗
     public static boolean isBattle = false;
+    //当前回合执行人
+    public static Role nowAction;
 
     private BattleInformation() {
     }
@@ -97,6 +102,7 @@ public class BattleInformation {
         //初始化抽牌堆
         DRAW_CARDS.clear();
         DRAW_CARDS.addAll(PlayerInformation.cards);
+        OutUtil.disruptCards(DRAW_CARDS);
         //初始化弃牌堆
         ABANDON_CARDS.clear();
         //初始化消耗牌堆
@@ -180,9 +186,17 @@ public class BattleInformation {
     public static void battle() {
         if (THIS_ACTION.isEmpty()) {
             THIS_ACTION.addAll(NEXT_ACTION);
+            //回合添加
+            rounds++;
+            //触发所有角色的回合结束效果
+            for (int i = ENEMIES.size() - 1; i >= 0; i--) {
+                if (ENEMIES.get(i) == null) continue;
+                Opportunity.roundOpportunityLaunch(ENEMIES.get(i));
+            }
+            Opportunity.roundOpportunityLaunch(PlayerInformation.player);
         }
         //获取当前行动对象
-        System.out.println(THIS_ACTION);
+        //System.out.println(THIS_ACTION);
         Role role = THIS_ACTION.get(0);
         THIS_ACTION.remove(0);
         //生成行动执行效果
@@ -195,7 +209,7 @@ public class BattleInformation {
     //效果执行器
     public static void effectExecution() {
         while (!EFFECTS.isEmpty()) {
-            System.out.println(EFFECTS);
+            //System.out.println(EFFECTS);
             if (ENEMIES.isEmpty() && isBattle) {
                 EFFECTS.clear();
                 Attribute.cloneAttribute(attribute, PlayerInformation.player.getAttribute());
@@ -222,5 +236,12 @@ public class BattleInformation {
     //效果序列插入一种效果
     public static void insetEffect(Effect effect) {
         EFFECTS.add(0, effect);
+    }
+
+    //效果序列插入多种效果
+    public static void insetEffect(ArrayList<Effect> effects) {
+        for (int i = effects.size() - 1; i >= 0; i--) {
+            EFFECTS.add(0, effects.get(i));
+        }
     }
 }

@@ -4,11 +4,10 @@ import com.almasb.fxgl.entity.Entity;
 import com.hjc.CardAdventure.components.battle.TargetComponent;
 import com.hjc.CardAdventure.components.role.EnemyComponent;
 import com.hjc.CardAdventure.components.role.PlayerComponent;
-import com.hjc.CardAdventure.pojo.Attribute;
+import com.hjc.CardAdventure.pojo.attribute.Attribute;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.Role;
-import com.hjc.CardAdventure.pojo.effects.AbandonAction;
 import com.hjc.CardAdventure.pojo.effects.Effect;
 import com.hjc.CardAdventure.pojo.effects.Effects;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
@@ -40,7 +39,7 @@ public class Card {
     //卡牌执行
     public void action() {
         //解析卡牌效果
-        ArrayList<Effect> effects = Effects.getCardEffects(this.cardEffects);
+        ArrayList<Effect> effects = Effects.getEffects(this.cardEffects, PlayerInformation.player, TargetComponent.target);
         //将所有效果添加至效果序列
         BattleInformation.EFFECTS.addAll(effects);
         //添加使用后弃牌效果

@@ -2,6 +2,8 @@ package com.hjc.CardAdventure.pojo.player;
 
 import com.hjc.CardAdventure.pojo.Medicine;
 import com.hjc.CardAdventure.pojo.card.Card;
+import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
+import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
 
 import java.util.ArrayList;
 
@@ -18,4 +20,8 @@ public class PlayerInformation {
     public static ArrayList<Card> cards = new ArrayList<>();
     //角色护甲
     public static int playerArmor = 0;
+    //角色时机序列
+    public static ArrayList<Opportunity> opportunities = new ArrayList<>();
+    //角色可触发时机
+    public static ArrayList<OpportunityType> opportunityTypes = new ArrayList<>();
 }

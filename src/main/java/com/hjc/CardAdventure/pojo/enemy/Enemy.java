@@ -1,12 +1,14 @@
 package com.hjc.CardAdventure.pojo.enemy;
 
 import com.hjc.CardAdventure.components.role.EnemyComponent;
-import com.hjc.CardAdventure.pojo.Attribute;
+import com.hjc.CardAdventure.pojo.attribute.Attribute;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.Role;
+import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.effects.*;
-import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
+import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -47,6 +49,10 @@ public class Enemy implements Role {
     private ArrayList<Intention> intentions;
     //敌人当前意图
     private Intention nowIntention;
+    //效果时机序列
+    private ArrayList<Opportunity> opportunities = new ArrayList<>();
+    //可触发时机序列
+    private ArrayList<OpportunityType> opportunityTypes = new ArrayList<>();
 
     @Override
     public void action() {
@@ -55,7 +61,7 @@ public class Enemy implements Role {
 //            BattleInformation.EFFECTS.add(new ActionOver(this, this, 1));
 //            return;
 //        }
-        System.out.println(BattleInformation.ENEMIES);
+        //System.out.println(BattleInformation.ENEMIES);
         //无意图，生成下一个意图，回合结束
         if (nowIntention == null) {
             //生成一个意图
@@ -104,7 +110,9 @@ public class Enemy implements Role {
             //BattleEntities.enemies[index].getComponent(EnemyComponent.class).onOver(false);
             if (this.blood == 0) BattleInformation.insetEffect(new DeathEffect(this, this, 1));
         } else {
+            int x = this.armor + value;
             this.armor = value * (-1);
+            BattleEntities.enemies[index].getComponent(EnemyComponent.class).reduceArmor(x);
         }
     }
 
@@ -115,6 +123,8 @@ public class Enemy implements Role {
         if (index == -1) return;
         //执行攻击效果
         BattleEntities.enemies[index].getComponent(EnemyComponent.class).attack(value);
+        //攻击后时机
+        Opportunity.launchOpportunity(this, OpportunityType.ATTACK_TIME);
     }
 
     //回复血量
@@ -131,6 +141,22 @@ public class Enemy implements Role {
         armor += value;
         int index = getEntityIndex();
         BattleEntities.enemies[index].getComponent(EnemyComponent.class).addArmor();
+    }
+
+    @Override
+    public void upAttribute(AttributeUp attributeUp) {
+        int index = getEntityIndex();
+        BattleEntities.enemies[index].getComponent(EnemyComponent.class).attributeUP(attributeUp);
+    }
+
+    @Override
+    public ArrayList<Opportunity> getRoleOpportunities() {
+        return this.opportunities;
+    }
+
+    @Override
+    public ArrayList<OpportunityType> getRoleOpportunityType() {
+        return this.opportunityTypes;
     }
 
     //获得当前敌人实体所在位置索引
@@ -154,5 +180,7 @@ public class Enemy implements Role {
         BattleInformation.ENEMIES.remove(this);
         //播放死亡动画
         BattleEntities.enemies[index].getComponent(EnemyComponent.class).deathAnimation();
+        //删除该实体
+        BattleEntities.enemies[index] = null;
     }
 }

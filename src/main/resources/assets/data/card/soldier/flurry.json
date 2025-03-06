@@ -1,20 +1,20 @@
 {
-  "cardNum": 1,
-  "cardName": "打击",
+  "cardNum": 6,
+  "cardName": "乱舞",
   "attribute": {
-    "power": 1,
+    "power": 2,
     "intelligence": 0,
     "defense": 0,
     "agility": 0,
     "purity": 0,
-    "speed": 0
+    "speed": 2
   },
   "cardQuality": 0,
   "colorS": "#ff0000",
   "cardEffects": [
-    6001,
+    5002,
     80,
     1083
   ],
-  "targetType": 0
+  "targetType": 3
 }

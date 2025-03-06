@@ -1,28 +1,37 @@
 package com.hjc.CardAdventure.util;
 
+import com.hjc.CardAdventure.pojo.Role;
 import com.hjc.CardAdventure.pojo.effects.ArmorAdd;
 import com.hjc.CardAdventure.pojo.effects.PhysicalDamage;
 import com.hjc.CardAdventure.pojo.effects.RestoreBlood;
-import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import com.hjc.CardAdventure.pojo.player.Level;
+
+import java.util.ArrayList;
+
+import static com.hjc.CardAdventure.pojo.player.PlayerInformation.player;
 
 public class AttributeUtil {
 
     private AttributeUtil() {
     }
 
+
     //计算人物物理伤害
+    //角色翻倍判断集合
+    public static ArrayList<Role> isDouble = new ArrayList<>();
+
     public static int mathPhysicalDamage(PhysicalDamage physicalDamage) {
         int baseValue = physicalDamage.getValue();
 
         //添加发动者的力量
         baseValue += physicalDamage.getFrom().getRoleAttribute().getPower();
-
+        if (isDouble.contains(physicalDamage.getFrom())) baseValue = baseValue * 2;
         return baseValue;
     }
 
     //计算人物的初始抽牌数
     public static int drawNum() {
-        int agility = PlayerInformation.player.getAttribute().getAgility();
+        int agility = player.getAttribute().getAgility();
         if (agility <= 3) return agility;
         return 3 + (agility - 3) % 2;
     }
@@ -44,5 +53,13 @@ public class AttributeUtil {
         //添加发动者的防御
         baseValue += armorAdd.getFrom().getRoleAttribute().getDefense();
         return baseValue;
+    }
+
+    //计算人物出牌数
+    public static int mathProduceNum() {
+        int num = 0;
+        num += Level.playedCardNum(Level.getLV(player.getExperience()));
+
+        return num;
     }
 }
