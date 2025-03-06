@@ -10,6 +10,7 @@ import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.Role;
 import com.hjc.CardAdventure.pojo.effects.Effect;
 import com.hjc.CardAdventure.pojo.effects.Effects;
+import com.hjc.CardAdventure.pojo.enemy.Enemy;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -80,7 +81,8 @@ public class Card {
         } else {
             TargetComponent.needTarget = true;
             TargetComponent.target = BattleInformation.ENEMIES.get(0);
-            BattleEntities.enemies[0].getComponent(EnemyComponent.class).update(true);
+            int index = BattleInformation.ENEMIES.get(0).getEntityIndex();
+            BattleEntities.enemies[index].getComponent(EnemyComponent.class).update(true);
         }
 
         BattleEntities.target.getComponent(TargetComponent.class).update();
@@ -103,8 +105,9 @@ public class Card {
             Role target = TargetComponent.target;
             TargetComponent.needTarget = false;
             if (targetType == TargetType.INDIVIDUAL) {
-                int index = BattleInformation.ENEMIES.indexOf(target);
-                if (index != -1) BattleEntities.enemies[index].getComponent(EnemyComponent.class).update(false);
+                int index = ((Enemy) target).getEntityIndex();
+                if (index != -1 && BattleEntities.enemies[index] != null)
+                    BattleEntities.enemies[index].getComponent(EnemyComponent.class).update(false);
             } else {
                 BattleEntities.playerBattle.getComponent(PlayerComponent.class).update(false);
             }

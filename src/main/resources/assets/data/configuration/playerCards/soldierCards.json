@@ -6,8 +6,7 @@
     "defense",
     "defense",
     "heavyBlow",
-    "bloodrage",
-    "blockAssault"
+    "sweeping"
   ],
   "white": [
     "strike",
@@ -20,7 +19,8 @@
     "anticipation",
     "pommelStrike",
     "giantBladeSlash",
-    "bloodrage"
+    "bloodrage",
+    "sweeping"
   ],
   "yellow": [
     "heavyBlade",

@@ -22,22 +22,27 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 
 import static com.hjc.CardAdventure.pojo.player.PlayerInformation.player;
 
-
+@Setter
+@Getter
 public class ExperienceSubScene extends SubScene {
+    public static ExperienceSubScene experienceSubScene = new ExperienceSubScene(0, 0);
     //前进键
     private static final Texture forward = FXGL.texture("forward.png", 200, 200);
     //可添加属性点
     private static int attributeUP = 0;
     //界面关闭原则
-    private final int flag;
+    public static int flag;
 
     public ExperienceSubScene(int experience, int flag) {
-        this.flag = flag;
+        ExperienceSubScene.flag = flag;
         Rectangle background = new Rectangle(CardAdventureApp.APP_WITH, CardAdventureApp.APP_HEIGHT, Color.rgb(80, 80, 80, 0.5));
         getContentRoot().getChildren().add(background);
 
@@ -155,22 +160,25 @@ public class ExperienceSubScene extends SubScene {
             forward.setTranslateX(1700);
             forward.setTranslateY(800);
             forward.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+                FXGL.getSceneService().popSubScene();
                 Rectangle background = new Rectangle(CardAdventureApp.APP_WITH, CardAdventureApp.APP_WITH, Color.rgb(0, 0, 0, 0));
-                getContentRoot().getChildren().add(background);
+                Entity entity = FXGL.entityBuilder().view(background).buildAndAttach();
 
                 //加载动画
                 Rectangle load = new Rectangle(1, 1);
                 load.setTranslateX((CardAdventureApp.APP_WITH - 1) / 2.0);
                 load.setTranslateY((CardAdventureApp.APP_HEIGHT - 1) / 2.0);
-                getContentRoot().getChildren().add(load);
+                entity.getViewComponent().addChild(load);
                 ScaleTransition st = new ScaleTransition(Duration.seconds(1), load);
                 st.setToX(CardAdventureApp.APP_WITH);
                 st.setToY(CardAdventureApp.APP_HEIGHT);
                 st.setOnFinished(event -> {
+                    //System.out.println("你好");
                     //关闭该界面后，进入下一时间状态，回到营地
                     if (flag == 0) {
+                        //getContentRoot().getChildren().removeAll();
                         //关闭该场景
-                        FXGL.getSceneService().popSubScene();
+                        //FXGL.getSceneService().popSubScene();
                         InsideInformation.turnTimeStatus();
                         //移除所有实体
                         ArrayList<Entity> entities = new ArrayList<>(FXGL.getGameWorld().getEntities());
@@ -181,11 +189,10 @@ public class ExperienceSubScene extends SubScene {
                         CampEntities.initCampEntities();
                     } else {
                         //单纯关闭此界面
-                        FXGL.getSceneService().popSubScene();
+                        //FXGL.getSceneService().popSubScene();
                     }
                 });
                 st.play();
-
             });
             getContentRoot().getChildren().add(forward);
         }

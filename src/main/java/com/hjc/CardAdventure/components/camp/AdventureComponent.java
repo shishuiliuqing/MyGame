@@ -47,7 +47,8 @@ public class AdventureComponent extends Component {
 
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
         //entity.getViewComponent().addOnClickHandler(e -> rest());
-        //entity.getViewComponent().addOnClickHandler(e -> FXGL.getSceneService().pushSubScene(new ExperienceSubScene(20, 0)));
+        //entity.getViewComponent().addOnClickHandler(e->FXGL.getSceneService().pushSubScene(new RewardSubScene()));
+        //entity.getViewComponent().addOnClickHandler(e -> FXGL.getSceneService().pushSubScene(new ExperienceSubScene(1, 0)));
     }
 
     //战斗爽！

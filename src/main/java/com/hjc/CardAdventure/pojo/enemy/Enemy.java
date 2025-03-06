@@ -179,7 +179,7 @@ public class Enemy implements Role {
     }
 
     //获得当前敌人实体所在位置索引
-    private int getEntityIndex() {
+    public int getEntityIndex() {
         for (int i = 0; i < BattleEntities.enemyGenerateOrder.length; i++) {
             if (BattleInformation.ROLE_LOCATION.get(this).equals(String.valueOf(BattleEntities.enemyGenerateOrder[i])))
                 return i;

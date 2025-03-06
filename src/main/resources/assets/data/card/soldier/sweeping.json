@@ -1,0 +1,20 @@
+{
+  "cardNum": 14,
+  "cardName": "横扫",
+  "attribute": {
+    "power": 4,
+    "intelligence": 0,
+    "defense": 0,
+    "agility": 0,
+    "purity": 0,
+    "speed": 4
+  },
+  "cardQuality": 1,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    1401002,
+    82,
+    1083
+  ],
+  "targetType": 3
+}

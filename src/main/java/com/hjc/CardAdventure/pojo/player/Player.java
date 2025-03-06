@@ -138,7 +138,7 @@ public class Player implements Role {
         this.blood = this.blood + value;
         if (this.blood > maxBlood) this.blood = this.maxBlood;
         Entities.playerBlood.getComponent(BloodComponent.class).update();
-        if (BattleEntities.playerBattle != null) {
+        if (BattleInformation.isBattle) {
             BattleEntities.playerBattle.getComponent(PlayerComponent.class).restoreBlood(value);
         }
     }

@@ -1,13 +1,10 @@
 package com.hjc.CardAdventure.subScene;
 
 import com.almasb.fxgl.dsl.FXGL;
-import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.scene.SubScene;
 import com.almasb.fxgl.texture.Texture;
 import com.hjc.CardAdventure.CardAdventureApp;
 import com.hjc.CardAdventure.pojo.BattleInformation;
-import com.hjc.CardAdventure.pojo.CampEntities;
-import com.hjc.CardAdventure.pojo.Entities;
 import com.hjc.CardAdventure.pojo.enemy.EnemyType;
 import com.hjc.CardAdventure.pojo.environment.InsideInformation;
 import javafx.animation.*;
@@ -19,7 +16,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
 
 public class RewardSubScene extends SubScene {
     //前进键
@@ -39,6 +35,7 @@ public class RewardSubScene extends SubScene {
         forward.setTranslateX(1700);
         forward.setTranslateY(800);
         forward.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            System.out.println("真的是你呀");
 //            Rectangle r = new Rectangle(CardAdventureApp.APP_WITH, CardAdventureApp.APP_WITH, Color.rgb(0, 0, 0, 0));
 //            getContentRoot().getChildren().add(r);
 //
@@ -63,7 +60,6 @@ public class RewardSubScene extends SubScene {
 //                CampEntities.initCampEntities();
 //            });
 //            st.play();
-            FXGL.getSceneService().popSubScene();
             int experience;
             if (BattleInformation.enemyType == EnemyType.LITTLE_MONSTER) {
                 experience = InsideInformation.day;
@@ -72,7 +68,9 @@ public class RewardSubScene extends SubScene {
             } else {
                 experience = 40 * ((InsideInformation.day - 1) % 6) + 1;
             }
+            FXGL.getSceneService().popSubScene();
             FXGL.getSceneService().pushSubScene(new ExperienceSubScene(experience, 0));
+
         });
         getContentRoot().getChildren().add(forward);
 
