@@ -1,14 +1,38 @@
 {
   "initial": [
+    "strike",
+    "defense",
+    "heavyBlow",
+    "flurry",
+    "blockAssault",
+    "jumpSlash",
+    "standErect",
+    "bloodRitual",
+    "intimidation",
+    "inspire",
+    "anticipation",
+    "pommelStrike",
+    "giantBladeSlash",
+    "bloodrage",
+    "sweeping",
+    "warGodTransformation",
+    "heavyBlade",
+    "kaiTian",
+    "breakLimit",
     "defenseCounterattack",
-    "defense"
+    "bloodbath",
+    "bloodArmor"
   ],
   "white": [
     "strike",
     "defense",
     "heavyBlow",
+    "flurry",
     "blockAssault",
-    "jumpSlash"
+    "jumpSlash",
+    "standErect",
+    "bloodRitual",
+    "intimidation"
   ],
   "blue": [
     "inspire",
@@ -16,12 +40,15 @@
     "pommelStrike",
     "giantBladeSlash",
     "bloodrage",
-    "sweeping"
+    "sweeping",
+    "warGodTransformation"
   ],
   "yellow": [
     "heavyBlade",
     "kaiTian",
     "breakLimit",
-    "defenseCounterattack"
+    "defenseCounterattack",
+    "bloodbath",
+    "bloodArmor"
   ]
 }

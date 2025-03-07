@@ -12,9 +12,11 @@ import com.hjc.CardAdventure.components.battle.TargetComponent;
 import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
+import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.effects.Effect;
 import com.hjc.CardAdventure.pojo.enemy.Enemy;
+import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import com.hjc.CardAdventure.util.Utils;
 import javafx.animation.FadeTransition;
@@ -62,7 +64,7 @@ public class EnemyComponent extends Component {
         addEnemy();
 
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e ->
-                TipBarComponent.update("当前位置：" + boxNum + "号位" + Effect.NEW_LINE + enemy.toString())
+                TipBarComponent.update("当前位置：" + boxNum + "号位" + Effect.NEW_LINE + enemy.toString() + Effect.NEW_LINE+ "当前敌人拥有效果：" + Opportunity.opportunitiesToString(enemy.getOpportunities()))
         );
         entity.getViewComponent().addOnClickHandler(e -> target());
         //enemy.setArmor(60);
@@ -168,7 +170,7 @@ public class EnemyComponent extends Component {
         Entity attack = FXGL.entityBuilder().view(attackEnemy).buildAndAttach();
 
         //令人物显示移动
-        TranslateTransition tHP = new TranslateTransition(Duration.seconds(0.3), attackEnemy);
+        TranslateTransition tHP = new TranslateTransition(Duration.seconds(0.2), attackEnemy);
         tHP.setFromX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
         tHP.setFromY(TARGET_Y_MOVE + enemy.getY());
         tHP.setToX(TARGET_X_MOVE + 215 * boxNum + enemy.getX() - 100);
@@ -332,6 +334,31 @@ public class EnemyComponent extends Component {
         tt.play();
     }
 
+    //属性下降
+    public void attributeDown(AttributeDown attributeDown) {
+        String s = switch (attributeDown) {
+            case POWER_DOWN -> "力量";
+            case SPEED_DOWN -> "速度";
+            case PURITY_DOWN -> "纯洁";
+            case DEFENSE_DOWN -> "防御";
+            case INTELLIGENCE_DOWN -> "智力";
+            case AGILITY_DOWN -> "敏捷";
+        } + " ⬇";
+
+        Text text = new Text(s);
+        text.setFont(new Font("华文行楷", 30));
+        text.setFill(Color.BLUE);
+        text.setTranslateX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
+        text.setTranslateY(TARGET_Y_MOVE + enemy.getY());
+        Entity up = FXGL.entityBuilder().view(text).buildAndAttach();
+
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), text);
+        tt.setFromY(TARGET_Y_MOVE + enemy.getY());
+        tt.setToY(TARGET_Y_MOVE + enemy.getY() + 100);
+        tt.setOnFinished(e -> up.removeFromWorld());
+        tt.play();
+    }
+
     //死亡动画
     public void deathAnimation() {
         entity.removeFromWorld();
@@ -340,7 +367,7 @@ public class EnemyComponent extends Component {
         enemyTexture.setTranslateY(TARGET_Y_MOVE + enemy.getY());
         Entity death = FXGL.entityBuilder().view(enemyTexture).buildAndAttach();
 
-        FadeTransition ft = new FadeTransition(Duration.seconds(1), enemyTexture);
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), enemyTexture);
         ft.setToValue(0);
         ft.setOnFinished(e -> {
             death.removeFromWorld();
@@ -402,7 +429,7 @@ public class EnemyComponent extends Component {
         Rectangle r = new Rectangle(1, 1, Color.rgb(0, 0, 0, 0));
         Entity re = FXGL.entityBuilder().view(r).buildAndAttach();
         //设置行动时间
-        TranslateTransition tt = new TranslateTransition(Duration.seconds(2), r);
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(1.5), r);
         tt.setToX(1);
         tt.setOnFinished(e -> {
             re.removeFromWorld();

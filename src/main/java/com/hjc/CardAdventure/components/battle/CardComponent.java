@@ -211,7 +211,7 @@ public class CardComponent extends Component {
 
         //出牌阶段
         //当前出牌数为0，不允许选择牌
-        if (SumCardsComponent.remainingProduce == 0) {
+        if (SumCardsComponent.remainingProduce == 0 && !specialProduce) {
             //该牌强制下移
             entity.translateY(Y_MOVE_SELECTED);
             SumCardsComponent.warn();

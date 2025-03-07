@@ -38,7 +38,7 @@ public class AttributeUtil {
     public static int drawNum() {
         int agility = player.getAttribute().getAgility();
         if (agility <= 3) return agility;
-        return 3 + (agility - 3) % 2;
+        return 3 + (agility - 3) / 3;
     }
 
     //计算回血效果

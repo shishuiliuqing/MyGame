@@ -4,14 +4,19 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
+import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.components.battle.AttributeComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
+import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
+import com.hjc.CardAdventure.pojo.effects.Effect;
+import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import javafx.animation.FadeTransition;
 import javafx.animation.ParallelTransition;
 import javafx.animation.TranslateTransition;
 import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -40,6 +45,11 @@ public class PlayerComponent extends Component {
 
 //        entity.getViewComponent().addOnClickHandler(e -> restoreBlood(6));
         //entity.getViewComponent().addOnClickHandler(e->attributeUP(AttributeUp.POWER_UP));
+        entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
+    }
+
+    private void lookInformation() {
+        TipBarComponent.update("当前角色拥有效果" + Effect.NEW_LINE + Opportunity.opportunitiesToString(player.getRoleOpportunities()));
     }
 
     //更新
@@ -75,7 +85,7 @@ public class PlayerComponent extends Component {
         tNum.setToX(600);
         tNum.setToY(250);
         //令人物显示移动
-        TranslateTransition tHP = new TranslateTransition(Duration.seconds(0.3), hurtPlayer);
+        TranslateTransition tHP = new TranslateTransition(Duration.seconds(0.2), hurtPlayer);
         tHP.setFromX(player.getX());
         tHP.setFromY(player.getY());
         tHP.setToX(player.getX() - 50);
@@ -102,11 +112,11 @@ public class PlayerComponent extends Component {
         armorTexture.setTranslateY(player.getY() - 25);
         Entity armor = FXGL.entityBuilder().view(armorTexture).buildAndAttach();
         //透明动画
-        FadeTransition ft = new FadeTransition(Duration.seconds(0.5), armorTexture);
+        FadeTransition ft = new FadeTransition(Duration.seconds(0.2), armorTexture);
         ft.setToValue(0);
 
         //移动动画
-        TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), armorTexture);
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(0.2), armorTexture);
         tt.setFromY(player.getY() - 25);
         tt.setToY(player.getY() + 25);
 
@@ -212,6 +222,33 @@ public class PlayerComponent extends Component {
         TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), text);
         tt.setFromY(player.getY() + 150);
         tt.setToY(player.getY() + 50);
+        tt.setOnFinished(e -> up.removeFromWorld());
+        tt.play();
+    }
+
+    //属性下降
+    public void attributeDown(AttributeDown attributeDown) {
+        BattleEntities.attribute.getComponent(AttributeComponent.class).update();
+
+        String s = switch (attributeDown) {
+            case POWER_DOWN -> "力量";
+            case SPEED_DOWN -> "速度";
+            case PURITY_DOWN -> "纯洁";
+            case DEFENSE_DOWN -> "防御";
+            case INTELLIGENCE_DOWN -> "智力";
+            case AGILITY_DOWN -> "敏捷";
+        } + " ⬇";
+
+        Text text = new Text(s);
+        text.setFont(new Font("华文行楷", 30));
+        text.setFill(Color.BLUE);
+        text.setTranslateX(player.getX() + 50);
+        text.setTranslateY(player.getY() + 50);
+        Entity up = FXGL.entityBuilder().view(text).buildAndAttach();
+
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), text);
+        tt.setFromY(player.getY() + 50);
+        tt.setToY(player.getY() + 150);
         tt.setOnFinished(e -> up.removeFromWorld());
         tt.play();
     }

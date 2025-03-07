@@ -46,10 +46,10 @@ public class FindCard extends Effect {
         String s = "寻回/";
         if (getValue() % 10 == 1) {
             s = s + "抽：从抽牌堆找到此牌，将其“抽取”并选择是否打出";
-        } else if(getValue() % 10 == 2) {
-            s  = s + "弃：从弃牌堆找到此牌，将其置于抽牌堆顶，“抽取”并选择是否打出";
-        } else if(getValue() % 10 == 3) {
-            s  = s + "消：从消耗牌堆找到此牌，将其置于抽牌堆顶，“抽取”并选择是否打出";
+        } else if (getValue() % 10 == 2) {
+            s = s + "弃：从弃牌堆找到此牌，将其置于抽牌堆顶，“抽取”并选择是否打出";
+        } else if (getValue() % 10 == 3) {
+            s = s + "消：从消耗牌堆找到此牌，将其置于抽牌堆顶，“抽取”并选择是否打出";
         }
         return s + Effect.NEW_LINE;
     }
@@ -60,6 +60,6 @@ public class FindCard extends Effect {
         if (getValue() % 10 == 1) {
             s = s + "抽";
         }
-        return s;
+        return s + "(" + getValue()/10 + ")";
     }
 }

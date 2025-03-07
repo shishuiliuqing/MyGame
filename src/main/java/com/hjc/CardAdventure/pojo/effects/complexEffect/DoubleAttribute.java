@@ -25,7 +25,7 @@ public class DoubleAttribute extends Effect {
         } else if (attributeUp == AttributeUp.INTELLIGENCE_UP) {
             value = attribute.getIntelligence();
         } else if (attributeUp == AttributeUp.DEFENSE_UP) {
-            value = attribute.getIntelligence();
+            value = attribute.getDefense();
         } else if (attributeUp == AttributeUp.AGILITY_UP) {
             value = attribute.getAgility();
         } else if (attributeUp == AttributeUp.PURITY_UP) {

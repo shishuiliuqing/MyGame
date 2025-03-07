@@ -38,7 +38,8 @@ public class SeasonMonsterPool {
         ArrayList<String> monsters = generateLittleMonsterPool(day, timeStatus);
         ArrayList<Enemy> enemies = new ArrayList<>();
         for (String monster : monsters) {
-            Enemy enemy = FXGL.getAssetLoader().loadJSON(MONSTER_ADDRESS + monster + ".json", Enemy.class).get();
+            int x = (day - 1) % 6 + 1;
+            Enemy enemy = FXGL.getAssetLoader().loadJSON(MONSTER_ADDRESS + monster + "/" + monster + x + ".json", Enemy.class).get();
             String stage = String.valueOf((InsideInformation.day - 1) / 6 + 1);
             //System.out.println(MONSTER_INTENTION_ADDRESS + monster + stage + ".json");
             Intention[] intentions = FXGL.getAssetLoader().loadJSON(MONSTER_INTENTION_ADDRESS + monster + "/" + monster + stage + ".json", Intention[].class).get();

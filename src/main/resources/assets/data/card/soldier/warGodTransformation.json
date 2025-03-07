@@ -1,6 +1,6 @@
 {
-  "cardNum": 11,
-  "cardName": "突破极限",
+  "cardNum": 17,
+  "cardName": "战神化",
   "attribute": {
     "power": 3,
     "intelligence": 0,
@@ -9,10 +9,11 @@
     "purity": 5,
     "speed": 0
   },
-  "cardQuality": 2,
+  "cardQuality": 1,
   "colorS": "#ff0000",
   "cardEffects": [
-    62,
+    68,
+    1074303,
     82,
     1083
   ],

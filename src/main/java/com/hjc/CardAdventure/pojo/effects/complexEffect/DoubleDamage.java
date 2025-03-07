@@ -31,7 +31,7 @@ public class DoubleDamage extends Effect {
             enemy.getComponent(EnemyComponent.class).update();
         }
         //添加攻击后移除伤害翻倍时机
-        Opportunity opportunity = new Opportunity("伤害翻倍", OpportunityType.ATTACK_TIME, 1, getValue(), getFrom(), null, new int[1]);
+        Opportunity opportunity = new Opportunity("伤害翻倍", OpportunityType.ATTACK_TIME, 1, getValue(), getFrom(), null, new int[1], false, 1);
         opportunity.getEndEffects()[0] = 102;
         Opportunity.addOpportunity(opportunity, super.getTo());
     }

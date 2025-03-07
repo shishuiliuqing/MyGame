@@ -1,20 +1,20 @@
 {
-  "cardNum": 10,
-  "cardName": "开天",
+  "cardNum": 22,
+  "cardName": "威吓",
   "attribute": {
-    "power": 10,
-    "intelligence": 0,
+    "power": 0,
+    "intelligence": 2,
     "defense": 0,
     "agility": 0,
     "purity": 0,
     "speed": 0
   },
-  "cardQuality": 2,
+  "cardQuality": 0,
   "colorS": "#ff0000",
   "cardEffects": [
-    105001,
-    80,
+    1105,
+    82,
     1083
   ],
-  "targetType": 0
+  "targetType": 3
 }

@@ -7,6 +7,7 @@ import com.hjc.CardAdventure.components.battle.CardComponent;
 import com.hjc.CardAdventure.components.role.PlayerComponent;
 import com.hjc.CardAdventure.pojo.*;
 import com.hjc.CardAdventure.pojo.attribute.Attribute;
+import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.effects.DrawEffect;
 import com.hjc.CardAdventure.pojo.effects.ShuffleProduce;
@@ -57,6 +58,8 @@ public class Player implements Role {
     public void action() {
         //回合开始阶段
         ActionOverComponent.isPlayer = true;
+        //回合开始，触发自身回合开始效果
+        Opportunity.launchOpportunity(this, OpportunityType.OWN_ROUND_BEGIN);
         //刷新本回合出牌数
         BattleInformation.EFFECTS.add(new ShuffleProduce(player, player, 1));
         //抽牌阶段
@@ -124,6 +127,7 @@ public class Player implements Role {
 
     //失去生命时机
     private void lossBlood() {
+        Opportunity.launchOpportunity(player, OpportunityType.LOST_BLOOD);
     }
 
     @Override
@@ -158,6 +162,15 @@ public class Player implements Role {
     @Override
     public void upAttribute(AttributeUp attributeUp) {
         BattleEntities.playerBattle.getComponent(PlayerComponent.class).attributeUP(attributeUp);
+        //更新手牌数值
+        for (CardComponent handCard : CardComponent.HAND_CARDS) {
+            handCard.update();
+        }
+    }
+
+    @Override
+    public void downAttribute(AttributeDown attributeDown) {
+        BattleEntities.playerBattle.getComponent(PlayerComponent.class).attributeDown(attributeDown);
         //更新手牌数值
         for (CardComponent handCard : CardComponent.HAND_CARDS) {
             handCard.update();

@@ -31,7 +31,7 @@ public class WeakenEffect extends Effect {
             enemy.getComponent(EnemyComponent.class).update();
         }
         //添加攻击后移除虚弱效果时机
-        Opportunity opportunity = new Opportunity("虚弱", OpportunityType.ATTACK_TIME, 1, getValue(), getFrom(), null, new int[1]);
+        Opportunity opportunity = new Opportunity("虚弱", OpportunityType.ATTACK_TIME, 1, getValue(), getTo(), null, new int[1], false, 1);
         opportunity.getEndEffects()[0] = 104;
         Opportunity.addOpportunity(opportunity, super.getTo());
     }

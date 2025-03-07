@@ -62,6 +62,32 @@ public enum Effects {
     SPEED_DOWN,
     //62.力量翻倍x062
     DOUBLE_POWER,
+    //63.智力翻倍x063
+    DOUBLE_INTELLIGENCE,
+    //64.防御翻倍x064
+    DOUBLE_DEFENSE,
+    //65.敏捷翻倍x065
+    DOUBLE_AGILITY,
+    //66.纯洁翻倍x066
+    DOUBLE_PURITY,
+    //67.速度翻倍x067
+    DOUBLE_SPEED,
+    //68.失去所有力量x068
+    LOST_POWER,
+    //69.失去所有智力x069
+    LOST_INTELLIGENCE,
+    //70.失去所有防御x070
+    LOST_DEFENSE,
+    //71.失去所有敏捷x071
+    LOST_AGILITY,
+    //72.失去所有纯洁x072
+    LOST_PURITY,
+    //73.失去所有速度x073
+    LOST_SPEED,
+    //74.全属性上升x074（x为全属性上升的数值）
+    ALL_ATTRIBUTE_UP,
+    //75.全属性下降x075（x为全属性下降的数值）
+    ALL_ATTRIBUTE_DOWN,
     //80.弃牌效果--弃掉当前行动的牌x080（x无效果）
     ABANDON_ACTION,
     //81.回抽效果--将当前行动的牌放回抽牌堆x081（x无效果）
@@ -82,14 +108,16 @@ public enum Effects {
     DOUBLE_DAMAGE,
     //102.伤害翻倍效果结束
     DOUBLE_END,
-    //103.虚弱效果
+    //103.虚弱效果x103（x为次数）
     WEAKEN,
     //104.虚弱效果结束
     WEAKEN_END,
     //200.满足条件触发效果x200（x为执行的效果代码），该条件为目标无护甲
     CONDITION_EFFECT,
-    //300.护盾完全防御时机创造
-    ARMOR_DEFENSE_FIND_CARD,
+    //300.护盾完全防御时机创造，永久时机效果，不可叠加，仅一层
+    ARMOR_DEFENSE_NO,
+    //303.自身回合开始时机，永久时机效果，可叠加，仅一层
+    OWN_ROUND_BEGIN_YES,
     ;
 
 
@@ -158,6 +186,32 @@ public enum Effects {
             case 61 -> new AttributeDownEffect(from, to, value, AttributeDown.SPEED_DOWN);
             //62.力量翻倍
             case 62 -> new DoubleAttribute(from, to, value, AttributeUp.POWER_UP);
+            //63.智力翻倍
+            case 63 -> new DoubleAttribute(from, to, value, AttributeUp.INTELLIGENCE_UP);
+            //64.防御翻倍
+            case 64 -> new DoubleAttribute(from, to, value, AttributeUp.DEFENSE_UP);
+            //65.敏捷翻倍
+            case 65 -> new DoubleAttribute(from, to, value, AttributeUp.AGILITY_UP);
+            //66.纯洁翻倍
+            case 66 -> new DoubleAttribute(from, to, value, AttributeUp.PURITY_UP);
+            //67.速度翻倍
+            case 67 -> new DoubleAttribute(from, to, value, AttributeUp.SPEED_UP);
+            //68.失去所有力量
+            case 68 -> new LostAttribute(from, to, value, AttributeDown.POWER_DOWN);
+            //69.失去所有智力
+            case 69 -> new LostAttribute(from, to, value, AttributeDown.INTELLIGENCE_DOWN);
+            //70.失去所有防御
+            case 70 -> new LostAttribute(from, to, value, AttributeDown.DEFENSE_DOWN);
+            //71.失去所有敏捷
+            case 71 -> new LostAttribute(from, to, value, AttributeDown.AGILITY_DOWN);
+            //72.失去所有纯洁
+            case 72 -> new LostAttribute(from, to, value, AttributeDown.PURITY_DOWN);
+            //73.失去所有速度
+            case 73 -> new LostAttribute(from, to, value, AttributeDown.SPEED_DOWN);
+            //74.全属性上升
+            case 74 -> new AllAttributeUp(from, to, value);
+            //75.全属性下降
+            case 75 -> new AllAttributeDown(from, to, value);
             //80.弃牌效果--弃掉当前行动的牌
             case 80 -> new AbandonAction(from, player, value);
             //81.回抽效果--将当前行动的牌放回抽牌堆
@@ -180,12 +234,18 @@ public enum Effects {
             case 102 -> new DoubleDamageEnd(from, to, value);
             //103.虚弱效果
             case 103 -> new WeakenEffect(from, to, value);
-            //104虚弱效果结束
+            //104.虚弱效果结束
             case 104 -> new WeakenEnd(from, to, value);
+            //105.群体虚弱效果
+            case 105 -> new AllWeaken(from, to, value);
             //200.条件满足效果
             case 200 -> new ConditionEffect(from, to, value, 1, getEffect(value, from, to));
-            //300.创造护盾完全防御时机
-            case 300 -> new OpportunityEffect(from, to, value, OpportunityType.ARMOR_DEFENSE);
+            //300.创造护盾完全防御时机，永久时机效果，不可叠加，仅一层
+            case 300 -> new OpportunityEffect(from, to, value, OpportunityType.ARMOR_DEFENSE, false, 1);
+            //303.自身回合开始时机，永久时机效果，可叠加，仅一层
+            case 303 -> new OpportunityEffect(from, to, value, OpportunityType.OWN_ROUND_BEGIN, true, 1);
+            //305.失去血量时，永久时机效果，可叠加，仅一层
+            case 305 -> new OpportunityEffect(from, to, value, OpportunityType.LOST_BLOOD, true, 1);
             //999.暂停时机
             case 999 -> new PauseEffect(null, null, 0, 999);
             default -> null;

@@ -9,15 +9,20 @@ import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 
 import java.util.Objects;
 
-//时机效果
+//永久时机效果
 public class OpportunityEffect extends Effect {
     //时机类型
     private final OpportunityType opportunityType;
+    //时机是否可以重叠
+    private final boolean stackable;
+    //时机层数
+    private final int layer;
 
-
-    public OpportunityEffect(Role from, Role to, int value, OpportunityType opportunityType) {
+    public OpportunityEffect(Role from, Role to, int value, OpportunityType opportunityType, boolean stackable, int layer) {
         super(from, to, value);
         this.opportunityType = opportunityType;
+        this.stackable = stackable;
+        this.layer = layer;
     }
 
     @Override
@@ -25,18 +30,23 @@ public class OpportunityEffect extends Effect {
         if (super.getTo() == null) return;
         int[] effects = new int[1];
         effects[0] = getValue();
-        Opportunity opportunity = new Opportunity("找卡", opportunityType, 0, 1, PlayerInformation.player, effects, null);
+        Opportunity opportunity = new Opportunity(OpportunityType.getTypeName(opportunityType) + "*" + Objects.requireNonNull(Effects.getEffect(getValue(), getFrom(), getTo())), opportunityType, 0, 999, PlayerInformation.player, effects, null, stackable, layer);
         Opportunity.addOpportunity(opportunity, PlayerInformation.player);
 
     }
 
     @Override
     public String describeInDetail() {
-        String front = "";
-        if (opportunityType == OpportunityType.ARMOR_DEFENSE) front = "时机1：当受到伤害被护盾完全格挡时";
+        String front;
+        if (stackable) {
+            front = "可叠加\n";
+        } else {
+            front = "多张此类卡仅一张触发此效果\n";
+        }
+        front += OpportunityType.detailInformation(opportunityType);
         Effect effect = Effects.getEffect(getValue(), getFrom(), getTo());
         if (effect != null) {
-            front = front + (effect.describeInDetail().isEmpty() ? Effect.NEW_LINE : effect.describeInDetail());
+            front = front + (effect.describeInDetail().isEmpty() ? Effect.NEW_LINE : "\n" + effect.describeInDetail());
             return front;
         }
         return front + Effect.NEW_LINE;
@@ -44,8 +54,6 @@ public class OpportunityEffect extends Effect {
 
     @Override
     public String toString() {
-        String front = "";
-        if (opportunityType == OpportunityType.ARMOR_DEFENSE) front = "时机1，";
-        return front + Objects.requireNonNull(Effects.getEffect(getValue(), getFrom(), getTo())) + "（每次打出生效1次）";
+        return OpportunityType.getTypeName(opportunityType) + "，" + Objects.requireNonNull(Effects.getEffect(getValue(), getFrom(), getTo()));
     }
 }

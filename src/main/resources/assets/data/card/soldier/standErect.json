@@ -1,0 +1,21 @@
+{
+  "cardNum": 20,
+  "cardName": "屹立",
+  "attribute": {
+    "power": 0,
+    "intelligence": 0,
+    "defense": 2,
+    "agility": 2,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 0,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    8040,
+    1010,
+    80,
+    1083
+  ],
+  "targetType": 1
+}

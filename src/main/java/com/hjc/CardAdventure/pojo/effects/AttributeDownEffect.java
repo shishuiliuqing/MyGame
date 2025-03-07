@@ -31,6 +31,7 @@ public class AttributeDownEffect extends Effect {
         } else {
             attribute.setSpeed(attribute.getSpeed() - value);
         }
+        getTo().downAttribute(attributeDown);
     }
 
     @Override

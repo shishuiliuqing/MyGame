@@ -1,20 +1,21 @@
 {
-  "cardNum": 11,
-  "cardName": "突破极限",
+  "cardNum": 18,
+  "cardName": "血洗",
   "attribute": {
-    "power": 3,
+    "power": 6,
     "intelligence": 0,
     "defense": 0,
     "agility": 0,
-    "purity": 5,
-    "speed": 0
+    "purity": 0,
+    "speed": 6
   },
   "cardQuality": 2,
   "colorS": "#ff0000",
   "cardEffects": [
-    62,
-    82,
+    3021,
+    2401002,
+    80,
     1083
   ],
-  "targetType": 1
+  "targetType": 3
 }

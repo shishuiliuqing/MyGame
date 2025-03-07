@@ -5,6 +5,7 @@ import com.hjc.CardAdventure.pojo.attribute.Attribute;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.Role;
+import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.effects.*;
 import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
@@ -56,6 +57,8 @@ public class Enemy implements Role {
 
     @Override
     public void action() {
+        //回合开始，触发自身回合开始效果
+        Opportunity.launchOpportunity(this, OpportunityType.OWN_ROUND_BEGIN);
         //当前敌人不在场上，直接下一个回合
 //        if (getEntityIndex() == -1) {
 //            BattleInformation.EFFECTS.add(new ActionOver(this, this, 1));
@@ -139,6 +142,7 @@ public class Enemy implements Role {
 
     //失去生命时机
     private void lossBlood() {
+        Opportunity.launchOpportunity(this, OpportunityType.LOST_BLOOD);
     }
 
     //物理攻击
@@ -172,6 +176,12 @@ public class Enemy implements Role {
     public void upAttribute(AttributeUp attributeUp) {
         int index = getEntityIndex();
         BattleEntities.enemies[index].getComponent(EnemyComponent.class).attributeUP(attributeUp);
+    }
+
+    @Override
+    public void downAttribute(AttributeDown attributeDown) {
+        int index = getEntityIndex();
+        BattleEntities.enemies[index].getComponent(EnemyComponent.class).attributeDown(attributeDown);
     }
 
     @Override

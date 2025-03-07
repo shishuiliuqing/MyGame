@@ -1,6 +1,7 @@
 package com.hjc.CardAdventure.pojo;
 
 import com.hjc.CardAdventure.pojo.attribute.Attribute;
+import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
 import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
@@ -39,6 +40,9 @@ public interface Role {
 
     //属性添加
     void upAttribute(AttributeUp attributeUp);
+
+    //属性下降
+    void downAttribute(AttributeDown attributeDown);
 
     //获得角色的效果时机序列
     ArrayList<Opportunity> getRoleOpportunities();
