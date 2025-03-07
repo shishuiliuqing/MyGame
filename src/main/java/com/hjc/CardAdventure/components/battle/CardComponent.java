@@ -46,6 +46,8 @@ public class CardComponent extends Component {
     private final Card card;
     //卡牌所在位置
     private final int boxNum;
+    //特殊操作效果
+    public static boolean specialProduce = false;
 
     //卡牌宽
     public static final double CARD_WIDTH = CARD_X / (PICTURE_X / CARD_BOX_X);
@@ -73,6 +75,12 @@ public class CardComponent extends Component {
         //System.out.println(data.get("boxNum").toString());
         //System.out.println(CARD_BOX_X * (int) data.get("boxNum"));
         addUI();
+
+        if (specialProduce) {
+            selectable = true;
+            select();
+            selectable = false;
+        }
 
         entity.getViewComponent().addOnClickHandler(e -> select());
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
@@ -135,6 +143,20 @@ public class CardComponent extends Component {
 
     //选择卡牌
     public void select() {
+        if (isSelected() && specialProduce) {
+            //点击后下移
+            entity.translateY(Y_MOVE_SELECTED);
+            //选择区移除
+            CARD_COMPONENTS.remove(this);
+            //触发牌的放下效果
+            card.putDown();
+            //使用按钮变暗
+            BattleEntities.produce.getComponent(ProduceComponent.class).resetButton(false);
+            //特殊时候结束
+            specialProduce = false;
+            //恢复效果执行状态
+            BattleInformation.effectExecution();
+        }
         //非选卡状态
         if (!selectable) return;
 
@@ -221,6 +243,8 @@ public class CardComponent extends Component {
 
     //卡牌效果执行
     public void action() {
+        //如果是特殊使用，特殊使用结束
+        specialProduce = false;
         //当前行动卡牌
         CardComponent.actionCard = this;
         //将该牌移至中央

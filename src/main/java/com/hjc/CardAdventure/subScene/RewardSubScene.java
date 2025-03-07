@@ -35,7 +35,7 @@ public class RewardSubScene extends SubScene {
         forward.setTranslateX(1700);
         forward.setTranslateY(800);
         forward.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-            System.out.println("真的是你呀");
+            //System.out.println("真的是你呀");
 //            Rectangle r = new Rectangle(CardAdventureApp.APP_WITH, CardAdventureApp.APP_WITH, Color.rgb(0, 0, 0, 0));
 //            getContentRoot().getChildren().add(r);
 //

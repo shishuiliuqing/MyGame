@@ -25,7 +25,7 @@ public class DrawCardsComponent extends Component {
 
     private int num;
     private final String colorS;
-    private final double speed = 450;
+
 
     public DrawCardsComponent() {
         super();

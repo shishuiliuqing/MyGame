@@ -86,6 +86,11 @@ public class Player implements Role {
     }
 
     @Override
+    public int getRoleArmor() {
+        return PlayerInformation.playerArmor;
+    }
+
+    @Override
     public void physicalHurt(int value) {
         //伤害减护甲
         value = value - PlayerInformation.playerArmor;
@@ -104,6 +109,7 @@ public class Player implements Role {
             int x = PlayerInformation.playerArmor + value;
             PlayerInformation.playerArmor = value * (-1);
             BattleEntities.playerBattle.getComponent(PlayerComponent.class).reduceArmor(x);
+            Opportunity.launchOpportunity(player, OpportunityType.ARMOR_DEFENSE);
         }
     }
 

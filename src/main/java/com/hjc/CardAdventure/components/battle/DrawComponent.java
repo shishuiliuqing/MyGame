@@ -35,8 +35,8 @@ public class DrawComponent extends Component {
     public void onUpdate(double tpf) {
         //抽牌移动效果
         if (xMove < xNeedMove) {
-            entity.translateX(xNeedMove * tpf);
-            xMove += xNeedMove * tpf;
+            entity.translateX(xNeedMove * tpf * 2);
+            xMove += xNeedMove * tpf * 2;
         } else {
             entity.removeFromWorld();
         }

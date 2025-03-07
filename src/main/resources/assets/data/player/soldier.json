@@ -5,8 +5,8 @@
   "attribute": {
     "power": 2,
     "intelligence": 0,
-    "defense": 1,
-    "agility": 1,
+    "defense": 99,
+    "agility": 2,
     "purity": 1,
     "speed": 2
   },

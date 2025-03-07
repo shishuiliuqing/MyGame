@@ -16,6 +16,9 @@ public interface Role {
     //获得角色属性
     Attribute getRoleAttribute();
 
+    //获得角色护甲
+    int getRoleArmor();
+
     //物理受伤
     void physicalHurt(int value);
 

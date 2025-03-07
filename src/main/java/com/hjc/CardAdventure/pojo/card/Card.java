@@ -42,7 +42,7 @@ public class Card {
         //解析卡牌效果
         ArrayList<Effect> effects = Effects.getEffects(this.cardEffects, PlayerInformation.player, TargetComponent.target);
         //将所有效果添加至效果序列
-        BattleInformation.EFFECTS.addAll(effects);
+        BattleInformation.insetEffect(effects);
         //添加使用后弃牌效果
         //BattleInformation.EFFECTS.add(new AbandonAction(PlayerInformation.player, PlayerInformation.player, 0));
         //执行效果序列

@@ -19,6 +19,8 @@ public class AttributeUtil {
     //计算人物物理伤害
     //角色翻倍判断集合
     public static ArrayList<Role> isDouble = new ArrayList<>();
+    //角色虚弱效果判断集合
+    public static ArrayList<Role> isWeaken = new ArrayList<>();
 
     public static int mathPhysicalDamage(PhysicalDamage physicalDamage) {
         int baseValue = physicalDamage.getValue();
@@ -28,6 +30,7 @@ public class AttributeUtil {
         //添加发动者的力量
         baseValue += (physicalDamage.getFrom().getRoleAttribute().getPower() * b);
         if (isDouble.contains(physicalDamage.getFrom())) baseValue = baseValue * 2;
+        if (isWeaken.contains(physicalDamage.getFrom())) baseValue = baseValue * 3 / 4;
         return baseValue;
     }
 

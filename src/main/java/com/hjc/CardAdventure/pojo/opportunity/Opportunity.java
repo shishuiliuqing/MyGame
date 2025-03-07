@@ -32,6 +32,10 @@ public class Opportunity {
     //向某个角色添加某个时机效果
     public static void addOpportunity(Opportunity opportunity, Role role) {
         ArrayList<Opportunity> opportunities = role.getRoleOpportunities();
+        if (opportunity.getName().equals("找卡")) {
+            opportunities.add(opportunity);
+            updateOpportunityTypes(role);
+        }
         for (Opportunity o : opportunities) {
             if (o.getName().equals(opportunity.getName())) {
                 o.setNum(o.getNum() + opportunity.getNum());

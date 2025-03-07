@@ -7,6 +7,7 @@ import com.hjc.CardAdventure.pojo.attribute.Attribute;
 import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.effects.ActionOver;
 import com.hjc.CardAdventure.pojo.effects.Effect;
+import com.hjc.CardAdventure.pojo.effects.PauseEffect;
 import com.hjc.CardAdventure.pojo.effects.RoleAction;
 import com.hjc.CardAdventure.pojo.enemy.Enemy;
 import com.hjc.CardAdventure.pojo.enemy.EnemyType;
@@ -209,7 +210,7 @@ public class BattleInformation {
     //效果执行器
     public static void effectExecution() {
         while (!EFFECTS.isEmpty()) {
-            //System.out.println(EFFECTS);
+            System.out.println(EFFECTS);
             if (ENEMIES.isEmpty() && isBattle) {
                 EFFECTS.clear();
                 Attribute.cloneAttribute(attribute, PlayerInformation.player.getAttribute());
@@ -221,6 +222,7 @@ public class BattleInformation {
             Effect effect = EFFECTS.get(0);
             EFFECTS.remove(0);
             effect.action();
+            if (effect instanceof PauseEffect) break;
         }
     }
 

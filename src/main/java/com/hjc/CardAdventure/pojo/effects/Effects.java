@@ -4,9 +4,8 @@ import com.hjc.CardAdventure.pojo.Role;
 import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.card.Card;
-import com.hjc.CardAdventure.pojo.effects.complexEffect.DoubleAttribute;
-import com.hjc.CardAdventure.pojo.effects.complexEffect.DoubleDamage;
-import com.hjc.CardAdventure.pojo.effects.complexEffect.DoubleDamageEnd;
+import com.hjc.CardAdventure.pojo.effects.complexEffect.*;
+import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 
 import java.util.ArrayList;
@@ -29,6 +28,8 @@ public enum Effects {
     DRAW_NO_SHUFFLE,
     //12.洗牌效果x012（x为补回抽牌数，不洗牌抽牌）
     SHUFFLE,
+    //13.寻卡效果xy013（x为要寻卡的编号,y--1位，要找的牌堆，1为抽牌堆）
+    FIND_CARD,
     //20.血量回复
     RESTORE_BLOOD,
     //21.血量失去效果
@@ -47,19 +48,19 @@ public enum Effects {
     PURITY_UP,
     //55.速度提升x055（x为提升的数值）
     SPEED_UP,
-    //56.力量下降x050（x为下降的数值）
+    //56.力量下降x056（x为下降的数值）
     POWER_DOWN,
-    //57.智力下降x051（x为下降的数值）
+    //57.智力下降x057（x为下降的数值）
     INTELLIGENCE_DOWN,
-    //58.防御下降x052（x为下降的数值）
+    //58.防御下降x058（x为下降的数值）
     DEFENSE_DOWN,
-    //59.敏捷下降x053（x为下降的数值）
+    //59.敏捷下降x059（x为下降的数值）
     AGILITY_DOWN,
-    //60.纯洁下降x054（x为下降的数值）
+    //60.纯洁下降x060（x为下降的数值）
     PURITY_DOWN,
-    //61.速度下降x055（x为下降的数值）
+    //61.速度下降x061（x为下降的数值）
     SPEED_DOWN,
-    //62.力量翻倍
+    //62.力量翻倍x062
     DOUBLE_POWER,
     //80.弃牌效果--弃掉当前行动的牌x080（x无效果）
     ABANDON_ACTION,
@@ -67,10 +68,12 @@ public enum Effects {
     GO_Draw_CARDS,
     //82.消耗--将当前行动的牌放到消耗牌堆x082（x无效果）
     CONSUME_CARD,
-    //83.出牌数减少效果
+    //83.出牌数减少效果x083（x为减少次数）
     REDUCE_PRODUCE,
-    //84.刷新本回合出牌数
+    //84.刷新本回合出牌数x084（x无意义）
     SHUFFLE_PRODUCE,
+    //85.不消耗出牌次数效果x085（x无意义）
+    NO_REDUCE_PRODUCE,
     //98.结束角色当前回合
     ACTION_OVER,
     //99.角色额外行动x099（x代表获得行动的次数）
@@ -78,7 +81,16 @@ public enum Effects {
     //101.伤害翻倍（有限次）x101（x为次数）
     DOUBLE_DAMAGE,
     //102.伤害翻倍效果结束
-    DOUBLE_END;
+    DOUBLE_END,
+    //103.虚弱效果
+    WEAKEN,
+    //104.虚弱效果结束
+    WEAKEN_END,
+    //200.满足条件触发效果x200（x为执行的效果代码），该条件为目标无护甲
+    CONDITION_EFFECT,
+    //300.护盾完全防御时机创造
+    ARMOR_DEFENSE_FIND_CARD,
+    ;
 
 
     public static final int TYPE_DIVISION = 1000;
@@ -112,6 +124,8 @@ public enum Effects {
             case 11 -> new DrawNoShuffle(from, player, value);
             //12.洗牌效果，将弃牌堆的牌放回抽牌堆并打乱
             case 12 -> new ShuffleEffect(from, player, value);
+            //13.寻卡
+            case 13 -> new FindCard(from, player, value);
             //20.血量回复效果
             case 20 -> new RestoreBlood(from, player, value);
             //21.血量失去效果
@@ -154,6 +168,8 @@ public enum Effects {
             case 83 -> new ReduceProduce(from, player, value);
             //84.刷新本回合出牌数
             case 84 -> new ShuffleProduce(from, player, value);
+            //85.不占用出牌数效果
+            case 85 -> new NoProduce(from, player, value);
             //98.结束当前回合
             case 98 -> new ActionOver(from, to, value);
             //99.玩家额外行动
@@ -162,6 +178,16 @@ public enum Effects {
             case 101 -> new DoubleDamage(from, to, value);
             //102.伤害翻倍效果结束
             case 102 -> new DoubleDamageEnd(from, to, value);
+            //103.虚弱效果
+            case 103 -> new WeakenEffect(from, to, value);
+            //104虚弱效果结束
+            case 104 -> new WeakenEnd(from, to, value);
+            //200.条件满足效果
+            case 200 -> new ConditionEffect(from, to, value, 1, getEffect(value, from, to));
+            //300.创造护盾完全防御时机
+            case 300 -> new OpportunityEffect(from, to, value, OpportunityType.ARMOR_DEFENSE);
+            //999.暂停时机
+            case 999 -> new PauseEffect(null, null, 0, 999);
             default -> null;
         };
 

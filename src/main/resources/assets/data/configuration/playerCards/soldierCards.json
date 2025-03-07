@@ -1,18 +1,14 @@
 {
   "initial": [
-    "strike",
-    "strike",
-    "strike",
-    "defense",
-    "defense",
-    "heavyBlow",
-    "sweeping"
+    "defenseCounterattack",
+    "defense"
   ],
   "white": [
     "strike",
     "defense",
     "heavyBlow",
-    "blockAssault"
+    "blockAssault",
+    "jumpSlash"
   ],
   "blue": [
     "inspire",
@@ -25,6 +21,7 @@
   "yellow": [
     "heavyBlade",
     "kaiTian",
-    "breakLimit"
+    "breakLimit",
+    "defenseCounterattack"
   ]
 }

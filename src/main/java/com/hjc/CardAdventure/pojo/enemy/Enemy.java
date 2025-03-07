@@ -90,6 +90,11 @@ public class Enemy implements Role {
         return getAttribute();
     }
 
+    @Override
+    public int getRoleArmor() {
+        return this.armor;
+    }
+
     //受到物理伤害
     @Override
     public void physicalHurt(int value) {
@@ -114,6 +119,7 @@ public class Enemy implements Role {
             int x = this.armor + value;
             this.armor = value * (-1);
             BattleEntities.enemies[index].getComponent(EnemyComponent.class).reduceArmor(x);
+            Opportunity.launchOpportunity(this, OpportunityType.ARMOR_DEFENSE);
         }
     }
 
