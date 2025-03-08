@@ -24,4 +24,8 @@ public class PlayerInformation {
     public static ArrayList<Opportunity> opportunities = new ArrayList<>();
     //角色可触发时机
     public static ArrayList<OpportunityType> opportunityTypes = new ArrayList<>();
+    //玩家是否回合开始失去护盾
+    public static boolean lostArmorFlag = true;
+    //玩家是否是易伤状态
+    public static boolean isVulnerability = false;
 }

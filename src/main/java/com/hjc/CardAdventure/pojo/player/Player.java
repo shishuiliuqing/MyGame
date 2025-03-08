@@ -18,6 +18,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 
+import static com.hjc.CardAdventure.pojo.player.PlayerInformation.opportunities;
 import static com.hjc.CardAdventure.pojo.player.PlayerInformation.player;
 
 
@@ -52,12 +53,13 @@ public class Player implements Role {
     //角色图片y偏移量
     private double y;
 
-
     //角色行动
     @Override
     public void action() {
         //回合开始阶段
         ActionOverComponent.isPlayer = true;
+        //失去所有护盾
+        if (PlayerInformation.lostArmorFlag) setRoleArmor(0);
         //回合开始，触发自身回合开始效果
         Opportunity.launchOpportunity(this, OpportunityType.OWN_ROUND_BEGIN);
         //刷新本回合出牌数
@@ -95,6 +97,10 @@ public class Player implements Role {
 
     @Override
     public void physicalHurt(int value) {
+        //如果为易伤状态
+        if (PlayerInformation.isVulnerability) value = value + value / 2;
+        //受到物理伤害效果触发
+        Opportunity.launchOpportunity(this, OpportunityType.HURT_TIME);
         //伤害减护甲
         value = value - PlayerInformation.playerArmor;
 
@@ -117,7 +123,7 @@ public class Player implements Role {
     }
 
     @Override
-    public void specialHurt(int value) {
+    public void specialHurt(int value, SpecialDamageType specialDamageType) {
         this.blood -= value;
         if (this.blood < 0) this.blood = 0;
         lossBlood();
@@ -160,6 +166,24 @@ public class Player implements Role {
     }
 
     @Override
+    public void setRoleArmor(int vale) {
+        PlayerInformation.playerArmor = vale;
+        BattleEntities.playerBattle.getComponent(PlayerComponent.class).update();
+    }
+
+    @Override
+    public void isLostArmor(boolean flag) {
+        PlayerInformation.lostArmorFlag = flag;
+        opportunities.add(new Opportunity("固守", OpportunityType.OWN_ROUND_BEGIN, 0, 999, this, null, null, false, 0));
+    }
+
+    @Override
+    public void setRoleVulnerability(boolean vulnerability) {
+        PlayerInformation.isVulnerability = vulnerability;
+        BattleEntities.playerBattle.getComponent(PlayerComponent.class).update();
+    }
+
+    @Override
     public void upAttribute(AttributeUp attributeUp) {
         BattleEntities.playerBattle.getComponent(PlayerComponent.class).attributeUP(attributeUp);
         //更新手牌数值
@@ -179,7 +203,7 @@ public class Player implements Role {
 
     @Override
     public ArrayList<Opportunity> getRoleOpportunities() {
-        return PlayerInformation.opportunities;
+        return opportunities;
     }
 
     @Override

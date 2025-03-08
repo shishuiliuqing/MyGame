@@ -1,6 +1,7 @@
 package com.hjc.CardAdventure.pojo.enemy;
 
 import com.hjc.CardAdventure.components.role.EnemyComponent;
+import com.hjc.CardAdventure.pojo.SpecialDamageType;
 import com.hjc.CardAdventure.pojo.attribute.Attribute;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
@@ -55,8 +56,15 @@ public class Enemy implements Role {
     //可触发时机序列
     private ArrayList<OpportunityType> opportunityTypes = new ArrayList<>();
 
+    //怪物每回合开始是否失去护盾
+    private boolean lostArmorFlag = true;
+    //怪物是否为易伤状态
+    private boolean isVulnerability = false;
+
     @Override
     public void action() {
+        //回合开始，失去护盾
+        if (lostArmorFlag) setRoleArmor(0);
         //回合开始，触发自身回合开始效果
         Opportunity.launchOpportunity(this, OpportunityType.OWN_ROUND_BEGIN);
         //当前敌人不在场上，直接下一个回合
@@ -103,7 +111,10 @@ public class Enemy implements Role {
     public void physicalHurt(int value) {
         int index = getEntityIndex();
         if (index == -1) return;
-
+        //如果为易伤状态
+        if (isVulnerability) value = value + value / 2;
+        //受到物理伤害效果触发
+        Opportunity.launchOpportunity(this, OpportunityType.HURT_TIME);
         //伤害减护甲
         value = value - armor;
 
@@ -128,13 +139,14 @@ public class Enemy implements Role {
 
     @Override
     //无视护甲效果，直接受伤，不触发受伤效果（法伤，特殊伤害等）
-    public void specialHurt(int value) {
+    public void specialHurt(int value, SpecialDamageType specialDamageType) {
         this.blood -= value;
         if (this.blood < 0) {
             this.blood = 0;
         }
         lossBlood();
         int index = getEntityIndex();
+        if (index == -1) return;
         //受伤动画
         BattleEntities.enemies[index].getComponent(EnemyComponent.class).hurt(value);
         if (this.blood == 0) BattleInformation.insetEffect(new DeathEffect(this, this, 1));
@@ -162,6 +174,7 @@ public class Enemy implements Role {
         this.blood = this.blood + value;
         if (this.blood > maxBlood) this.blood = this.maxBlood;
         int index = getEntityIndex();
+        if (index == -1) return;
         BattleEntities.enemies[index].getComponent(EnemyComponent.class).restoreBlood(value);
     }
 
@@ -169,18 +182,43 @@ public class Enemy implements Role {
     public void addArmor(int value) {
         armor += value;
         int index = getEntityIndex();
+        if (index == -1) return;
         BattleEntities.enemies[index].getComponent(EnemyComponent.class).addArmor();
+    }
+
+    @Override
+    public void setRoleArmor(int vale) {
+        this.armor = vale;
+        int index = getEntityIndex();
+        if (index == -1) return;
+        BattleEntities.enemies[index].getComponent(EnemyComponent.class).update();
+    }
+
+    @Override
+    public void isLostArmor(boolean flag) {
+        lostArmorFlag = flag;
+        opportunities.add(new Opportunity("固守", OpportunityType.OWN_ROUND_BEGIN, 0, 999, this, null, null, false, 0));
+    }
+
+    @Override
+    public void setRoleVulnerability(boolean vulnerability) {
+        this.isVulnerability = vulnerability;
+        int index = getEntityIndex();
+        if (index == -1) return;
+        BattleEntities.enemies[index].getComponent(EnemyComponent.class).update();
     }
 
     @Override
     public void upAttribute(AttributeUp attributeUp) {
         int index = getEntityIndex();
+        if (index == -1) return;
         BattleEntities.enemies[index].getComponent(EnemyComponent.class).attributeUP(attributeUp);
     }
 
     @Override
     public void downAttribute(AttributeDown attributeDown) {
         int index = getEntityIndex();
+        if (index == -1) return;
         BattleEntities.enemies[index].getComponent(EnemyComponent.class).attributeDown(attributeDown);
     }
 

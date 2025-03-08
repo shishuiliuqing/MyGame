@@ -2,6 +2,7 @@ package com.hjc.CardAdventure.util;
 
 import com.hjc.CardAdventure.pojo.Role;
 import com.hjc.CardAdventure.pojo.effects.ArmorAdd;
+import com.hjc.CardAdventure.pojo.effects.Effect;
 import com.hjc.CardAdventure.pojo.effects.PhysicalDamage;
 import com.hjc.CardAdventure.pojo.effects.RestoreBlood;
 import com.hjc.CardAdventure.pojo.player.Level;
@@ -51,6 +52,13 @@ public class AttributeUtil {
         return baseValue;
     }
 
+    //计算法术效果
+    public static int mathMagic(Effect magicEffect) {
+        int baseValue = magicEffect.getValue();
+        baseValue += magicEffect.getFrom().getRoleAttribute().getIntelligence();
+        return baseValue;
+    }
+
     //计算护盾添加效果
     public static int mathArmorAdd(ArmorAdd armorAdd) {
         int baseValue = armorAdd.getValue();
@@ -66,5 +74,11 @@ public class AttributeUtil {
         num += Level.playedCardNum(Level.getLV(player.getExperience()));
 
         return num;
+    }
+
+    //初始化计算工具
+    public static void initUtil() {
+        isDouble.clear();
+        isWeaken.clear();
     }
 }

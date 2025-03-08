@@ -9,18 +9,21 @@ import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 
 import java.util.Objects;
 
-//永久时机效果
-public class OpportunityEffect extends Effect {
-    //时机类型
+//次数随机效果，与回合无关
+public class NumOpportunityEffect extends Effect {
+    //触发次数
+    private final int num;
+    //触发时机种类
     private final OpportunityType opportunityType;
-    //时机是否可以重叠
+    //是否可以叠加
     private final boolean stackable;
-    //时机层数
+    //层数
     private final int layer;
 
-    public OpportunityEffect(Role from, Role to, int value, OpportunityType opportunityType, boolean stackable, int layer) {
+    public NumOpportunityEffect(Role from, Role to, int value, OpportunityType opportunityType, int num, boolean stackable, int layer) {
         super(from, to, value);
         this.opportunityType = opportunityType;
+        this.num = num;
         this.stackable = stackable;
         this.layer = layer;
     }
@@ -30,7 +33,7 @@ public class OpportunityEffect extends Effect {
         if (super.getTo() == null) return;
         int[] effects = new int[1];
         effects[0] = getValue();
-        Opportunity opportunity = new Opportunity(OpportunityType.getTypeName(opportunityType) + "*" + Objects.requireNonNull(Effects.getEffect(getValue(), getFrom(), getTo())), opportunityType, 0, 999, getTo(), effects, null, stackable, layer);
+        Opportunity opportunity = new Opportunity(OpportunityType.getTypeName(opportunityType) + "*" + Objects.requireNonNull(Effects.getEffect(getValue(), getFrom(), getTo())), opportunityType, 0, num, getTo(), effects, null, stackable, layer);
         Opportunity.addOpportunity(opportunity, getTo());
 
     }

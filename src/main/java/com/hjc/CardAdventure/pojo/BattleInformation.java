@@ -14,8 +14,10 @@ import com.hjc.CardAdventure.pojo.enemy.EnemyType;
 import com.hjc.CardAdventure.pojo.enemy.IntentionGenerateType;
 import com.hjc.CardAdventure.pojo.environment.TimeStatus;
 import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
+import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import com.hjc.CardAdventure.subScene.RewardSubScene;
+import com.hjc.CardAdventure.util.AttributeUtil;
 import com.hjc.CardAdventure.util.OutUtil;
 
 import java.util.ArrayList;
@@ -57,6 +59,9 @@ public class BattleInformation {
     }
 
     public static void initBattle() {
+        //初始化工具类
+        AttributeUtil.initUtil();
+
         //初始化敌人序列
         initEnemies();
 
@@ -122,6 +127,7 @@ public class BattleInformation {
         attribute = new Attribute();
         //保留玩家初始属性
         Attribute.cloneAttribute(PlayerInformation.player.getAttribute(), attribute);
+        //清除人物护盾
         PlayerInformation.playerArmor = 0;
         //初始化各组件布尔值
         AbandonComponent.isLight = false;
@@ -129,6 +135,8 @@ public class BattleInformation {
         ActionOverComponent.isPlayer = false;
         //属性更新
         AttributeComponent.attribute = PlayerInformation.player.getAttribute();
+        //回合失去护盾打开
+        PlayerInformation.lostArmorFlag = true;
         //非弃牌阶段
         CardComponent.isAbandon = false;
         //不可选择卡牌
@@ -210,7 +218,7 @@ public class BattleInformation {
     //效果执行器
     public static void effectExecution() {
         while (!EFFECTS.isEmpty()) {
-            System.out.println(EFFECTS);
+            //System.out.println(EFFECTS);
             if (ENEMIES.isEmpty() && isBattle) {
                 EFFECTS.clear();
                 Attribute.cloneAttribute(attribute, PlayerInformation.player.getAttribute());

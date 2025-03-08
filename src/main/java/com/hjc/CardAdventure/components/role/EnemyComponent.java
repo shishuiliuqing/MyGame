@@ -64,7 +64,7 @@ public class EnemyComponent extends Component {
         addEnemy();
 
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e ->
-                TipBarComponent.update("当前位置：" + boxNum + "号位" + Effect.NEW_LINE + enemy.toString() + Effect.NEW_LINE+ "当前敌人拥有效果：" + Opportunity.opportunitiesToString(enemy.getOpportunities()))
+                TipBarComponent.update("当前位置：" + boxNum + "号位" + Effect.NEW_LINE + enemy.toString() + Effect.NEW_LINE+ "当前敌人拥有效果：\n" + Opportunity.opportunitiesToString(enemy.getOpportunities()))
         );
         entity.getViewComponent().addOnClickHandler(e -> target());
         //enemy.setArmor(60);

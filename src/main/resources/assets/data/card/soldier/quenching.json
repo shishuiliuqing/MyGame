@@ -1,0 +1,20 @@
+{
+  "cardNum": 29,
+  "cardName": "淬火",
+  "attribute": {
+    "power": 0,
+    "intelligence": 1,
+    "defense": 0,
+    "agility": 0,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 1,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    109307,
+    82,
+    1083
+  ],
+  "targetType": 1
+}

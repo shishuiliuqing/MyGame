@@ -24,7 +24,7 @@ public interface Role {
     void physicalHurt(int value);
 
     //特殊受伤
-    void specialHurt(int value);
+    void specialHurt(int value, SpecialDamageType specialDamageType);
 
     //攻击
     void physicalAttack(Role target, int value);
@@ -37,6 +37,15 @@ public interface Role {
 
     //护甲增加
     void addArmor(int value);
+
+    //设置角色护盾值
+    void setRoleArmor(int vale);
+
+    //设置角色是否回合开始失去护盾
+    void isLostArmor(boolean flag);
+
+    //设置角色易伤状态
+    void setRoleVulnerability(boolean vulnerability);
 
     //属性添加
     void upAttribute(AttributeUp attributeUp);

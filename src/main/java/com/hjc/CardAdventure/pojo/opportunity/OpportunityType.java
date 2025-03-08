@@ -50,7 +50,7 @@ public enum OpportunityType {
             case DRAW_FRONT -> "抽牌前";
             case GAME_BEGIN -> "游戏开始";
             case LOST_ARMOR -> "失去护盾";
-            case ATTACK_TIME -> "攻击前";
+            case ATTACK_TIME -> "时机4";
             case ROUND_BEGIN -> "大回合开始";
             case PRODUCE_CARD -> "出牌后";
             case ARMOR_DEFENSE -> "时机1";
@@ -74,7 +74,7 @@ public enum OpportunityType {
             case DRAW_FRONT -> "抽牌前";
             case GAME_BEGIN -> "游戏开始";
             case LOST_ARMOR -> "失去护盾";
-            case ATTACK_TIME -> "攻击前";
+            case ATTACK_TIME -> "时机4：攻击时";
             case ROUND_BEGIN -> "大回合开始";
             case PRODUCE_CARD -> "出牌后";
             case ARMOR_DEFENSE -> "时机1：当护盾完全格挡伤害时";

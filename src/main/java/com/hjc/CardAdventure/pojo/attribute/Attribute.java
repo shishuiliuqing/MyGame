@@ -14,7 +14,7 @@ public class Attribute {
     private int intelligence;
     //防御（1点防御增加一点护甲，每一点护甲）
     private int defense;
-    //敏捷（前3点敏捷每回合每点加一抽，之后每2点加一抽），（每5点敏捷保留一牌）
+    //敏捷（前3点敏捷每回合每点加一抽，之后每3点加一抽），（每5点敏捷保留一牌）
     private int agility;
     //纯洁（前3点纯洁每点加一回血，之后每3点加一回血）
     private int purity;

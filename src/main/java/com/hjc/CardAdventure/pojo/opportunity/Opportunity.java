@@ -40,11 +40,15 @@ public class Opportunity {
 //            updateOpportunityTypes(role);
 //        }
         for (Opportunity o : opportunities) {
+            System.out.println(o.getName());
+            System.out.println(opportunity.getName());
             if (o.getName().equals(opportunity.getName())) {
                 //可叠加
                 if (opportunity.getStackable()) {
                     o.setLayer(o.getLayer() + opportunity.getLayer());
+                    return;
                 }
+                //永久生效效果
                 if (o.getNum() == 999) return;
                 o.setNum(o.getNum() + opportunity.getNum());
                 return;
@@ -86,8 +90,18 @@ public class Opportunity {
                 }
 
                 for (int i = 0; i < opportunity.getLayer(); i++) {
+                    int[] effects = opportunity.effects;
+                    //非永久，可叠层数效果，非结束触发时机可一次性触发（如特殊伤害类）
+                    if (opportunity.getNum() != 999 && opportunity.getStackable() && effects != null && effects.length > 0) {
+                        //取该效果的数值
+                        int value = effects[0] / Effects.TYPE_DIVISION * opportunity.getLayer();
+                        int type = effects[0] % Effects.TYPE_DIVISION;
+                        effects[0] = value * Effects.TYPE_DIVISION + type;
+                        BattleInformation.insetEffect(Effects.getEffects(effects, role, opportunity.getTo()));
+                        break;
+                    }
                     //解析效果序列
-                    ArrayList<Effect> oEffects = Effects.getEffects(opportunity.effects, role, opportunity.getTo());
+                    ArrayList<Effect> oEffects = Effects.getEffects(effects, role, opportunity.getTo());
                     //插入效果执行器发动效果
                     BattleInformation.insetEffect(oEffects);
                 }
@@ -138,7 +152,7 @@ public class Opportunity {
     @Override
     public String toString() {
         String s = getName();
-        if (num != 999) s += num;
+        if (num != 999 && layer <= 1) s += num;
         if (layer > 1) s += "（" + layer + "）";
         return s;
     }
@@ -167,7 +181,13 @@ public class Opportunity {
         if (getName().equals("伤害翻倍")) {
             s = "伤害翻倍：回合结束后失效，使下" + num + "次伤害翻倍" + Effect.NEW_LINE;
         } else if (getName().equals("虚弱")) {
-            s = "虚弱：使下 " + num + "次的伤害降低25%" + Effect.NEW_LINE;
+            s = "虚弱：使下" + num + "次造成的伤害降低25%" + Effect.NEW_LINE;
+        } else if (getName().equals("易伤")) {
+            s = "易伤：使下" + num + "次受到的伤害增加50%" + Effect.NEW_LINE;
+        } else if (getName().equals("固守")) {
+            s = "固守：自身回合开始时，不会失去护盾" + Effect.NEW_LINE;
+        } else if (getName().equals("燃烧")) {
+            s = "燃烧：自身回合开始时，受到火焰伤害（伤害取决于层数）" + Effect.NEW_LINE;
         } else {
             s = "<" + getName() + ">";
             if (num != 999) {

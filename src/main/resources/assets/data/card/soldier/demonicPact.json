@@ -1,0 +1,21 @@
+{
+  "cardNum": 26,
+  "cardName": "恶魔契约",
+  "attribute": {
+    "power": 0,
+    "intelligence": 0,
+    "defense": 0,
+    "agility": 6,
+    "purity": 6,
+    "speed": 6
+  },
+  "cardQuality": 2,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    3021,
+    3010,
+    81,
+    85
+  ],
+  "targetType": 1
+}

@@ -3,15 +3,15 @@ package com.hjc.CardAdventure.pojo.effects;
 import com.hjc.CardAdventure.pojo.Role;
 import com.hjc.CardAdventure.pojo.SpecialDamageType;
 
-public class LostBlood extends Effect {
-    public LostBlood(Role from, Role to, int value) {
+public class FireDamage extends Effect {
+    public FireDamage(Role from, Role to, int value) {
         super(from, to, value);
     }
 
     @Override
     public void action() {
-        if (super.getTo() == null) return;
-        getTo().specialHurt(getValue(), SpecialDamageType.OTHER);
+        if (getTo() == null) return;
+        getTo().specialHurt(getValue(), SpecialDamageType.FIRE);
     }
 
     @Override
@@ -21,6 +21,6 @@ public class LostBlood extends Effect {
 
     @Override
     public String toString() {
-        return "失去" + getValue() + "点生命";
+        return "造成" + getValue() + "点火焰伤害";
     }
 }

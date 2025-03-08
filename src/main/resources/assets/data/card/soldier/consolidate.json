@@ -1,0 +1,20 @@
+{
+  "cardNum": 27,
+  "cardName": "巩固",
+  "attribute": {
+    "power": 0,
+    "intelligence": 0,
+    "defense": 4,
+    "agility": 0,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 1,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    44,
+    80,
+    1083
+  ],
+  "targetType": 1
+}

@@ -6,7 +6,6 @@ import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.effects.complexEffect.*;
 import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
-import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 
 import java.util.ArrayList;
 
@@ -20,6 +19,8 @@ public enum Effects {
     PHYSICAL_DAMAGE,
     //2.群体物理伤害x002（x为伤害数值）
     PHYSICAL_DAMAGE_ALL,
+    //5.受到火焰伤害x005（x为伤害数值）
+    FIRE_DAMAGE,
     //9.死亡效果
     DEATH_EFFECT,
     //10.抽牌效果x010（x为抽牌数，抽不够洗牌）
@@ -30,12 +31,20 @@ public enum Effects {
     SHUFFLE,
     //13.寻卡效果xy013（x为要寻卡的编号,y--1位，要找的牌堆，1为抽牌堆）
     FIND_CARD,
-    //20.血量回复
+    //20.血量回复x0020（x为回复的血量）
     RESTORE_BLOOD,
-    //21.血量失去效果
+    //21.血量失去效果x021（x为失去的血量）
     LOST_BLOOD,
-    //40.护盾添加
+    //40.护盾添加x040（x为添加护盾的值）
     ARMOR_ADD,
+    //41.护盾设置x041（x为设定护盾的值）
+    SET_ARMOR,
+    //42.使玩家失去护盾x42
+    LOST_ARMOR,
+    //43.使目标自身回合开始不会失去护盾x43
+    NO_LOST_ARMOR,
+    //44.使目标护盾翻倍
+    Double_Armor,
     //50.力量提升x050（x为提升的数值）
     POWER_UP,
     //51.智力提升x051（x为提升的数值）
@@ -110,8 +119,18 @@ public enum Effects {
     DOUBLE_END,
     //103.虚弱效果x103（x为次数）
     WEAKEN,
-    //104.虚弱效果结束
+    //104.虚弱效果结束x104
     WEAKEN_END,
+    //105.群体虚弱效果x105（x为虚弱层数）
+    ALL_WEAKEN,
+    //106.易伤效果x106（x为易伤层数）
+    VULNERABILITY,
+    //107.易伤结束效果x107
+    VULNERABILITY_END,
+    //108.群体易伤效果x108（x为易伤层数）
+    ALL_VULNERABILITY,
+    //109.点燃效果x109（x为点燃次数）
+    LIGHT_EFFECT,
     //200.满足条件触发效果x200（x为执行的效果代码），该条件为目标无护甲
     CONDITION_EFFECT,
     //300.护盾完全防御时机创造，永久时机效果，不可叠加，仅一层
@@ -144,6 +163,8 @@ public enum Effects {
             case 1 -> new PhysicalDamage(from, to, value);
             //2.群体物理伤害
             case 2 -> new PhysicalDamageAll(from, to, value);
+            //5.火焰伤害效果
+            case 5 -> new FireDamage(from, to, value);
             //9.死亡效果
             case 9 -> new DeathEffect(from, to, value);
             //10.抽牌效果，抽不够洗牌
@@ -160,6 +181,14 @@ public enum Effects {
             case 21 -> new LostBlood(from, player, value);
             //40.护盾添加
             case 40 -> new ArmorAdd(from, player, value);
+            //41.设置目标护甲值
+            case 41 -> new SetArmor(from, to, value);
+            //42.使玩家失去护盾值
+            case 42 -> new SetArmor(from, player, 0);
+            //43.使目标自身回合开始不会失去护盾
+            case 43 -> new NoLostArmor(from, to, value);
+            //44.使目标护盾翻倍
+            case 44 -> new DoubleArmor(from, to, value);
             //50.力量增强
             case 50 -> new AttributeUpEffect(from, to, value, AttributeUp.POWER_UP);
             //51.智力增强
@@ -238,14 +267,42 @@ public enum Effects {
             case 104 -> new WeakenEnd(from, to, value);
             //105.群体虚弱效果
             case 105 -> new AllWeaken(from, to, value);
-            //200.条件满足效果
+            //106.易伤效果
+            case 106 -> new VulnerabilityEffect(from, to, value);
+            //107.易伤结束效果
+            case 107 -> new VulnerabilityEnd(from, to, value);
+            //108.群体易伤效果
+            case 108 -> new AllVulnerability(from, to, value);
+            //109.点燃效果
+            case 109 -> new LightEffect(from, to, value);
+            //200.条件满足效果（条件1：目标无护甲）
             case 200 -> new ConditionEffect(from, to, value, 1, getEffect(value, from, to));
             //300.创造护盾完全防御时机，永久时机效果，不可叠加，仅一层
             case 300 -> new OpportunityEffect(from, to, value, OpportunityType.ARMOR_DEFENSE, false, 1);
+            //300.创造护盾完全防御时机，永久时机效果，叠加，仅一层
+            case 301 -> new OpportunityEffect(from, to, value, OpportunityType.ARMOR_DEFENSE, true, 1);
+            //302.自身回合开始时机，永久时机效果，不可叠加，仅一层
+            case 302 -> new OpportunityEffect(from, to, value, OpportunityType.OWN_ROUND_BEGIN, false, 1);
             //303.自身回合开始时机，永久时机效果，可叠加，仅一层
             case 303 -> new OpportunityEffect(from, to, value, OpportunityType.OWN_ROUND_BEGIN, true, 1);
+            //304.失去血量时，永久时机效果，不可叠加，仅一层
+            case 304 -> new OpportunityEffect(from, to, value, OpportunityType.LOST_BLOOD, false, 1);
             //305.失去血量时，永久时机效果，可叠加，仅一层
             case 305 -> new OpportunityEffect(from, to, value, OpportunityType.LOST_BLOOD, true, 1);
+            //306.
+            //307.攻击时，永久时机效果，可叠加，仅一层
+            case 307 -> new OpportunityEffect(from, to, value, OpportunityType.ATTACK_TIME, true, 1);
+            //400.
+            //401.
+            //402.
+            //403.
+            //404.
+            //405.
+            //406.攻击时，有限次时机效果，不可叠加
+            case 406 ->
+                    new NumOpportunityEffect(from, to, value / 10, OpportunityType.ATTACK_TIME, value % 10, false, 1);
+            //998暂缓秒数
+            case 998 -> new PauseEffect(null, null, 0, value * 1.0 / 10);
             //999.暂停时机
             case 999 -> new PauseEffect(null, null, 0, 999);
             default -> null;
