@@ -15,19 +15,20 @@ public class LightEffect extends Effect {
     @Override
     public void action() {
         if (getTo() == null || getFrom() == null) return;
+        if (AttributeUtil.mathMagic(this) == 0) return;
         Role to;
         if (getTo() == getFrom()) {
             to = TargetComponent.target;
         } else to = getTo();
         //计算点燃层数
         int value = AttributeUtil.mathMagic(this);
-        int[] effects = {1005, 2998};
+        int[] effects = {1005, 4998};
         Opportunity.addOpportunity(new Opportunity("燃烧", OpportunityType.OWN_ROUND_BEGIN, 0, 1, to, effects, null, true, value), to);
     }
 
     @Override
     public String describeInDetail() {
-        return "点燃：使目标燃烧，叠加层数取决于智力属性" + Effect.NEW_LINE;
+        return "点燃：使目标燃烧" + AttributeUtil.mathMagic(this) + Effect.NEW_LINE;
     }
 
     @Override

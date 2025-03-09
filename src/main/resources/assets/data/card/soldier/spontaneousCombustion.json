@@ -1,18 +1,19 @@
 {
-  "cardNum": 29,
-  "cardName": "淬火",
+  "cardNum": 39,
+  "cardName": "自燃",
   "attribute": {
     "power": 0,
     "intelligence": 4,
     "defense": 0,
     "agility": 0,
-    "purity": 0,
+    "purity": 4,
     "speed": 0
   },
-  "cardQuality": 2,
+  "cardQuality": 1,
   "colorS": "#ff0000",
   "cardEffects": [
-    109307,
+    1021311,
+    4110311,
     82,
     1083
   ],

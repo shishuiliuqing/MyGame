@@ -4,6 +4,7 @@ import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.Role;
 import com.hjc.CardAdventure.pojo.effects.Effect;
 import com.hjc.CardAdventure.pojo.effects.Effects;
+import com.hjc.CardAdventure.util.RecordUtil;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -40,8 +41,8 @@ public class Opportunity {
 //            updateOpportunityTypes(role);
 //        }
         for (Opportunity o : opportunities) {
-            System.out.println(o.getName());
-            System.out.println(opportunity.getName());
+            //System.out.println(o.getName());
+            //System.out.println(opportunity.getName());
             if (o.getName().equals(opportunity.getName())) {
                 //可叠加
                 if (opportunity.getStackable()) {
@@ -80,8 +81,10 @@ public class Opportunity {
                 if (opportunity.num != 999) opportunity.num--;
                 //发动次数为0，执行结束效果
                 if (opportunity.num == 0) {
-                    ArrayList<Effect> endEffects = Effects.getEffects(opportunity.getEndEffects(), role, opportunity.getTo());
-                    BattleInformation.insetEffect(endEffects);
+                    for (int i = 0; i < opportunity.layer; i++) {
+                        ArrayList<Effect> endEffects = Effects.getEffects(opportunity.getEndEffects(), role, opportunity.getTo());
+                        BattleInformation.insetEffect(endEffects);
+                    }
                     //移除该时机效果
                     opportunities.remove(opportunity);
                     //更新可触发时机队列
@@ -151,6 +154,9 @@ public class Opportunity {
     //将时机效果转文本描述
     @Override
     public String toString() {
+        if (getName().equals("伤害提升")) {
+            return "伤害提升" + RecordUtil.getInteger(RecordUtil.PHYIntegers);
+        }
         String s = getName();
         if (num != 999 && layer <= 1) s += num;
         if (layer > 1) s += "（" + layer + "）";
@@ -188,25 +194,32 @@ public class Opportunity {
             s = "固守：自身回合开始时，不会失去护盾" + Effect.NEW_LINE;
         } else if (getName().equals("燃烧")) {
             s = "燃烧：自身回合开始时，受到火焰伤害（伤害取决于层数）" + Effect.NEW_LINE;
+        } else if (getName().equals("伤害提升")) {
+            s = "伤害提升：使你下一次伤害增加 " + RecordUtil.getInteger(RecordUtil.PHYIntegers) + "点" + Effect.NEW_LINE;
         } else {
             s = "<" + getName() + ">";
+            if (rounds != 0) {
+                s += "\n";
+                s += "（该效果持续 " + rounds + "回合）";
+            }
             if (num != 999) {
+                s += "\n";
                 s += "（该效果可触发" + num + "次）";
             }
             if (layer > 1) {
+                s += "\n";
                 s += "（拥有该效果层数：" + layer + "）";
             }
             s += "\n" + OpportunityType.detailInformation(opportunityType);
             if (effects != null && effects.length > 0) {
-                s += "\n";
-                s += Effects.effectsDetail(effects);
+                String s1 = Effects.effectsDetail(effects);
+                s += s1.isEmpty() ? "" : "\n" + s1;
             }
             if (endEffects != null && endEffects.length > 0) {
-                s += "\n";
-                s += Effects.effectsDetail(endEffects);
+                String s1 = Effects.effectsDetail(endEffects);
+                s += s1.isEmpty() ? "" : "\n" + s1;
             }
-            if ((endEffects == null || endEffects.length == 0) && (effects == null || effects.length == 0))
-                s += Effect.NEW_LINE;
+            if (!s.contains(Effect.NEW_LINE)) s += Effect.NEW_LINE;
         }
         return s;
     }

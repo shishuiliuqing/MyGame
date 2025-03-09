@@ -17,11 +17,11 @@ public class RestoreBlood extends Effect {
 
     @Override
     public String describeInDetail() {
-        return "";
+        return "回复：回复血量" + Effect.NEW_LINE;
     }
 
     @Override
     public String toString() {
-        return "回复血量" + AttributeUtil.mathRestoreBlood(this) + "点";
+        return "回复" + AttributeUtil.mathRestoreBlood(this);
     }
 }

@@ -120,7 +120,7 @@ public class CardComponent extends Component {
 
         Label cardDescription = new Label(Effects.CardEffectsToString(this.card));
         //卡牌描述字体设置
-        cardDescription.setFont(new Font("微软雅黑", 14));
+        cardDescription.setFont(new Font("微软雅黑", 12));
         //卡牌描述大小设置
         cardDescription.setMaxSize(CARD_WIDTH - 10, CARD_HEIGHT / 2 - 5);
         //卡牌描述背景，字体颜色
@@ -256,8 +256,8 @@ public class CardComponent extends Component {
         card.action();
         //执行卡牌放下效果--目标指定刷新
         card.putDown();
-        //可以继续行动
-        selectable = true;
+        //如果当前行动仍然是玩家，可以继续行动
+        if (BattleInformation.nowAction == PlayerInformation.player) selectable = true;
     }
 
     //主动弃牌消失特效1

@@ -12,6 +12,7 @@ import java.util.Objects;
 public class ConditionEffect extends Effect {
     //执行效果的前置条件
     //1.目标无护盾
+    //2.目标力量低于发动者
     private final int condition;
     //要执行的效果
     private final Effect effect;
@@ -27,18 +28,21 @@ public class ConditionEffect extends Effect {
     public void action() {
         if (super.getTo() == null) return;
         if (condition == 1 && super.getTo().getRoleArmor() == 0) letEffectAction();
+        else if (condition == 2 && super.getTo().getRoleAttribute().getPower() < getFrom().getRoleAttribute().getPower())
+            letEffectAction();
     }
 
     @Override
     public String describeInDetail() {
         String front = "";
         if (condition == 1) front = "条件1：若目标无护盾";
+        else if (condition == 2) front = "条件2：若目标力量低于发动者";
         return Objects.equals(effect.describeInDetail(), "") ? front + Effect.NEW_LINE : front + "\n" + effect.describeInDetail();
     }
 
     @Override
     public String toString() {
-        return "条件" + condition + "，额外" + effect.toString();
+        return "条件" + condition + "，" + effect.toString();
     }
 
     private void letEffectAction() {

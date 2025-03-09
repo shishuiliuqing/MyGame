@@ -39,6 +39,7 @@ public class Card {
 
     //卡牌执行
     public void action() {
+        //System.out.println(cardName);
         //解析卡牌效果
         ArrayList<Effect> effects = Effects.getEffects(this.cardEffects, PlayerInformation.player, TargetComponent.target);
         //将所有效果添加至效果序列

@@ -63,6 +63,7 @@ public class Enemy implements Role {
 
     @Override
     public void action() {
+        BattleInformation.nowAction = this;
         //回合开始，失去护盾
         if (lostArmorFlag) setRoleArmor(0);
         //回合开始，触发自身回合开始效果

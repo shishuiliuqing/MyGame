@@ -9,6 +9,8 @@ import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.Role;
 import com.hjc.CardAdventure.pojo.effects.ActionOver;
+import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
+import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
@@ -73,6 +75,13 @@ public class ActionOverComponent extends Component {
 
     //回合结束动画
     public void over() {
+        //触发自身回合结束效果
+        Opportunity.launchOpportunity(BattleInformation.nowAction, OpportunityType.OWN_ROUNDS_OVER);
+        //若为玩家，使玩家无法出牌
+        if (BattleInformation.nowAction == PlayerInformation.player) {
+            isPlayer = false;
+            CardComponent.selectable = false;
+        }
         //动画播放
         animatedTexture.play();
         //更新行动序列

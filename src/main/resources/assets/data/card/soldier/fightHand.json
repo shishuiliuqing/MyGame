@@ -1,0 +1,22 @@
+{
+  "cardNum": 37,
+  "cardName": "肉搏",
+  "attribute": {
+    "power": 0,
+    "intelligence": 0,
+    "defense": 0,
+    "agility": 0,
+    "purity": 0,
+    "speed": 4
+  },
+  "cardQuality": 0,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    1900,
+    1001,
+    900,
+    80,
+    1083
+  ],
+  "targetType": 0
+}

@@ -38,14 +38,16 @@ public enum OpportunityType {
     //17.其他（非局内）
     OTHER,
     //18.失去血量
-    LOST_BLOOD;
+    LOST_BLOOD,
+    //19.自身回合结束
+    OWN_ROUNDS_OVER;
 
     public static String getTypeName(OpportunityType opportunityType) {
         return switch (opportunityType) {
             case OTHER -> "其他";
             case GET_ARMOR -> "获得护盾";
             case HURT_BACK -> "受到伤害后";
-            case HURT_TIME -> "受到伤害前";
+            case HURT_TIME -> "时机5";
             case DEATH_TIME -> "死亡时";
             case DRAW_FRONT -> "抽牌前";
             case GAME_BEGIN -> "游戏开始";
@@ -61,6 +63,7 @@ public enum OpportunityType {
             case ABANDON_STAGE_BACK -> "弃牌阶段后";
             case ABANDON_STAGE_FRONT -> "弃牌阶段前";
             case LOST_BLOOD -> "时机3";
+            case OWN_ROUNDS_OVER -> "时机6";
         };
     }
 
@@ -69,7 +72,7 @@ public enum OpportunityType {
             case OTHER -> "其他";
             case GET_ARMOR -> "获得护盾";
             case HURT_BACK -> "受到伤害后";
-            case HURT_TIME -> "受到伤害前";
+            case HURT_TIME -> "时机5：受到攻击时";
             case DEATH_TIME -> "死亡时";
             case DRAW_FRONT -> "抽牌前";
             case GAME_BEGIN -> "游戏开始";
@@ -85,6 +88,7 @@ public enum OpportunityType {
             case ABANDON_STAGE_BACK -> "弃牌阶段后";
             case ABANDON_STAGE_FRONT -> "弃牌阶段前";
             case LOST_BLOOD -> "时机3：失去生命时";
+            case OWN_ROUNDS_OVER -> "时机6：自身回合结束";
         };
     }
 }

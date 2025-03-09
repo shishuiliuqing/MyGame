@@ -58,6 +58,7 @@ public class Player implements Role {
     public void action() {
         //回合开始阶段
         ActionOverComponent.isPlayer = true;
+        BattleInformation.nowAction = this;
         //失去所有护盾
         if (PlayerInformation.lostArmorFlag) setRoleArmor(0);
         //回合开始，触发自身回合开始效果

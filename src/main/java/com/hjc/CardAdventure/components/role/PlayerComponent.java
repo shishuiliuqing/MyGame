@@ -6,6 +6,7 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
 import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.components.battle.AttributeComponent;
+import com.hjc.CardAdventure.components.battle.CardComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
@@ -58,6 +59,10 @@ public class PlayerComponent extends Component {
         addOther();
         addPlayer();
         updateArmor();
+        //更新手牌
+        for (CardComponent handCard : CardComponent.HAND_CARDS) {
+            handCard.update();
+        }
     }
 
     //被指定时，更新人物角色

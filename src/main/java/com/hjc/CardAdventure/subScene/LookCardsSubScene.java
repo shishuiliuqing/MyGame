@@ -126,7 +126,7 @@ public class LookCardsSubScene extends SubScene {
 
         Label cardDescription = new Label(Effects.CardEffectsToString(card));
         //卡牌描述字体设置
-        cardDescription.setFont(new Font("微软雅黑", 14));
+        cardDescription.setFont(new Font("微软雅黑", 12));
         //卡牌描述大小设置
         cardDescription.setMaxSize(CARD_WIDTH - 10, CARD_HEIGHT / 2 - 5);
         //卡牌描述背景，字体颜色

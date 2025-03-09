@@ -64,7 +64,7 @@ public class EnemyComponent extends Component {
         addEnemy();
 
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e ->
-                TipBarComponent.update("当前位置：" + boxNum + "号位" + Effect.NEW_LINE + enemy.toString() + Effect.NEW_LINE+ "当前敌人拥有效果：\n" + Opportunity.opportunitiesToString(enemy.getOpportunities()))
+                TipBarComponent.update("当前位置：" + boxNum + "号位" + Effect.NEW_LINE + enemy.toString() + Effect.NEW_LINE + "当前敌人拥有效果：\n" + Opportunity.opportunitiesToString(enemy.getOpportunities()))
         );
         entity.getViewComponent().addOnClickHandler(e -> target());
         //enemy.setArmor(60);
@@ -330,7 +330,10 @@ public class EnemyComponent extends Component {
         TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), text);
         tt.setFromY(TARGET_Y_MOVE + enemy.getY() + 100);
         tt.setToY(TARGET_Y_MOVE + enemy.getY());
-        tt.setOnFinished(e -> up.removeFromWorld());
+        tt.setOnFinished(e -> {
+            up.removeFromWorld();
+            update();
+        });
         tt.play();
     }
 
@@ -355,7 +358,10 @@ public class EnemyComponent extends Component {
         TranslateTransition tt = new TranslateTransition(Duration.seconds(0.5), text);
         tt.setFromY(TARGET_Y_MOVE + enemy.getY());
         tt.setToY(TARGET_Y_MOVE + enemy.getY() + 100);
-        tt.setOnFinished(e -> up.removeFromWorld());
+        tt.setOnFinished(e -> {
+            up.removeFromWorld();
+            update();
+        });
         tt.play();
     }
 

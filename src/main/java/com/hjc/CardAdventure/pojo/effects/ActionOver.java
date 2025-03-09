@@ -18,7 +18,7 @@ public class ActionOver extends Effect {
 
     @Override
     public String describeInDetail() {
-        return "终止：结束当前回合" + Effect.NEW_LINE;
+        return "终止：结束当前回合，无弃牌阶段" + Effect.NEW_LINE;
     }
 
     @Override

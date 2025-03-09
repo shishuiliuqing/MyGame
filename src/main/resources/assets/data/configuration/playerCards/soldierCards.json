@@ -1,11 +1,7 @@
 {
   "initial": [
-    "strike",
-    "seeThrough",
     "defense",
-    "holdGround",
-    "strike",
-    "quenching"
+    "sacrifice"
   ],
   "white": [
     "strike",
@@ -16,7 +12,11 @@
     "jumpSlash",
     "standErect",
     "bloodRitual",
-    "intimidation"
+    "intimidation",
+    "siteReaction",
+    "punch",
+    "burningStrike",
+    "fightHand"
   ],
   "blue": [
     "inspire",
@@ -29,8 +29,13 @@
     "seeThrough",
     "consolidate",
     "tough",
-    "quenching",
-    "trounce"
+    "trounce",
+    "flameBarrier",
+    "unscrupulous",
+    "metallization",
+    "giantBladeTransformation",
+    "spontaneousCombustion",
+    "oppressTheWeak"
   ],
   "yellow": [
     "heavyBlade",
@@ -41,6 +46,8 @@
     "bloodArmor",
     "holdGround",
     "indestructible",
-    "demonicPact"
+    "demonicPact",
+    "quenching",
+    "sacrifice"
   ]
 }
