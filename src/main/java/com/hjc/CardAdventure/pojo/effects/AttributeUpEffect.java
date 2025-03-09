@@ -1,5 +1,8 @@
 package com.hjc.CardAdventure.pojo.effects;
 
+import com.hjc.CardAdventure.components.battle.ActionComponent;
+import com.hjc.CardAdventure.pojo.BattleEntities;
+import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.attribute.Attribute;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.Role;
@@ -29,6 +32,8 @@ public class AttributeUpEffect extends Effect {
             attribute.setPurity(attribute.getPurity() + value);
         } else {
             attribute.setSpeed(attribute.getSpeed() + value);
+            BattleInformation.sort(BattleInformation.NEXT_ACTION);
+            BattleEntities.actionBox.getComponent(ActionComponent.class).update();
         }
         getTo().upAttribute(attributeUp);
     }

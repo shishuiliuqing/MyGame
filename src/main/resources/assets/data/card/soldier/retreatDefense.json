@@ -1,0 +1,21 @@
+{
+  "cardNum": 43,
+  "cardName": "退守",
+  "attribute": {
+    "power": 0,
+    "intelligence": 0,
+    "defense": 4,
+    "agility": 4,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 1,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    15040,
+    20101403,
+    80,
+    1083
+  ],
+  "targetType": 1
+}

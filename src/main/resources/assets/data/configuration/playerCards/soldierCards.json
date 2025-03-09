@@ -1,7 +1,7 @@
 {
   "initial": [
-    "defense",
-    "sacrifice"
+    "strike",
+    "bloodBattle"
   ],
   "white": [
     "strike",
@@ -16,7 +16,9 @@
     "siteReaction",
     "punch",
     "burningStrike",
-    "fightHand"
+    "fightHand",
+    "excited",
+    "shakeBlade"
   ],
   "blue": [
     "inspire",
@@ -35,7 +37,9 @@
     "metallization",
     "giantBladeTransformation",
     "spontaneousCombustion",
-    "oppressTheWeak"
+    "oppressTheWeak",
+    "nakedSword",
+    "retreatDefense"
   ],
   "yellow": [
     "heavyBlade",
@@ -48,6 +52,7 @@
     "indestructible",
     "demonicPact",
     "quenching",
-    "sacrifice"
+    "sacrifice",
+    "bloodBattle"
   ]
 }

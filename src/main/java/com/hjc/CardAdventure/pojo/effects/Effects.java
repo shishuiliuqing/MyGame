@@ -60,6 +60,8 @@ public enum Effects {
             case 20 -> new RestoreBlood(from, player, value);
             //21.血量失去效果x021
             case 21 -> new LostBlood(from, player, value);
+            //30.消耗牌堆顶的牌x030
+            case 30 -> new ConsumeDrawTop(from, player, value);
             //40.护盾添加x040
             case 40 -> new ArmorAdd(from, player, value);
             //41.设置目标护甲值x041
@@ -189,7 +191,9 @@ public enum Effects {
             //400.
             //401.
             //402.
-            //403.
+            //403.自身回合开始时机，有限次时机效果，不可叠加xy403（y一位，次数）
+            case 403 ->
+                    new NumOpportunityEffect(from, to, value / 10, OpportunityType.OWN_ROUND_BEGIN, value % 10, true, 1);
             //404.
             //405.
             //406.攻击时，有限次时机效果，不可叠加xy406（y一位，次数）

@@ -1,18 +1,18 @@
 {
-  "cardNum": 4,
-  "cardName": "鼓舞",
+  "cardNum": 46,
+  "cardName": "血盾",
   "attribute": {
-    "power": 3,
-    "intelligence": 2,
+    "power": 0,
+    "intelligence": 0,
     "defense": 0,
     "agility": 0,
-    "purity": 2,
+    "purity": 8,
     "speed": 0
   },
-  "cardQuality": 1,
+  "cardQuality": 2,
   "colorS": "#ff0000",
   "cardEffects": [
-    3050,
+    3111305,
     82,
     1083
   ],
