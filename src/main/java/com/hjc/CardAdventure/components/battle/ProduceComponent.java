@@ -5,6 +5,10 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
 import com.hjc.CardAdventure.CardAdventureApp;
 import com.hjc.CardAdventure.pojo.BattleEntities;
+import com.hjc.CardAdventure.pojo.BattleInformation;
+import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
+import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
+import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -44,6 +48,9 @@ public class ProduceComponent extends Component {
         CardComponent.CARD_COMPONENTS.remove(0);
         //执行卡牌效果
         cardComponent.action();
+        //触发出牌后时机
+        Opportunity.launchOpportunity(PlayerInformation.player, OpportunityType.PRODUCE_CARD);
+        BattleInformation.effectExecution();
     }
 
     //重置按钮

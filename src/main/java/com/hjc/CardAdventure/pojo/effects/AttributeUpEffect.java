@@ -20,18 +20,25 @@ public class AttributeUpEffect extends Effect {
         if (getTo() == null) return;
         Attribute attribute = getTo().getRoleAttribute();
         int value = getValue();
+        if (value <= 0) return;
         if (attributeUp == AttributeUp.POWER_UP) {
             attribute.setPower(attribute.getPower() + value);
+            if (attribute.getPower() > 999) attribute.setPower(999);
         } else if (attributeUp == AttributeUp.INTELLIGENCE_UP) {
             attribute.setIntelligence(attribute.getIntelligence() + value);
+            if (attribute.getIntelligence() > 999) attribute.setIntelligence(999);
         } else if (attributeUp == AttributeUp.DEFENSE_UP) {
             attribute.setDefense(attribute.getDefense() + value);
+            if (attribute.getDefense() > 999) attribute.setDefense(999);
         } else if (attributeUp == AttributeUp.AGILITY_UP) {
             attribute.setAgility(attribute.getAgility() + value);
+            if (attribute.getAgility() > 999) attribute.setAgility(999);
         } else if (attributeUp == AttributeUp.PURITY_UP) {
             attribute.setPurity(attribute.getPurity() + value);
+            if (attribute.getPurity() > 999) attribute.setPurity(999);
         } else {
             attribute.setSpeed(attribute.getSpeed() + value);
+            if (attribute.getSpeed() > 999) attribute.setSpeed(999);
             BattleInformation.sort(BattleInformation.NEXT_ACTION);
             BattleEntities.actionBox.getComponent(ActionComponent.class).update();
         }
@@ -53,9 +60,5 @@ public class AttributeUpEffect extends Effect {
             case PURITY_UP -> "点纯洁";
             case SPEED_UP -> "点速度";
         };
-    }
-
-    public AttributeUp getAttributeUp() {
-        return this.attributeUp;
     }
 }

@@ -6,7 +6,6 @@ import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.effects.complexEffect.*;
 import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
-import com.hjc.CardAdventure.util.RecordUtil;
 
 import java.util.ArrayList;
 
@@ -56,18 +55,20 @@ public enum Effects {
             case 12 -> new ShuffleEffect(from, player, value);
             //13.寻卡xy013（x为所找牌编号，y为寻找牌堆，1为抽牌堆）
             case 13 -> new FindCard(from, player, value);
-            //20.血量回复效果x020
-            case 20 -> new RestoreBlood(from, player, value);
-            //21.血量失去效果x021
-            case 21 -> new LostBlood(from, player, value);
+            //20.血量回复效果x020,自身
+            case 20 -> new RestoreBlood(from, from, value);
+            //21.血量失去效果x021,自身
+            case 21 -> new LostBlood(from, from, value);
+            //22.血量设置效果x022
+            case 22 -> new SetBloodEffect(from, to, value);
             //30.消耗牌堆顶的牌x030
             case 30 -> new ConsumeDrawTop(from, player, value);
-            //40.护盾添加x040
-            case 40 -> new ArmorAdd(from, player, value);
+            //40.护盾添加x040,自身
+            case 40 -> new ArmorAdd(from, from, value);
             //41.设置目标护甲值x041
             case 41 -> new SetArmor(from, to, value);
-            //42.使玩家失去护盾值x042
-            case 42 -> new SetArmor(from, player, 0);
+            //42.使玩家失去护盾值x042，自身
+            case 42 -> new SetArmor(from, from, 0);
             //43.使目标自身回合开始不会失去护盾x043
             case 43 -> new NoLostArmor(from, to, value);
             //44.使目标护盾翻倍x044
@@ -84,45 +85,45 @@ public enum Effects {
             case 54 -> new AttributeUpEffect(from, to, value, AttributeUp.PURITY_UP);
             //55.速度增强x055
             case 55 -> new AttributeUpEffect(from, to, value, AttributeUp.SPEED_UP);
-            //56.力量下降x056
+            //56.力量下降x056，目标
             case 56 -> new AttributeDownEffect(from, to, value, AttributeDown.POWER_DOWN);
-            //57.智力下降x057
+            //57.智力下降x057，目标
             case 57 -> new AttributeDownEffect(from, to, value, AttributeDown.INTELLIGENCE_DOWN);
-            //58.防御下降x058
+            //58.防御下降x058，目标
             case 58 -> new AttributeDownEffect(from, to, value, AttributeDown.DEFENSE_DOWN);
-            //59.敏捷下降x059
+            //59.敏捷下降x059，目标
             case 59 -> new AttributeDownEffect(from, to, value, AttributeDown.AGILITY_DOWN);
-            //60.纯洁下降x060
+            //60.纯洁下降x060，目标
             case 60 -> new AttributeDownEffect(from, to, value, AttributeDown.PURITY_DOWN);
-            //61.速度下降x061
+            //61.速度下降x061，目标
             case 61 -> new AttributeDownEffect(from, to, value, AttributeDown.SPEED_DOWN);
-            //62.力量翻倍x062
+            //62.力量翻倍x062，目标
             case 62 -> new DoubleAttribute(from, to, value, AttributeUp.POWER_UP);
-            //63.智力翻倍x063
+            //63.智力翻倍x063，目标
             case 63 -> new DoubleAttribute(from, to, value, AttributeUp.INTELLIGENCE_UP);
-            //64.防御翻倍x064
+            //64.防御翻倍x064，目标
             case 64 -> new DoubleAttribute(from, to, value, AttributeUp.DEFENSE_UP);
-            //65.敏捷翻倍x065
+            //65.敏捷翻倍x065，目标
             case 65 -> new DoubleAttribute(from, to, value, AttributeUp.AGILITY_UP);
-            //66.纯洁翻倍x066
+            //66.纯洁翻倍x066，目标
             case 66 -> new DoubleAttribute(from, to, value, AttributeUp.PURITY_UP);
-            //67.速度翻倍x067
+            //67.速度翻倍x067，目标
             case 67 -> new DoubleAttribute(from, to, value, AttributeUp.SPEED_UP);
-            //68.失去所有力量x068
+            //68.失去所有力量x068，目标
             case 68 -> new LostAttribute(from, to, value, AttributeDown.POWER_DOWN);
-            //69.失去所有智力x069
+            //69.失去所有智力x069，目标
             case 69 -> new LostAttribute(from, to, value, AttributeDown.INTELLIGENCE_DOWN);
-            //70.失去所有防御x070
+            //70.失去所有防御x070，目标
             case 70 -> new LostAttribute(from, to, value, AttributeDown.DEFENSE_DOWN);
-            //71.失去所有敏捷x071
+            //71.失去所有敏捷x071，目标
             case 71 -> new LostAttribute(from, to, value, AttributeDown.AGILITY_DOWN);
-            //72.失去所有纯洁x072
+            //72.失去所有纯洁x072，目标
             case 72 -> new LostAttribute(from, to, value, AttributeDown.PURITY_DOWN);
-            //73.失去所有速度x073
+            //73.失去所有速度x073，目标
             case 73 -> new LostAttribute(from, to, value, AttributeDown.SPEED_DOWN);
-            //74.全属性上升x074
+            //74.全属性上升x074，目标
             case 74 -> new AllAttributeUp(from, to, value);
-            //75.全属性下降x075
+            //75.全属性下降x075，目标
             case 75 -> new AllAttributeDown(from, to, value);
             //80.弃牌效果--弃掉当前行动的牌x080
             case 80 -> new AbandonAction(from, player, value);
@@ -136,6 +137,8 @@ public enum Effects {
             case 84 -> new ShuffleProduce(from, player, value);
             //85.不占用出牌数效果x085
             case 85 -> new NoProduce(from, player, value);
+            //86.获取本回合出牌数x086
+            case 86 -> new GetProduce(from, player, value);
             //97.群体效果x097（x为执行的效果）
             case 97 -> new AllTargetEffect(from, to, value);
             //98.结束当前回合x098
@@ -164,10 +167,14 @@ public enum Effects {
             case 110 -> new AllLightEffect(from, to, value);
             //111.伤害提升效果x111（x为提升的数值）
             case 111 -> new DamageAdd(from, to, value);
+            //112.伤害减免效果结束x112（x为结束的各数）
+            case 112 -> new ReduceDamageEnd(from, to, value);
             //200.条件满足效果（条件1：目标无护甲）x200
             case 200 -> new ConditionEffect(from, to, value, 1, getEffect(value, from, to));
             //201.条件满足效果（条件2：目标力量低于发动者）x201
             case 201 -> new ConditionEffect(from, to, value, 2, getEffect(value, from, to));
+            //202.条件满足效果（条件3：若目标血量低于记录值）
+            case 202 -> new ConditionEffect(from, to, value, 3, getEffect(value, from, to));
             //300.创造护盾完全防御时机，永久时机效果，不可叠加，仅一层x300
             case 300 -> new OpportunityEffect(from, to, value, OpportunityType.ARMOR_DEFENSE, false, 1);
             //300.创造护盾完全防御时机，永久时机效果，叠加，仅一层x30
@@ -188,13 +195,18 @@ public enum Effects {
             //310.
             //311.自身回合结束，永久时机效果，可叠加，仅一层x311
             case 311 -> new OpportunityEffect(from, to, value, OpportunityType.OWN_ROUNDS_OVER, true, 1);
+            //312.
+            //313.每使用一张牌后，永久时机效果，可叠加，仅一层x313
+            case 313 -> new OpportunityEffect(from, to, value, OpportunityType.PRODUCE_CARD, true, 1);
             //400.
             //401.
             //402.
             //403.自身回合开始时机，有限次时机效果，不可叠加xy403（y一位，次数）
             case 403 ->
+                    new NumOpportunityEffect(from, to, value / 10, OpportunityType.OWN_ROUND_BEGIN, value % 10, false, 1);
+            //404.自身回合开始时机，有限次时机效果，可叠加xy404（y一位，次数）
+            case 404 ->
                     new NumOpportunityEffect(from, to, value / 10, OpportunityType.OWN_ROUND_BEGIN, value % 10, true, 1);
-            //404.
             //405.
             //406.攻击时，有限次时机效果，不可叠加xy406（y一位，次数）
             case 406 ->
@@ -205,7 +217,8 @@ public enum Effects {
             //411.自身回合结束，有限时机效果，可叠加xy411（y一位，次数）
             case 411 ->
                     new NumOpportunityEffect(from, to, value / 10, OpportunityType.OWN_ROUNDS_OVER, value % 10, true, 1);
-            //509.带回合的无限次效果，可叠加xy509（y一位，持续回合数）
+            //504.
+            //509.受到伤害时，带回合的无限次效果，可叠加xy509（y一位，持续回合数）
             case 509 ->
                     new RoundsOpportunityEffect(from, to, value / 10, OpportunityType.HURT_TIME, value % 10, true, 1);
             //900.记录器操作x0900（x为操作码）

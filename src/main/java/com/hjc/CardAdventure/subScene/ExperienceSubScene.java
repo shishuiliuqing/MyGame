@@ -378,7 +378,7 @@ public class ExperienceSubScene extends SubScene {
             //玩家力量属性+1
             player.getAttribute().setPurity(player.getAttribute().getPurity() + 1);
             //刷新显示
-            purityText.setText("智力：" + player.getAttribute().getPurity());
+            purityText.setText("纯洁：" + player.getAttribute().getPurity());
             //移除该按钮
             getContentRoot().getChildren().remove(purityUp);
             if (attributeUP == 0 && experience > 0) {
@@ -398,7 +398,7 @@ public class ExperienceSubScene extends SubScene {
             //玩家力量属性+1
             player.getAttribute().setSpeed(player.getAttribute().getSpeed() + 1);
             //刷新显示
-            speedUp.setText("智力：" + player.getAttribute().getSpeed());
+            speedUp.setText("速度：" + player.getAttribute().getSpeed());
             //移除该按钮
             getContentRoot().getChildren().remove(speedUp);
             if (attributeUP == 0 && experience > 0) {

@@ -2,6 +2,7 @@ package com.hjc.CardAdventure.components.battle;
 
 import com.almasb.fxgl.entity.component.Component;
 import com.hjc.CardAdventure.pojo.BattleEntities;
+import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -200,7 +201,7 @@ public class AttributeUpComponent extends Component {
             //玩家力量属性+1
             player.getAttribute().setPurity(player.getAttribute().getPurity() + 1);
             //刷新显示
-            purityText.setText("智力：" + player.getAttribute().getPurity());
+            purityText.setText("纯洁：" + player.getAttribute().getPurity());
             //移除该按钮
             entity.getViewComponent().removeChild(purityUp);
             if (attributeUP == 0) {
@@ -220,9 +221,12 @@ public class AttributeUpComponent extends Component {
             //玩家力量属性+1
             player.getAttribute().setSpeed(player.getAttribute().getSpeed() + 1);
             //刷新显示
-            speedUp.setText("智力：" + player.getAttribute().getSpeed());
+            speedUp.setText("速度：" + player.getAttribute().getSpeed());
             //移除该按钮
             entity.getViewComponent().removeChild(speedUp);
+            //刷新行动队列
+            BattleInformation.sort(BattleInformation.NEXT_ACTION);
+            BattleEntities.actionBox.getComponent(ActionComponent.class).update();
             if (attributeUP == 0) {
                 entity.removeFromWorld();
                 BattleEntities.attribute.getComponent(AttributeComponent.class).update();

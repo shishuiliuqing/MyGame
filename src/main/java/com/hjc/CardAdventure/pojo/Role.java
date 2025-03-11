@@ -32,6 +32,9 @@ public interface Role {
     //死亡
     void die();
 
+    //获取目标血量
+    int getRoleBlood();
+
     //回血
     void restoreBlood(int value);
 
@@ -58,4 +61,5 @@ public interface Role {
 
     //获取角色的可触发效果时机
     ArrayList<OpportunityType> getRoleOpportunityType();
+
 }

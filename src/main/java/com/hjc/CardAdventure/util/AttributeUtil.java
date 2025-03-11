@@ -35,6 +35,8 @@ public class AttributeUtil {
         baseValue += (physicalDamage.getFrom().getRoleAttribute().getPower() * b);
         if (isDouble.contains(physicalDamage.getFrom())) baseValue = baseValue * 2;
         if (isWeaken.contains(physicalDamage.getFrom())) baseValue = baseValue * 3 / 4;
+        //减伤效果
+        //if(physicalDamage.getFrom() != player) baseValue -= RecordUtil.getInteger(RecordUtil.ReduceDamageIntegers);
         return Math.max(baseValue, 0);
     }
 

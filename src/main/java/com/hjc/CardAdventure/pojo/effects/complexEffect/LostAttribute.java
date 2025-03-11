@@ -39,7 +39,7 @@ public class LostAttribute extends Effect {
 
     @Override
     public String toString() {
-        return "令目标失去所有" + switch (attributeDown) {
+        return "指定目标失去所有" + switch (attributeDown) {
             case SPEED_DOWN -> "速度";
             case PURITY_DOWN -> "纯洁";
             case AGILITY_DOWN -> "敏捷";

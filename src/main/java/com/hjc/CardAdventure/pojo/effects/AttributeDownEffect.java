@@ -21,18 +21,25 @@ public class AttributeDownEffect extends Effect {
         if (getTo() == null) return;
         Attribute attribute = getTo().getRoleAttribute();
         int value = getValue();
+        if (value <= 0) return;
         if (attributeDown == AttributeDown.POWER_DOWN) {
             attribute.setPower(attribute.getPower() - value);
+            if (attribute.getPower() < -999) attribute.setPower(-999);
         } else if (attributeDown == AttributeDown.INTELLIGENCE_DOWN) {
             attribute.setIntelligence(attribute.getIntelligence() - value);
+            if (attribute.getIntelligence() < -999) attribute.setIntelligence(-999);
         } else if (attributeDown == AttributeDown.DEFENSE_DOWN) {
             attribute.setDefense(attribute.getDefense() - value);
+            if (attribute.getDefense() < -999) attribute.setDefense(-999);
         } else if (attributeDown == AttributeDown.AGILITY_DOWN) {
             attribute.setAgility(attribute.getAgility() - value);
+            if (attribute.getAgility() < -999) attribute.setAgility(-999);
         } else if (attributeDown == AttributeDown.PURITY_DOWN) {
             attribute.setPurity(attribute.getPurity() - value);
+            if (attribute.getPurity() < -999) attribute.setPurity(-999);
         } else {
             attribute.setSpeed(attribute.getSpeed() - value);
+            if (attribute.getSpeed() < -999) attribute.setSpeed(-999);
             BattleInformation.sort(BattleInformation.NEXT_ACTION);
             BattleEntities.actionBox.getComponent(ActionComponent.class).update();
         }

@@ -257,4 +257,9 @@ public class Enemy implements Role {
         //删除该实体
         BattleEntities.enemies[index] = null;
     }
+
+    @Override
+    public int getRoleBlood() {
+        return blood;
+    }
 }

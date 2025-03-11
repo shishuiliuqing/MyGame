@@ -1,0 +1,24 @@
+{
+  "cardNum": 49,
+  "cardName": "以战养战",
+  "attribute": {
+    "power": 3,
+    "intelligence": 0,
+    "defense": 0,
+    "agility": 6,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 2,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    3004900,
+    1201001,
+    2010202,
+    2086202,
+    3000900,
+    80,
+    1083
+  ],
+  "targetType": 0
+}

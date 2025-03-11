@@ -1,0 +1,22 @@
+{
+  "cardNum": 50,
+  "cardName": "走火入魔",
+  "attribute": {
+    "power": 7,
+    "intelligence": 7,
+    "defense": 7,
+    "agility": 7,
+    "purity": 7,
+    "speed": 7
+  },
+  "cardQuality": 2,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    1022,
+    5074,
+    20313,
+    82,
+    1083
+  ],
+  "targetType": 1
+}

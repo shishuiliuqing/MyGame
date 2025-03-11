@@ -1,0 +1,20 @@
+{
+  "cardNum": 48,
+  "cardName": "回旋刃",
+  "attribute": {
+    "power": 2,
+    "intelligence": 0,
+    "defense": 0,
+    "agility": 2,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 0,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    901001,
+    81,
+    1083
+  ],
+  "targetType": 0
+}

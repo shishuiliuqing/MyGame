@@ -1,7 +1,9 @@
 {
   "initial": [
-    "strike",
-    "bloodBattle"
+    "defense",
+    "impregnable",
+    "warSupportFromWar",
+    "obsessed"
   ],
   "white": [
     "strike",
@@ -18,7 +20,8 @@
     "burningStrike",
     "fightHand",
     "excited",
-    "shakeBlade"
+    "shakeBlade",
+    "revolveBlade"
   ],
   "blue": [
     "inspire",
@@ -39,7 +42,8 @@
     "spontaneousCombustion",
     "oppressTheWeak",
     "nakedSword",
-    "retreatDefense"
+    "retreatDefense",
+    "impregnable"
   ],
   "yellow": [
     "heavyBlade",
@@ -53,6 +57,8 @@
     "demonicPact",
     "quenching",
     "sacrifice",
-    "bloodBattle"
+    "bloodBattle",
+    "warSupportFromWar",
+    "obsessed"
   ]
 }

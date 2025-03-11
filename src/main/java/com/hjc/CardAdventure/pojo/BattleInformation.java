@@ -152,6 +152,9 @@ public class BattleInformation {
         TargetComponent.isRam = false;
         TargetComponent.isAll = false;
         TargetComponent.target = null;
+        //玩家效果序列刷新
+        PlayerInformation.opportunities.clear();
+        PlayerInformation.opportunityTypes.clear();
     }
 
     //初始化行动序列

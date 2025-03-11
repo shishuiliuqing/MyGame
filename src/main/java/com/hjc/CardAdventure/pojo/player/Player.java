@@ -14,6 +14,7 @@ import com.hjc.CardAdventure.pojo.effects.ShuffleProduce;
 import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
 import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
 import com.hjc.CardAdventure.util.AttributeUtil;
+import com.hjc.CardAdventure.util.RecordUtil;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -102,6 +103,9 @@ public class Player implements Role {
         if (PlayerInformation.isVulnerability) value = value + value / 2;
         //受到物理伤害效果触发
         Opportunity.launchOpportunity(this, OpportunityType.HURT_TIME);
+        //伤害减免
+        value -= RecordUtil.getInteger(RecordUtil.ReduceDamageIntegers);
+        if (value <= 0) value = 0;
         //伤害减护甲
         value = value - PlayerInformation.playerArmor;
 
@@ -147,6 +151,11 @@ public class Player implements Role {
     @Override
     public void die() {
 
+    }
+
+    @Override
+    public int getRoleBlood() {
+        return blood;
     }
 
     //回复血量
