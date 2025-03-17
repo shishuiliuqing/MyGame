@@ -62,6 +62,9 @@ public class BattleInformation {
         //初始化工具类
         AttributeUtil.initUtil();
 
+        //初始化回合数
+        rounds = 0;
+
         //初始化敌人序列
         initEnemies();
 
@@ -74,8 +77,6 @@ public class BattleInformation {
         //初始化行动序列
         initActions();
 
-        //初始化回合数
-        rounds = 1;
 
         //正在战斗
         isBattle = true;
@@ -168,6 +169,8 @@ public class BattleInformation {
         sort(THIS_ACTION);
         //System.out.println(THIS_ACTION);
         NEXT_ACTION.addAll(THIS_ACTION);
+        //初始化回合数为1
+        rounds++;
     }
 
     //根据速度排序行动序列
@@ -225,7 +228,8 @@ public class BattleInformation {
             if (ENEMIES.isEmpty() && isBattle) {
                 EFFECTS.clear();
                 Attribute.cloneAttribute(attribute, PlayerInformation.player.getAttribute());
-                FXGL.getSceneService().pushSubScene(new RewardSubScene());
+                //FXGL.getSceneService().pushSubScene(new RewardSubScene());
+                reward();
                 isBattle = false;
                 break;
             }
@@ -234,6 +238,15 @@ public class BattleInformation {
             EFFECTS.remove(0);
             effect.action();
             if (effect instanceof PauseEffect) break;
+        }
+    }
+
+    private static void reward() {
+        if (enemyType == EnemyType.LITTLE_MONSTER) {
+            RewardSubScene.REWARD.clear();
+            RewardSubScene.REWARD.add(1);
+            RewardSubScene.REWARD.add(1);
+            FXGL.getSceneService().pushSubScene(new RewardSubScene());
         }
     }
 

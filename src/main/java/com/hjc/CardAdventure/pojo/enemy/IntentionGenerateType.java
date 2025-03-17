@@ -24,20 +24,9 @@ public enum IntentionGenerateType {
             //回合必须触发的意图
             if (intention.getIntentionGenerateType() == ROUND) {
                 int round = roundIntention(intention);
-                if (round == 1) {
-                    //为第一回合
-                    if (BattleInformation.rounds == 1) {
-                        enemy.setNowIntention(intention);
-                        return;
-                    }
-                    continue;
-                } else {
-                    //不为第一回合
-                    if (BattleInformation.rounds % round == 0) {
-                        enemy.setNowIntention(intention);
-                        return;
-                    }
-                    continue;
+                if (BattleInformation.rounds == round) {
+                    enemy.setNowIntention(intention);
+                    return;
                 }
             }
             //已有意图，无需生成
@@ -68,6 +57,15 @@ public enum IntentionGenerateType {
     //解析回合触发意图,每几个回合触发一次,"1"只代表第一回合触发
     public static int roundIntention(Intention intention) {
         int effect = intention.getEffects()[0];
-        return effect / IntentionType.TYPE_DIVISION;
+        int value = effect / IntentionType.TYPE_DIVISION;
+        int interval = value % 10;
+        int rounds = value / 10;
+        //如果为1，仅生成一次
+        if (interval == 1) return rounds;
+        //不为1，多次间隔生成
+        while (rounds < BattleInformation.rounds) {
+            rounds += interval;
+        }
+        return rounds;
     }
 }

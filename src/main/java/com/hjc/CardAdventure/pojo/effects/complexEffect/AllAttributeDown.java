@@ -28,11 +28,11 @@ public class AllAttributeDown extends Effect {
 
     @Override
     public String describeInDetail() {
-        return "萎靡" + getValue() + "：全属性下降" + getValue() + "点";
+        return "衰竭" + getValue() + "：全属性下降" + getValue() + "点";
     }
 
     @Override
     public String toString() {
-        return "萎靡" + getValue();
+        return "衰竭" + getValue();
     }
 }

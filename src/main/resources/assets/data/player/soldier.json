@@ -4,10 +4,10 @@
   "maxBlood": 80,
   "attribute": {
     "power": 2,
-    "intelligence": 1,
-    "defense": 7,
-    "agility": 9,
-    "purity": 7,
+    "intelligence": 0,
+    "defense": 1,
+    "agility": 1,
+    "purity": 1,
     "speed": 2
   },
   "experience": 0,

@@ -1,0 +1,21 @@
+{
+  "cardNum": 54,
+  "cardName": "御血",
+  "attribute": {
+    "power": 0,
+    "intelligence": 0,
+    "defense": 0,
+    "agility": 4,
+    "purity": 4,
+    "speed": 0
+  },
+  "cardQuality": 1,
+  "colorS": "#ff0000",
+  "cardEffects": [
+    1010315,
+    82,
+    1083
+  ],
+  "targetType": 1,
+  "effectiveEffect": 1
+}

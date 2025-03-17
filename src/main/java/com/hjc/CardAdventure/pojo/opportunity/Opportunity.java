@@ -43,6 +43,8 @@ public class Opportunity {
         for (Opportunity o : opportunities) {
             //System.out.println(o.getName());
             //System.out.println(opportunity.getName());
+//            System.out.println(o.getName());
+//            System.out.println(opportunity.getName());
             if (o.getName().equals(opportunity.getName())) {
                 //可叠加
                 if (opportunity.getStackable()) {

@@ -36,6 +36,8 @@ public class Card {
     private int[] cardEffects;
     //卡牌指定目标类型
     private TargetType targetType;
+    //卡牌有效效果数量（用于复制）
+    private int effectiveEffect;
 
     //卡牌执行
     public void action() {

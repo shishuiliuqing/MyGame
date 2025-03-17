@@ -132,6 +132,7 @@ public class Player implements Role {
         this.blood -= value;
         if (this.blood < 0) this.blood = 0;
         lossBlood();
+        Opportunity.launchOpportunity(this, OpportunityType.INDIRECT_INJURY);
         BattleEntities.playerBattle.getComponent(PlayerComponent.class).hurt(value);
         Entities.playerBlood.getComponent(BloodComponent.class).update();
     }

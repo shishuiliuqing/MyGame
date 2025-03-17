@@ -146,6 +146,7 @@ public class Enemy implements Role {
             this.blood = 0;
         }
         lossBlood();
+        Opportunity.launchOpportunity(this, OpportunityType.INDIRECT_INJURY);
         int index = getEntityIndex();
         if (index == -1) return;
         //受伤动画

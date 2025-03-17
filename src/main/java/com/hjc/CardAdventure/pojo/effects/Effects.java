@@ -169,6 +169,8 @@ public enum Effects {
             case 111 -> new DamageAdd(from, to, value);
             //112.伤害减免效果结束x112（x为结束的各数）
             case 112 -> new ReduceDamageEnd(from, to, value);
+            //113.卡牌复用效果
+            case 113 -> new ReuseEffect(from, to, value);
             //200.条件满足效果（条件1：目标无护甲）x200
             case 200 -> new ConditionEffect(from, to, value, 1, getEffect(value, from, to));
             //201.条件满足效果（条件2：目标力量低于发动者）x201
@@ -198,6 +200,8 @@ public enum Effects {
             //312.
             //313.每使用一张牌后，永久时机效果，可叠加，仅一层x313
             case 313 -> new OpportunityEffect(from, to, value, OpportunityType.PRODUCE_CARD, true, 1);
+            //315.受到非直接伤害时，永久时机效果，可叠加，仅一层
+            case 315 -> new OpportunityEffect(from, to, value, OpportunityType.INDIRECT_INJURY, true, 1);
             //400.
             //401.
             //402.

@@ -1,6 +1,6 @@
 {
   "cardNum": 46,
-  "cardName": "血盾",
+  "cardName": "血战",
   "attribute": {
     "power": 0,
     "intelligence": 0,
@@ -16,5 +16,6 @@
     82,
     1083
   ],
-  "targetType": 1
+  "targetType": 1,
+  "effectiveEffect": 1
 }

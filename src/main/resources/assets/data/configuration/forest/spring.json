@@ -1,20 +1,36 @@
 {
   "weak": {
-    "day": [[]],
-    "afternoon": [[]],
+    "day": [
+      []
+    ],
+    "afternoon": [
+      []
+    ],
     "evening": [
-      ["forestWolf","forestWolf"]
+      ["ghostImageSnake"]
     ]
   },
   "strong": {
-    "day": [[]],
-    "afternoon": [[]],
-    "evening": [["forestWolf"]]
+    "day": [
+      []
+    ],
+    "afternoon": [
+      []
+    ],
+    "evening": [
+      ["forestWolf"]
+    ]
   },
   "elite": {
-    "day": [[]],
-    "afternoon": [[]],
-    "evening": [[]]
+    "day": [
+      []
+    ],
+    "afternoon": [
+      []
+    ],
+    "evening": [
+      []
+    ]
   },
   "boss": "你好呀"
 }

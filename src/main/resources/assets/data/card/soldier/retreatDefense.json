@@ -13,9 +13,10 @@
   "colorS": "#ff0000",
   "cardEffects": [
     15040,
-    20101403,
+    20101404,
     80,
     1083
   ],
-  "targetType": 1
+  "targetType": 1,
+  "effectiveEffect": 2
 }

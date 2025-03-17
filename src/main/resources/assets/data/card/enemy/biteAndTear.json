@@ -1,0 +1,23 @@
+{
+  "cardNum": 603,
+  "cardName": "撕咬",
+  "attribute": {
+    "power": 1,
+    "intelligence": 1,
+    "defense": 0,
+    "agility": 0,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 0,
+  "colorS": "#8D6F64",
+  "cardEffects": [
+    401001,
+    7998,
+    1106,
+    80,
+    85
+  ],
+  "targetType": 0,
+  "effectiveEffect": 3
+}

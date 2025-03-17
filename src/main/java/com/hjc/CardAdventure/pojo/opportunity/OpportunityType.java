@@ -40,7 +40,9 @@ public enum OpportunityType {
     //18.失去血量
     LOST_BLOOD,
     //19.自身回合结束
-    OWN_ROUNDS_OVER;
+    OWN_ROUNDS_OVER,
+    //20.因非直接伤害失去生命时
+    INDIRECT_INJURY;
 
     public static String getTypeName(OpportunityType opportunityType) {
         return switch (opportunityType) {
@@ -64,6 +66,7 @@ public enum OpportunityType {
             case ABANDON_STAGE_FRONT -> "弃牌阶段前";
             case LOST_BLOOD -> "时机3";
             case OWN_ROUNDS_OVER -> "时机6";
+            case INDIRECT_INJURY -> "时机8";
         };
     }
 
@@ -89,6 +92,7 @@ public enum OpportunityType {
             case ABANDON_STAGE_FRONT -> "弃牌阶段前";
             case LOST_BLOOD -> "时机3：失去生命时";
             case OWN_ROUNDS_OVER -> "时机6：自身回合结束";
+            case INDIRECT_INJURY -> "时机8：因非直接伤害失去生命时";
         };
     }
 }

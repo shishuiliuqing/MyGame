@@ -23,6 +23,8 @@ public class SeasonMonsterPool {
     public static final String MONSTER_ADDRESS = "data/enemy/";
     //怪物意图文件地址
     public static final String MONSTER_INTENTION_ADDRESS = "data/configuration/intention/";
+    //当前生成的怪物序列
+    public static ArrayList<String> enemyNames;
 
     //弱怪池
     private TimeMonsterPool weak;
@@ -66,6 +68,7 @@ public class SeasonMonsterPool {
     //随机从怪池选择一个怪物组合
     private ArrayList<String> randomMonster(ArrayList<ArrayList<String>> monsterPool) {
         Random r = new Random();
-        return monsterPool.get(r.nextInt(monsterPool.size()));
+        enemyNames = monsterPool.get(r.nextInt(monsterPool.size()));
+        return enemyNames;
     }
 }

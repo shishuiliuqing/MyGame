@@ -1,14 +1,13 @@
 {
   "initial": [
-    "defense",
-    "impregnable",
-    "warSupportFromWar",
-    "obsessed"
-  ],
-  "white": [
+    "strike",
+    "strike",
     "strike",
     "defense",
-    "heavyBlow",
+    "defense",
+    "heavyBlow"
+  ],
+  "white": [
     "flurry",
     "blockAssault",
     "jumpSlash",
@@ -21,7 +20,8 @@
     "fightHand",
     "excited",
     "shakeBlade",
-    "revolveBlade"
+    "revolveBlade",
+    "bloodBlade"
   ],
   "blue": [
     "inspire",
@@ -43,7 +43,10 @@
     "oppressTheWeak",
     "nakedSword",
     "retreatDefense",
-    "impregnable"
+    "impregnable",
+    "demonSacrifice",
+    "beAtWar",
+    "imperialBlood"
   ],
   "yellow": [
     "heavyBlade",

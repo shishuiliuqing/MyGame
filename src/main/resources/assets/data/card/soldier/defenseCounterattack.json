@@ -12,10 +12,11 @@
   "cardQuality": 2,
   "colorS": "#ff0000",
   "cardEffects": [
-    161013300,
     401001,
+    161013300,
     81,
     85
   ],
-  "targetType": 0
+  "targetType": 0,
+  "effectiveEffect": 1
 }

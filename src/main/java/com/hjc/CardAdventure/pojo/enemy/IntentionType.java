@@ -3,6 +3,8 @@ package com.hjc.CardAdventure.pojo.enemy;
 import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.effects.*;
+import com.hjc.CardAdventure.pojo.effects.complexEffect.AllTargetEffect;
+import com.hjc.CardAdventure.pojo.effects.complexEffect.VulnerabilityEffect;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import com.hjc.CardAdventure.util.AttributeUtil;
 
@@ -23,8 +25,8 @@ public enum IntentionType {
     PREPARE,
     //攻击防御类
     ATTACK_DEFENSE,
-    //攻击附加效果类
-    ATTACK_EFFECT,
+    //攻击弱化类
+    ATTACK_WEAKEN,
     //防御强化类
     DEFENSE_STRENGTHEN,
     //防御削弱类
@@ -85,6 +87,12 @@ public enum IntentionType {
             case 99 -> new IntentionClear(enemy, enemy, value);
             //100.意图回合触发效果，仅标志作用，无意义
             case 100 -> null;
+            //101.群体效果x101（x为执行代码）
+            case 101 -> new AllTargetEffect(enemy, enemy, value);
+            //106.易伤效果x106（x为易伤效果持续次数）
+            case 106 -> new VulnerabilityEffect(enemy, player, value);
+            //998.暂停效果x998（x为暂停时间）
+            case 998 -> new PauseEffect(enemy, player, value, value * 1.0 / 10);
             default -> null;
         };
     }
@@ -105,8 +113,8 @@ public enum IntentionType {
             return "这个敌人正在进行下一意图的准备，此意图下敌人无法行动";
         } else if (enemy.getNowIntention().getIntentionType() == ATTACK_DEFENSE) {
             return "这个敌人将进行攻击，同时获得护甲";
-        } else if (enemy.getNowIntention().getIntentionType() == ATTACK_EFFECT) {
-            return "这个敌人将进行攻击，同时触发其他效果";
+        } else if (enemy.getNowIntention().getIntentionType() == ATTACK_WEAKEN) {
+            return "这个敌人将进行攻击，同时给你添加负面状态";
         } else if (enemy.getNowIntention().getIntentionType() == DEFENSE_STRENGTHEN) {
             return "这个敌人将进行防御，同时强化自己";
         } else if (enemy.getNowIntention().getIntentionType() == DEFENSE_WEAK) {

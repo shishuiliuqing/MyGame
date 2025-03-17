@@ -1,0 +1,22 @@
+{
+  "cardNum": 601,
+  "cardName": "本能防御",
+  "attribute": {
+    "power": 0,
+    "intelligence": 0,
+    "defense": 1,
+    "agility": 2,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 0,
+  "colorS": "#8D6F64",
+  "cardEffects": [
+    4040,
+    1010,
+    80,
+    1083
+  ],
+  "targetType": 1,
+  "effectiveEffect": 2
+}

@@ -52,7 +52,7 @@ public class AttributeUpEffect extends Effect {
 
     @Override
     public String toString() {
-        return "获得" + getValue() + switch (attributeUp) {
+        return "使目标获得" + getValue() + switch (attributeUp) {
             case POWER_UP -> "点力量";
             case INTELLIGENCE_UP -> "点智力";
             case DEFENSE_UP -> "点防御";

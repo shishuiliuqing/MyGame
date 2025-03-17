@@ -20,5 +20,16 @@
       98
     ],
     "consecutiveStarts": 0
+  },
+  {
+    "num": 2,
+    "intentionType": 2,
+    "intentionGenerateType": 0,
+    "effects": [
+      2050101,
+      99,
+      98
+    ],
+    "consecutiveStarts": 0
   }
 ]

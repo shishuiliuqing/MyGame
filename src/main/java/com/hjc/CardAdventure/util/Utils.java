@@ -51,28 +51,63 @@ public class Utils {
             attackTexture.setTranslateY(y - 50);
             entity.getViewComponent().addChild(attackTexture);
 
-            int[] value = IntentionType.getAttackValue(enemy, enemy.getNowIntention().getEffects());
-            String attackValue;
-//            value[0] = 20;
-//            value[1] = 999;
-            if (value[0] == 0) {
-                attackValue = String.valueOf(value[1]);
-            } else {
-                attackValue = value[1] + "✖" + value[0];
-            }
-            Label label = new Label(attackValue);
-            label.setFont(new Font("微软雅黑", 17));
-            label.setTextFill(Color.RED);
-            label.setTranslateX(x - 10);
-            label.setTranslateY(y - 50);
-            label.setMaxSize(enemy.getWidth() / 2, 40);
-            entity.getViewComponent().addChild(label);
+//            int[] value = IntentionType.getAttackValue(enemy, enemy.getNowIntention().getEffects());
+//            String attackValue;
+////            value[0] = 20;
+////            value[1] = 999;
+//            if (value[0] == 0) {
+//                attackValue = String.valueOf(value[1]);
+//            } else {
+//                attackValue = value[1] + "✖" + value[0];
+//            }
+//            Label label = new Label(attackValue);
+//            label.setFont(new Font("微软雅黑", 17));
+//            label.setTextFill(Color.RED);
+//            label.setTranslateX(x - 10);
+//            label.setTranslateY(y - 50);
+//            label.setMaxSize(enemy.getWidth() / 2, 40);
+//            entity.getViewComponent().addChild(label);
+            displayDamage(enemy, entity, x, y);
             //防御意图生成
         } else if (enemy.getNowIntention().getIntentionType() == IntentionType.DEFENSE) {
             Texture armorTexture = FXGL.texture("intention/defense.png", 40, 40);
             armorTexture.setTranslateX(x - 20);
             armorTexture.setTranslateY(y - 50);
             entity.getViewComponent().addChild(armorTexture);
+            //强化意图生成
+        } else if (enemy.getNowIntention().getIntentionType() == IntentionType.STRENGTHEN) {
+            Texture upTexture = FXGL.texture("intention/up.png", 40, 40);
+            upTexture.setTranslateX(x - 20);
+            upTexture.setTranslateY(y - 50);
+            entity.getViewComponent().addChild(upTexture);
+            //攻击弱化类
+        } else if (enemy.getNowIntention().getIntentionType() == IntentionType.ATTACK_WEAKEN) {
+            Texture attackWeaken = FXGL.texture("intention/attackWeaken.png", 40, 40);
+            attackWeaken.setTranslateX(x - 50);
+            attackWeaken.setTranslateY(y - 50);
+            entity.getViewComponent().addChild(attackWeaken);
+
+            displayDamage(enemy, entity, x, y);
         }
+    }
+
+    //上海类意图伤害显示
+    private static void displayDamage(Enemy enemy, Entity entity, double x, double y) {
+        int[] value = IntentionType.getAttackValue(enemy, enemy.getNowIntention().getEffects());
+        String attackValue;
+//            value[0] = 20;
+//            value[1] = 999;
+        if (value[0] == 0) {
+            attackValue = String.valueOf(value[1]);
+        } else {
+            attackValue = value[1] + "✖" + value[0];
+        }
+        Label label = new Label(attackValue);
+        label.setFont(new Font("微软雅黑", 17));
+        label.setTextFill(Color.RED);
+        label.setTranslateX(x - 10);
+        label.setTranslateY(y - 50);
+        label.setMaxSize(enemy.getWidth() / 2, 40);
+        entity.getViewComponent().addChild(label);
     }
 }
