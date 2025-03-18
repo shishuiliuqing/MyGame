@@ -1,0 +1,22 @@
+{
+  "enemyNum": 4,
+  "name": "魔菇*绿",
+  "blood": 24,
+  "maxBlood": 24,
+  "attribute": {
+    "power": 0,
+    "intelligence": 2,
+    "defense": 2,
+    "agility": 0,
+    "purity": 0,
+    "speed": 0
+  },
+  "enemyType": 1,
+  "img": "enemy/mushroomGreen.png",
+  "width": 110.0,
+  "height": 112.0,
+  "x": 80,
+  "y": 30,
+  "armor": 0,
+  "entryEffects":[1103299300]
+}

@@ -31,6 +31,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
+import java.lang.invoke.VarHandle;
+
 import static com.hjc.CardAdventure.pojo.player.PlayerInformation.player;
 
 
@@ -162,7 +164,7 @@ public class EnemyComponent extends Component {
     }
 
     //单段攻击动画
-    public void attack(int value) {
+    public void attack(int value, int num) {
         //正在攻击
         isAction = true;
         //攻击人物显示
@@ -184,16 +186,16 @@ public class EnemyComponent extends Component {
 //                addEnemy();
 //            //角色受伤
 //            PlayerInformation.player.physicalHurt(value);
-            attack(attack, value);
+            attack(attack, value, num);
         });
         update();
         tHP.play();
     }
 
     //单段攻击动画2
-    private void attack(Entity attack, int value) {
+    private void attack(Entity attack, int value, int num) {
         //令人物返回
-        TranslateTransition tHP = new TranslateTransition(Duration.seconds(0.3), attack.getViewComponent().getChildren().get(0));
+        TranslateTransition tHP = new TranslateTransition(Duration.seconds(0.2), attack.getViewComponent().getChildren().get(0));
         tHP.setFromX(TARGET_X_MOVE + 215 * boxNum + enemy.getX() - 100);
         tHP.setFromY(TARGET_Y_MOVE + enemy.getY());
         tHP.setToX(TARGET_X_MOVE + 215 * boxNum + enemy.getX());
@@ -203,14 +205,27 @@ public class EnemyComponent extends Component {
             isAction = false;
             if (!isExist())
                 addEnemy();
-            //角色受伤
-            PlayerInformation.player.physicalHurt(value);
+
+            hurtRole(value, num);
             //添加回合结束效果
 //            BattleInformation.EFFECTS.add(new ActionOver(enemy, enemy, 1));
             //回合结束触发
 //            ActionOverComponent.nextStage = true;
         });
         tHP.play();
+    }
+
+    //令角色受伤
+    private void hurtRole(int value, int n) {
+        if (n == 0) return;
+        player.physicalHurt(value);
+        //每0.2秒受伤一次
+        Rectangle rectangle = new Rectangle();
+        TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.2), rectangle);
+        translateTransition.setOnFinished(e -> {
+            hurtRole(value, n - 1);
+        });
+        translateTransition.play();
     }
 
     //护甲生成动画

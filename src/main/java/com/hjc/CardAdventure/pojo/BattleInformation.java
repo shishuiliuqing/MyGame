@@ -91,7 +91,7 @@ public class BattleInformation {
         //初始化敌人序列
         ENEMIES.clear();
         //添加怪物
-        ENEMIES.addAll(CardAdventureApp.seasonMonsterPool.getEnemies(1, TimeStatus.EVENING));
+        ENEMIES.addAll(CardAdventureApp.seasonMonsterPool.getEnemies(1, TimeStatus.DAY));
         //为每位敌人初始化意图
         for (Enemy enemy : ENEMIES) {
             IntentionGenerateType.generateIntention(enemy);
@@ -245,7 +245,8 @@ public class BattleInformation {
         if (enemyType == EnemyType.LITTLE_MONSTER) {
             RewardSubScene.REWARD.clear();
             RewardSubScene.REWARD.add(1);
-            RewardSubScene.REWARD.add(1);
+            //RewardSubScene.REWARD.add(1);
+            RewardSubScene.REWARD.add(4);
             FXGL.getSceneService().pushSubScene(new RewardSubScene());
         }
     }

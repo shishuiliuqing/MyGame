@@ -1,22 +1,11 @@
 [
   {
     "num": 0,
-    "intentionType": 0,
+    "intentionType": 3,
     "intentionGenerateType": 0,
     "effects": [
-      601001,
-      5998,
-      99,
-      98
-    ],
-    "consecutiveStarts": 0
-  },
-  {
-    "num": 1,
-    "intentionType": 1,
-    "intentionGenerateType": 0,
-    "effects": [
-      6020,
+      800,
+      1103,
       10998,
       99,
       98
@@ -24,11 +13,11 @@
     "consecutiveStarts": 0
   },
   {
-    "num": 2,
-    "intentionType": 2,
+    "num": 1,
+    "intentionType": 0,
     "intentionGenerateType": 0,
     "effects": [
-      2050101,
+      22002,
       10998,
       99,
       98

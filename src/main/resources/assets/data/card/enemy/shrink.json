@@ -1,22 +1,22 @@
 {
-  "cardNum": 602,
-  "cardName": "本能防御",
+  "cardNum": 604,
+  "cardName": "萎缩",
   "attribute": {
     "power": 0,
-    "intelligence": 0,
+    "intelligence": 1,
     "defense": 1,
-    "agility": 2,
+    "agility": 0,
     "purity": 0,
     "speed": 0
   },
   "cardQuality": 0,
   "colorS": "#8D6F64",
   "cardEffects": [
-    4040,
-    1010,
+    5040,
+    1103,
     80,
     1083
   ],
-  "targetType": 1,
+  "targetType": 0,
   "effectiveEffect": 2
 }

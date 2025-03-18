@@ -51,6 +51,8 @@ public class Enemy implements Role {
     private ArrayList<Intention> intentions;
     //敌人当前意图
     private Intention nowIntention;
+    //进场效果
+    private int[] entryEffects;
     //效果时机序列
     private ArrayList<Opportunity> opportunities = new ArrayList<>();
     //可触发时机序列
@@ -161,11 +163,11 @@ public class Enemy implements Role {
 
     //物理攻击
     @Override
-    public void physicalAttack(Role target, int value) {
+    public void physicalAttack(Role target, int value, int num) {
         int index = getEntityIndex();
         if (index == -1) return;
         //执行攻击效果
-        BattleEntities.enemies[index].getComponent(EnemyComponent.class).attack(value);
+        BattleEntities.enemies[index].getComponent(EnemyComponent.class).attack(value, num);
         //攻击后时机
         Opportunity.launchOpportunity(this, OpportunityType.ATTACK_TIME);
     }

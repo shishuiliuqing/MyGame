@@ -68,20 +68,31 @@ public class Utils {
 //            label.setMaxSize(enemy.getWidth() / 2, 40);
 //            entity.getViewComponent().addChild(label);
             displayDamage(enemy, entity, x, y);
-            //防御意图生成
-        } else if (enemy.getNowIntention().getIntentionType() == IntentionType.DEFENSE) {
+
+        }
+        //防御类
+        else if (enemy.getNowIntention().getIntentionType() == IntentionType.DEFENSE) {
             Texture armorTexture = FXGL.texture("intention/defense.png", 40, 40);
             armorTexture.setTranslateX(x - 20);
             armorTexture.setTranslateY(y - 50);
             entity.getViewComponent().addChild(armorTexture);
-            //强化意图生成
-        } else if (enemy.getNowIntention().getIntentionType() == IntentionType.STRENGTHEN) {
+        }
+        //强化类
+        else if (enemy.getNowIntention().getIntentionType() == IntentionType.STRENGTHEN) {
             Texture upTexture = FXGL.texture("intention/up.png", 40, 40);
             upTexture.setTranslateX(x - 20);
             upTexture.setTranslateY(y - 50);
             entity.getViewComponent().addChild(upTexture);
-            //攻击弱化类
-        } else if (enemy.getNowIntention().getIntentionType() == IntentionType.ATTACK_WEAKEN) {
+        }
+        //弱化类
+        else if (enemy.getNowIntention().getIntentionType() == IntentionType.WEAKEN) {
+            Texture weakenTexture = FXGL.texture("intention/weaken.jpg",40,40);
+            weakenTexture.setTranslateX(x - 20);
+            weakenTexture.setTranslateY(y - 50);
+            entity.getViewComponent().addChild(weakenTexture);
+        }
+        //攻击弱化类
+        else if (enemy.getNowIntention().getIntentionType() == IntentionType.ATTACK_WEAKEN) {
             Texture attackWeaken = FXGL.texture("intention/attackWeaken.png", 40, 40);
             attackWeaken.setTranslateX(x - 50);
             attackWeaken.setTranslateY(y - 50);

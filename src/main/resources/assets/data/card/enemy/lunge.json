@@ -1,23 +1,21 @@
 {
-  "cardNum": 603,
-  "cardName": "撕咬",
+  "cardNum": 605,
+  "cardName": "突刺",
   "attribute": {
     "power": 1,
-    "intelligence": 1,
+    "intelligence": 0,
     "defense": 0,
     "agility": 0,
     "purity": 0,
-    "speed": 0
+    "speed": 1
   },
   "cardQuality": 0,
   "colorS": "#8D6F64",
   "cardEffects": [
-    401001,
-    7998,
-    1106,
+    32003,
     80,
     1083
   ],
   "targetType": 0,
-  "effectiveEffect": 3
+  "effectiveEffect": 1
 }

@@ -27,7 +27,7 @@ public interface Role {
     void specialHurt(int value, SpecialDamageType specialDamageType);
 
     //攻击
-    void physicalAttack(Role target, int value);
+    void physicalAttack(Role target, int value,int num);
 
     //死亡
     void die();

@@ -143,7 +143,7 @@ public class Player implements Role {
     }
 
     @Override
-    public void physicalAttack(Role target, int value) {
+    public void physicalAttack(Role target, int value,int num) {
         target.physicalHurt(value);
         //攻击时时机
         Opportunity.launchOpportunity(this, OpportunityType.ATTACK_TIME);

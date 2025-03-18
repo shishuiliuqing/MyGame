@@ -4,9 +4,12 @@ import com.almasb.fxgl.dsl.FXGL;
 import com.almasb.fxgl.scene.SubScene;
 import com.almasb.fxgl.texture.Texture;
 import com.hjc.CardAdventure.CardAdventureApp;
+import com.hjc.CardAdventure.components.GoldComponent;
 import com.hjc.CardAdventure.configuration.EnemyCards;
 import com.hjc.CardAdventure.configuration.PlayerCards;
+import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.BattleInformation;
+import com.hjc.CardAdventure.pojo.Entities;
 import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.effects.Effects;
 import com.hjc.CardAdventure.pojo.enemy.EnemyType;
@@ -27,6 +30,7 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import static com.hjc.CardAdventure.components.battle.CardComponent.CARD_HEIGHT;
 import static com.hjc.CardAdventure.components.battle.CardComponent.CARD_WIDTH;
@@ -41,9 +45,11 @@ public class RewardSubScene extends SubScene {
     //战斗奖励
     public static final ArrayList<Integer> REWARD = new ArrayList<>();
     //人物选卡器
-    public static final ArrayList<ArrayList<Card>> CARDS = new ArrayList<>();
+    private static final ArrayList<ArrayList<Card>> CARDS = new ArrayList<>();
     //怪物卡牌选择器
-    public static final ArrayList<Card> enemyCards = new ArrayList<>();
+    private static final ArrayList<Card> enemyCards = new ArrayList<>();
+    //金币
+    private static final ArrayList<Integer> GOLDS = new ArrayList<>();
     //文本描述
     private static final Label LABEL = new Label();
 
@@ -157,8 +163,51 @@ public class RewardSubScene extends SubScene {
                     }
                     break;
                 }
+                case 4: {
+                    if (flag) {
+                        Random r = new Random();
+                        GOLDS.add(r.nextInt(20) + 30);
+                    }
+                    getGoldLittle(i);
+                }
             }
         }
+    }
+
+    //获得金币
+    private void getGoldLittle(int num) {
+        //矩形背景框
+        Rectangle rBox = new Rectangle(560, 70);
+        rBox.setFill(Color.valueOf("#F18E69"));
+
+        Pane pane = new Pane(rBox);
+        pane.setPrefSize(560, 70);
+        pane.setTranslateX((CardAdventureApp.APP_WITH - 560) / 2.0);
+        pane.setTranslateY(260 + 80 * num);
+        getContentRoot().getChildren().add(pane);
+        //生成金币数量
+        int i = num - enemyCards.size();
+        String gold = String.valueOf(GOLDS.get(i));
+        Texture goldTexture = FXGL.texture("gold.png", 60, 60);
+        goldTexture.setTranslateX(5);
+        goldTexture.setTranslateY(5);
+        pane.getChildren().add(goldTexture);
+
+        Text goldText = new Text(gold);
+        goldText.setFont(new Font("华文行楷", 35));
+        goldText.setFill(Color.YELLOW);
+        goldText.setTranslateX(80);
+        goldText.setTranslateY(45);
+        pane.getChildren().add(goldText);
+
+        //添加点击事件
+        pane.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+            PlayerInformation.gold += GOLDS.get(i);
+            Entities.gold.getComponent(GoldComponent.class).update();
+            GOLDS.remove(i);
+            REWARD.remove(num);
+            initReward(false);
+        });
     }
 
     //获得白卡选牌
@@ -206,9 +255,9 @@ public class RewardSubScene extends SubScene {
         back.setY(70);
         getContentRoot().getChildren().add(back);
 
-        generateCard(CARDS.get(i).get(0), 0,i);
-        generateCard(CARDS.get(i).get(1), 1,i);
-        generateCard(enemyCards.get(i), 2,i);
+        generateCard(CARDS.get(i).get(0), 0, i);
+        generateCard(CARDS.get(i).get(1), 1, i);
+        generateCard(enemyCards.get(i), 2, i);
 
         //生成关闭按钮
         Texture close = FXGL.texture("buttonDark.png", 270 / 1.5, 98 / 1.5);
@@ -225,7 +274,7 @@ public class RewardSubScene extends SubScene {
     }
 
     //生成一张卡牌
-    private void generateCard(Card card, int n,int i) {
+    private void generateCard(Card card, int n, int i) {
         Pane pane = new Pane();
         pane.setPrefSize(CARD_WIDTH, CARD_HEIGHT);
         pane.setTranslateX(600 + 280 * n);

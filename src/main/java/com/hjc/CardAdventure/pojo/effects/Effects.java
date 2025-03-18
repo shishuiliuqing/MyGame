@@ -43,6 +43,8 @@ public enum Effects {
             case 1 -> new PhysicalDamage(from, to, value);
             //2.群体物理伤害x002
             case 2 -> new PhysicalDamageAll(from, to, value);
+            //3.多段物理伤害xy003（x为伤害数值，y为次数）
+            case 3 -> new PhysicalDamageMany(from, to, value);
             //5.受到火焰伤害效果x005
             case 5 -> new FireDamage(from, to, value);
             //9.死亡效果x009
@@ -177,6 +179,8 @@ public enum Effects {
             case 201 -> new ConditionEffect(from, to, value, 2, getEffect(value, from, to));
             //202.条件满足效果（条件3：若目标血量低于记录值）
             case 202 -> new ConditionEffect(from, to, value, 3, getEffect(value, from, to));
+            //299.反伤效果x299（x为效果代码）
+            case 299 -> new ReverseEffect(from, to, value);
             //300.创造护盾完全防御时机，永久时机效果，不可叠加，仅一层x300
             case 300 -> new OpportunityEffect(from, to, value, OpportunityType.ARMOR_DEFENSE, false, 1);
             //300.创造护盾完全防御时机，永久时机效果，叠加，仅一层x30

@@ -4,7 +4,11 @@ import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.effects.*;
 import com.hjc.CardAdventure.pojo.effects.complexEffect.AllTargetEffect;
+import com.hjc.CardAdventure.pojo.effects.complexEffect.OpportunityEffect;
 import com.hjc.CardAdventure.pojo.effects.complexEffect.VulnerabilityEffect;
+import com.hjc.CardAdventure.pojo.effects.complexEffect.WeakenEffect;
+import com.hjc.CardAdventure.pojo.effects.other.weakenIntentionEffect;
+import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
 import com.hjc.CardAdventure.util.AttributeUtil;
 
@@ -53,6 +57,8 @@ public enum IntentionType {
         return switch (num) {
             //1.造成一次物理伤害x001（x为伤害数值）
             case 1 -> new PhysicalDamage(enemy, PlayerInformation.player, value);
+            //2.多段伤害xy002（x为伤害数值，y为段数）
+            case 2 -> new PhysicalDamageMany(enemy, player, value);
             //10.回复效果x010（x为回复血量）
             case 10 -> new RestoreBlood(enemy, enemy, value);
             //20.护甲添加x020（x为护甲添加量）
@@ -89,8 +95,14 @@ public enum IntentionType {
             case 100 -> null;
             //101.群体效果x101（x为执行代码）
             case 101 -> new AllTargetEffect(enemy, enemy, value);
+            //103.虚弱效果
+            case 103 -> new WeakenEffect(enemy, player, value);
             //106.易伤效果x106（x为易伤效果持续次数）
             case 106 -> new VulnerabilityEffect(enemy, player, value);
+            //300.受到伤害时（自身），x300，永久效果，不可叠加
+            case 300 -> new OpportunityEffect(enemy, enemy, value, OpportunityType.HURT_TIME, false, 1);
+            //800.弱化意图特效
+            case 800 -> new weakenIntentionEffect(enemy, enemy, value);
             //998.暂停效果x998（x为暂停时间）
             case 998 -> new PauseEffect(enemy, player, value, value * 1.0 / 10);
             default -> null;
@@ -128,7 +140,10 @@ public enum IntentionType {
         for (int effect : effects) {
             if (effect % TYPE_DIVISION == 1) {
                 value[0] = 0;
-                value[1] = AttributeUtil.mathPhysicalDamage(new PhysicalDamage(enemy, enemy, effect / TYPE_DIVISION));
+                value[1] = AttributeUtil.mathPhysicalDamage(new PhysicalDamage(enemy, player, effect / TYPE_DIVISION));
+            } else if (effect % TYPE_DIVISION == 2) {
+                value[0] = (effect / TYPE_DIVISION) % 10;
+                value[1] = AttributeUtil.mathPhysicalDamage(new PhysicalDamage(enemy, player, (effect / TYPE_DIVISION) / 10 * 100 + 1));
             }
         }
         return value;
