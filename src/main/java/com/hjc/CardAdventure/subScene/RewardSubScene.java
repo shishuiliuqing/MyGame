@@ -16,6 +16,7 @@ import com.hjc.CardAdventure.pojo.enemy.EnemyType;
 import com.hjc.CardAdventure.pojo.environment.Environment;
 import com.hjc.CardAdventure.pojo.environment.InsideInformation;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
+import com.hjc.CardAdventure.util.Utils;
 import javafx.animation.*;
 import javafx.animation.ScaleTransition;
 import javafx.scene.control.Button;
@@ -275,54 +276,9 @@ public class RewardSubScene extends SubScene {
 
     //生成一张卡牌
     private void generateCard(Card card, int n, int i) {
-        Pane pane = new Pane();
-        pane.setPrefSize(CARD_WIDTH, CARD_HEIGHT);
-        pane.setTranslateX(600 + 280 * n);
-        pane.setTranslateY(300);
+        //生成卡片
+        Pane pane = Utils.generateCard(card, 600 + 280 * n, 300);
         getContentRoot().getChildren().add(pane);
-        //制作卡牌（矩形
-        Rectangle cardBack = new Rectangle(CARD_WIDTH, CARD_HEIGHT, Color.valueOf(card.getColorS()));
-        pane.getChildren().add(cardBack);
-
-        //卡牌品质框
-        Rectangle cardQuality = new Rectangle(CARD_WIDTH, CARD_HEIGHT / 5, card.getCardQuality().getColor());
-        //卡牌名文本
-        Text cardName = new Text(card.getCardName());
-        cardName.setFill(Color.BLACK);
-        cardName.setFont(new Font("华文行楷", 20));
-        //卡牌品质框与卡牌名居中
-        StackPane stackPane = new StackPane(cardQuality);
-        stackPane.getChildren().add(cardName);
-        pane.getChildren().add(stackPane);
-
-        //卡牌描述
-        //背景框
-        StackPane cardDescriptionBack = new StackPane(new Rectangle(CARD_WIDTH - 10, CARD_HEIGHT / 2 - 5, Color.valueOf("#696969")));
-        cardDescriptionBack.setTranslateX(5);
-        cardDescriptionBack.setTranslateY(CARD_HEIGHT / 2);
-        pane.getChildren().add(cardDescriptionBack);
-
-        Label cardDescription = new Label(Effects.CardEffectsToString(card));
-        //卡牌描述字体设置
-        cardDescription.setFont(new Font("微软雅黑", 12));
-        //卡牌描述大小设置
-        cardDescription.setMaxSize(CARD_WIDTH - 10, CARD_HEIGHT / 2 - 5);
-        //卡牌描述背景，字体颜色
-        cardDescription.setStyle("-fx-background-color: #696969;-fx-text-fill: WHITE");
-        //卡牌描述自动换行
-        cardDescription.setWrapText(true);
-        cardDescription.setTranslateX(5);
-        cardDescription.setTranslateY(CARD_HEIGHT / 2);
-        pane.getChildren().add(cardDescription);
-
-        //卡牌属性要求打印
-        Label cardAttribute = new Label(card.getAttribute().displayAttribute());
-        cardAttribute.setFont(new Font("华文仿宋", 11.3));
-        cardAttribute.setTextFill(Color.WHITE);
-        cardAttribute.setTranslateX(5);
-        cardAttribute.setTranslateY(CARD_HEIGHT / 5);
-        cardAttribute.setMaxSize(CARD_WIDTH - 10, CARD_HEIGHT * 3 / 10);
-        pane.getChildren().add(cardAttribute);
 
         //文本描述
         pane.addEventHandler(MouseEvent.MOUSE_ENTERED, e -> LABEL.setText(card.cardToString()));

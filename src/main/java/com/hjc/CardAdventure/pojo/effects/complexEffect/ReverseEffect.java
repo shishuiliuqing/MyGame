@@ -26,6 +26,6 @@ public class ReverseEffect extends Effect {
 
     @Override
     public String toString() {
-        return "受到伤害时，" + Objects.requireNonNull(Effects.getEffect(getValue(), getFrom(), BattleInformation.nowAction)).toString();
+        return Objects.requireNonNull(Effects.getEffect(getValue(), getFrom(), BattleInformation.nowAction)).toString();
     }
 }

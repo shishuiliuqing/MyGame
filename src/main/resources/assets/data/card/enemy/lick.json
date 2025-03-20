@@ -1,0 +1,22 @@
+{
+  "cardNum": 608,
+  "cardName": "舔舐",
+  "attribute": {
+    "power": 2,
+    "intelligence": 0,
+    "defense": 0,
+    "agility": 1,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 0,
+  "colorS": "#8D6F64",
+  "cardEffects": [
+    1501001,
+    10700,
+    80,
+    1083
+  ],
+  "targetType": 0,
+  "effectiveEffect": 2
+}

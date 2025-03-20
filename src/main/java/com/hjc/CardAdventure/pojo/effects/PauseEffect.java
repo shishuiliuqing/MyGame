@@ -1,5 +1,7 @@
 package com.hjc.CardAdventure.pojo.effects;
 
+import com.almasb.fxgl.dsl.FXGL;
+import com.almasb.fxgl.entity.Entity;
 import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.Role;
 import javafx.animation.TranslateTransition;
@@ -19,8 +21,13 @@ public class PauseEffect extends Effect {
     @Override
     public void action() {
         if (second == 999) return;
-        TranslateTransition tt = new TranslateTransition(Duration.seconds(second), new Text());
-        tt.setOnFinished(e -> BattleInformation.effectExecution());
+        Text text = new Text();
+        Entity entity = FXGL.entityBuilder().view(text).buildAndAttach();
+        TranslateTransition tt = new TranslateTransition(Duration.seconds(second), text);
+        tt.setOnFinished(e -> {
+            BattleInformation.effectExecution();
+            entity.removeFromWorld();
+        });
         tt.play();
     }
 

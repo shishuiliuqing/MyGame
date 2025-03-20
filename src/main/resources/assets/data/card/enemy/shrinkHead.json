@@ -1,0 +1,22 @@
+{
+  "cardNum": 606,
+  "cardName": "缩头",
+  "attribute": {
+    "power": 0,
+    "intelligence": 0,
+    "defense": 2,
+    "agility": 0,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 0,
+  "colorS": "#8D6F64",
+  "cardEffects": [
+    13040,
+    1103,
+    80,
+    1083
+  ],
+  "targetType": 1,
+  "effectiveEffect": 2
+}

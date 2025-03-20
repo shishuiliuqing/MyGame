@@ -41,7 +41,7 @@ public class WeakenEffect extends Effect {
 
     @Override
     public String describeInDetail() {
-        return "虚弱" + getValue() + "：下" + getValue() + "次攻击伤害减少25%";
+        return "虚弱" + getValue() + "：下" + getValue() + "次攻击伤害减少25%" + Effect.NEW_LINE;
     }
 
     @Override

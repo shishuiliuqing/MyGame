@@ -1,0 +1,22 @@
+{
+  "cardNum": 607,
+  "cardName": "增殖",
+  "attribute": {
+    "power": 0,
+    "intelligence": 0,
+    "defense": 0,
+    "agility": 0,
+    "purity": 1,
+    "speed": 0
+  },
+  "cardQuality": 0,
+  "colorS": "#8D6F64",
+  "cardEffects": [
+    2050,
+    1106,
+    80,
+    1083
+  ],
+  "targetType": 1,
+  "effectiveEffect": 2
+}

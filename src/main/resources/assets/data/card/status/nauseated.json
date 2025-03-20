@@ -1,0 +1,20 @@
+{
+  "cardNum": 999,
+  "cardName": "恶心",
+  "attribute": {
+    "power": 0,
+    "intelligence": 0,
+    "defense": 0,
+    "agility": 0,
+    "purity": 0,
+    "speed": 0
+  },
+  "cardQuality": 0,
+  "colorS": "#FE0BA5",
+  "cardEffects": [
+    82,
+    1083
+  ],
+  "targetType": 1,
+  "effectiveEffect": 0
+}

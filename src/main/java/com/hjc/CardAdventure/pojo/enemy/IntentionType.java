@@ -7,6 +7,7 @@ import com.hjc.CardAdventure.pojo.effects.complexEffect.AllTargetEffect;
 import com.hjc.CardAdventure.pojo.effects.complexEffect.OpportunityEffect;
 import com.hjc.CardAdventure.pojo.effects.complexEffect.VulnerabilityEffect;
 import com.hjc.CardAdventure.pojo.effects.complexEffect.WeakenEffect;
+import com.hjc.CardAdventure.pojo.effects.other.NegativeStatusCard;
 import com.hjc.CardAdventure.pojo.effects.other.weakenIntentionEffect;
 import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
 import com.hjc.CardAdventure.pojo.player.PlayerInformation;
@@ -99,8 +100,13 @@ public enum IntentionType {
             case 103 -> new WeakenEffect(enemy, player, value);
             //106.易伤效果x106（x为易伤效果持续次数）
             case 106 -> new VulnerabilityEffect(enemy, player, value);
-            //300.受到伤害时（自身），x300，永久效果，不可叠加
+            //300.受到伤害时，x300，永久效果，不可叠加
             case 300 -> new OpportunityEffect(enemy, enemy, value, OpportunityType.HURT_TIME, false, 1);
+
+            //400.自身回合结束，x400，永久时机效果，可叠加
+            case 400 -> new OpportunityEffect(enemy, enemy, value, OpportunityType.OWN_ROUNDS_OVER, true, 1);
+            //700.获得状态牌
+            case 700 -> new NegativeStatusCard(enemy, player, value);
             //800.弱化意图特效
             case 800 -> new weakenIntentionEffect(enemy, enemy, value);
             //998.暂停效果x998（x为暂停时间）

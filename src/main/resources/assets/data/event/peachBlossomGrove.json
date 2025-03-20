@@ -1,0 +1,12 @@
+{
+  "num": 1,
+  "address": "peachBlossomGrove",
+  "name": "桃花树林",
+  "eventType": 1,
+  "options": [
+    {
+      "text": "离开",
+      "effects": ["BACK"]
+    }
+  ]
+}

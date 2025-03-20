@@ -61,7 +61,8 @@ public class Card {
                 Effect.NEW_LINE +
                 Effects.CardEffectsToString(this) +
                 Effect.NEW_LINE +
-                Effects.effectsDetail(this.cardEffects);
+                Effects.effectsDetail(this.cardEffects) +
+                "目标指定类型：" + targetType.getTargetString();
     }
 
     //当卡牌被选择时调用

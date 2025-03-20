@@ -96,8 +96,8 @@ public class Opportunity {
 
                 for (int i = 0; i < opportunity.getLayer(); i++) {
                     int[] effects = opportunity.effects;
-                    //非永久，可叠层数效果，非结束触发时机可一次性触发（如特殊伤害类）
-                    if (opportunity.getNum() != 999 && opportunity.getStackable() && effects != null && effects.length > 0) {
+                    //仅一个，可叠层数效果，非结束触发时机可一次性触发（如特殊伤害类）
+                    if (opportunity.getEffects() != null && opportunity.getEffects().length == 1 && opportunity.getStackable() && effects != null && effects.length > 0) {
                         //取该效果的数值
                         int value = effects[0] / Effects.TYPE_DIVISION * opportunity.getLayer();
                         int type = effects[0] % Effects.TYPE_DIVISION;

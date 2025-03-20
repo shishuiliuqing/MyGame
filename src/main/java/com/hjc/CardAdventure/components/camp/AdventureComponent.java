@@ -7,8 +7,10 @@ import com.almasb.fxgl.texture.Texture;
 import com.hjc.CardAdventure.CardAdventureApp;
 import com.hjc.CardAdventure.components.TipBarComponent;
 import com.hjc.CardAdventure.pojo.BattleEntities;
+import com.hjc.CardAdventure.pojo.BattleInformation;
 import com.hjc.CardAdventure.pojo.CampEntities;
 import com.hjc.CardAdventure.pojo.effects.Effect;
+import com.hjc.CardAdventure.pojo.enemy.EnemyType;
 import com.hjc.CardAdventure.subScene.ExperienceSubScene;
 import com.hjc.CardAdventure.subScene.RewardSubScene;
 import javafx.animation.ScaleTransition;
@@ -49,10 +51,11 @@ public class AdventureComponent extends Component {
         //entity.getViewComponent().addOnClickHandler(e -> rest());
         //entity.getViewComponent().addOnClickHandler(e->FXGL.getSceneService().pushSubScene(new RewardSubScene()));
         //entity.getViewComponent().addOnClickHandler(e -> FXGL.getSceneService().pushSubScene(new ExperienceSubScene(1, 0)));
+        entity.getViewComponent().addOnClickHandler(e -> adventure());
     }
 
     //战斗爽！
-    private void rest() {
+    private void adventure() {
         //加载动画
         Rectangle rectangle = new Rectangle(1, 1, Color.BLACK);
         rectangle.setTranslateX((CardAdventureApp.APP_WITH - 1) / 2.0);
@@ -64,15 +67,19 @@ public class AdventureComponent extends Component {
         st.setToY(CardAdventureApp.APP_HEIGHT - 70);
 
         st.setOnFinished(e -> {
-            CampEntities.battle.removeFromWorld();
-            CampEntities.playerAttribute.removeFromWorld();
-            CampEntities.fire.removeFromWorld();
-            CampEntities.cards.removeFromWorld();
-
+            //移除营地实体
+            CampEntities.clearCampEntities();
+            //移除加载动画
             load.removeFromWorld();
-            BattleEntities.initBattleEntities();
+            //加载文本
+            loadText();
         });
         st.play();
+    }
+
+    //文本创建
+    private void loadText() {
+
     }
 
     //查看探险键信息

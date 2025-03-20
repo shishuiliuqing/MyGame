@@ -6,9 +6,9 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.texture.Texture;
 import com.hjc.CardAdventure.CardAdventureApp;
 import com.hjc.CardAdventure.components.TipBarComponent;
-import com.hjc.CardAdventure.pojo.BattleEntities;
 import com.hjc.CardAdventure.pojo.CampEntities;
 import com.hjc.CardAdventure.pojo.effects.Effect;
+import com.hjc.CardAdventure.pojo.event.Event;
 import javafx.animation.ScaleTransition;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -45,10 +45,11 @@ public class EventComponent extends Component {
 
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e -> lookInformation());
         //entity.getViewComponent().addOnClickHandler(e -> rest());
+        entity.getViewComponent().addOnClickHandler(e -> goEvent());
     }
 
     //战斗爽！
-    private void rest() {
+    private void goEvent() {
         //加载动画
         Rectangle rectangle = new Rectangle(1, 1, Color.BLACK);
         rectangle.setTranslateX((CardAdventureApp.APP_WITH - 1) / 2.0);
@@ -60,13 +61,11 @@ public class EventComponent extends Component {
         st.setToY(CardAdventureApp.APP_HEIGHT - 70);
 
         st.setOnFinished(e -> {
-            CampEntities.battle.removeFromWorld();
-            CampEntities.playerAttribute.removeFromWorld();
-            CampEntities.fire.removeFromWorld();
-            CampEntities.cards.removeFromWorld();
+            CampEntities.clearCampEntities();
 
             load.removeFromWorld();
-            BattleEntities.initBattleEntities();
+            Event event = FXGL.getAssetLoader().loadJSON("data/event/peachBlossomGrove.json", Event.class).get();
+            Event.createTextEvent(event);
         });
         st.play();
     }

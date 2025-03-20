@@ -5,6 +5,7 @@ import com.hjc.CardAdventure.pojo.attribute.AttributeDown;
 import com.hjc.CardAdventure.pojo.attribute.AttributeUp;
 import com.hjc.CardAdventure.pojo.card.Card;
 import com.hjc.CardAdventure.pojo.effects.complexEffect.*;
+import com.hjc.CardAdventure.pojo.effects.other.NegativeStatusCard;
 import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
 
 import java.util.ArrayList;
@@ -229,6 +230,8 @@ public enum Effects {
             //509.受到伤害时，带回合的无限次效果，可叠加xy509（y一位，持续回合数）
             case 509 ->
                     new RoundsOpportunityEffect(from, to, value / 10, OpportunityType.HURT_TIME, value % 10, true, 1);
+            //700.向牌堆添加状态牌
+            case 700 -> new NegativeStatusCard(from, player, value);
             //900.记录器操作x0900（x为操作码）
             case 900 -> new RecordEffect(from, to, value);
             //998暂缓秒数x998

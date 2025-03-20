@@ -81,7 +81,7 @@ public class LookCardsSubScene extends SubScene {
         getContentRoot().getChildren().add(scrollPane);
 
         //设置pane的大小
-        pane.setPrefSize(1000, 200 * (cards.size() / 5 + 1));
+        pane.setPrefSize(1000, 200 * (cards.size() / 5.0 + 1));
         //添加卡片
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);

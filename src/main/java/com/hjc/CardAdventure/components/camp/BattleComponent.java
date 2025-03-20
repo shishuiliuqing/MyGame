@@ -64,8 +64,9 @@ public class BattleComponent extends Component {
         st.setToY(CardAdventureApp.APP_HEIGHT - 70);
 
         st.setOnFinished(e -> {
+            //移除营地实体
             CampEntities.clearCampEntities();
-
+            //移除加载动画
             load.removeFromWorld();
             BattleEntities.initBattleEntities();
         });

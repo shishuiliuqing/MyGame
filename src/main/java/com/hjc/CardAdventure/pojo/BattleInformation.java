@@ -12,6 +12,8 @@ import com.hjc.CardAdventure.pojo.effects.RoleAction;
 import com.hjc.CardAdventure.pojo.enemy.Enemy;
 import com.hjc.CardAdventure.pojo.enemy.EnemyType;
 import com.hjc.CardAdventure.pojo.enemy.IntentionGenerateType;
+import com.hjc.CardAdventure.pojo.enemy.IntentionType;
+import com.hjc.CardAdventure.pojo.environment.InsideInformation;
 import com.hjc.CardAdventure.pojo.environment.TimeStatus;
 import com.hjc.CardAdventure.pojo.opportunity.Opportunity;
 import com.hjc.CardAdventure.pojo.opportunity.OpportunityType;
@@ -91,7 +93,17 @@ public class BattleInformation {
         //初始化敌人序列
         ENEMIES.clear();
         //添加怪物
-        ENEMIES.addAll(CardAdventureApp.seasonMonsterPool.getEnemies(1, TimeStatus.DAY));
+        if (enemyType == EnemyType.LITTLE_MONSTER) {
+            ArrayList<String> monsters = CardAdventureApp.seasonMonsterPool.generateLittleMonsterPool(InsideInformation.day, InsideInformation.timeStatus, enemyType);
+            ENEMIES.addAll(CardAdventureApp.seasonMonsterPool.getEnemies(monsters, InsideInformation.day));
+        }
+
+        //怪物进场效果解析
+        for (Enemy enemy : ENEMIES) {
+            insetEffect(IntentionType.intentionEffects(enemy, enemy.getEntryEffects()));
+            effectExecution();
+        }
+
         //为每位敌人初始化意图
         for (Enemy enemy : ENEMIES) {
             IntentionGenerateType.generateIntention(enemy);

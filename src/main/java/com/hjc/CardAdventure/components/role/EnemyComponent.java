@@ -64,6 +64,8 @@ public class EnemyComponent extends Component {
         addOther();
         //图片加载
         addEnemy();
+        //添加护盾
+        updateArmor();
 
         entity.getViewComponent().addEventHandler(MouseEvent.MOUSE_ENTERED, e ->
                 TipBarComponent.update("当前位置：" + boxNum + "号位" + Effect.NEW_LINE + enemy.toString() + Effect.NEW_LINE + "当前敌人拥有效果：\n" + Opportunity.opportunitiesToString(enemy.getOpportunities()))

@@ -1,0 +1,26 @@
+[
+  {
+    "num": 0,
+    "intentionType": 0,
+    "intentionGenerateType": 0,
+    "effects": [
+      501001,
+      10998,
+      99,
+      98
+    ],
+    "consecutiveStarts": 0
+  },
+  {
+    "num": 1,
+    "intentionType": 0,
+    "intentionGenerateType": 0,
+    "effects": [
+      701001,
+      10998,
+      99,
+      98
+    ],
+    "consecutiveStarts": 0
+  }
+]
